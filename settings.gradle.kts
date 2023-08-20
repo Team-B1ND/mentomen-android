@@ -14,4 +14,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "MenToMenV2"
-include(":app")
+include(":presentation")
+include(":domain")
+include(":data")
