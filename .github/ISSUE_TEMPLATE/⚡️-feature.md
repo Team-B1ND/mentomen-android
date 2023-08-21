@@ -7,25 +7,15 @@ assignees: wsi1212
 
 ---
 
-name: "✨ Feature"
-description: "새로운 기능에 대한 issue를 작성하세요!"
-labels: "✨ Feature"
-body:
-  - type: textarea
-    attributes:
-      label: ✨ Describe
-      description: 새로운 기능에 대한 설명을 작성해 주세요.
-      placeholder: 꼼꼼하게 적을수록 좋습니다!
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: ✅ Tasks
-      description: 해야 하는 일에 대한 Tasks를 작성해 주세요.
-      placeholder: ◻︎ User Entity 작성
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: 🙋🏻 More
-      description: 더 하고 싶은 말이 있다면 작성해 주세요.
+## 문제 상황
+어떤 문제가 발생했는지 작성해주세요.
+
+## 해결 방법
+어떻게 해결할지 작성해주세요.
+
+## 할 일
+- [ ] 첫번째 할 일
+- [ ] 두번째 할 일
+
+## 기타
+기타 사항을 입력해주세요.
