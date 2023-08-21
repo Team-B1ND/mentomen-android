@@ -7,6 +7,7 @@
     <color name="android">#FF5AAC73</color>
     <color name="server">#FF628FD3</color>
     <color name="ios">#FF4C4C4C</color>
+    <color name="hint">#FF858585</color>
     <color name="accent">#FF2745F2</color>
     <color name="blue100">#FFBDC5F2</color>
     <color name="blue300">#FF6B7FF2</color>
