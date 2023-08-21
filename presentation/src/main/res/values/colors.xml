@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="design">#FFEC6B77</color>
+    <color name="web">#FFF19F62</color>
+    <color name="android">#FF5AAC73</color>
+    <color name="server">#FF628FD3</color>
+    <color name="ios">#FF4C4C4C</color>
+    <color name="accent">#FF2745F2</color>
+    <color name="blue100">#FFBDC5F2</color>
+    <color name="blue300">#FF6B7FF2</color>
+    <color name="blue500">#FF415CF2</color>
+    <color name="blue700">#FF35337D</color>
+    <color name="blue900">#FF29275C</color>
+    <color name="alarm_red">#FFFF3742</color>
 </resources>
