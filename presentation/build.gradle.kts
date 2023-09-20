@@ -49,6 +49,10 @@ android {
 }
 
 dependencies {
+    // fragment, activity
+    implementation ("androidx.activity:activity-ktx:1.1.0")
+    implementation ("androidx.fragment:fragment-ktx:1.2.5")
+
     // coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
@@ -67,6 +71,7 @@ dependencies {
 
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":di"))
 
     //retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
