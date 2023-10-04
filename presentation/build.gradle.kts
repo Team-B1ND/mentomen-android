@@ -49,11 +49,14 @@ android {
 }
 
 dependencies {
-    // fragment, activity
+    //fragment, activity
     implementation ("androidx.activity:activity-ktx:1.1.0")
     implementation ("androidx.fragment:fragment-ktx:1.2.5")
 
-    // coroutine
+    //dataStore
+    implementation("androidx.datastore:datastore:1.0.0")
+
+    //coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
@@ -65,6 +68,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //dAuth
+    implementation ("com.github.Team-B1ND:dauth-android:1.0.5")
 
     //dagger
     implementation ("com.google.dagger:dagger:2.44.2")

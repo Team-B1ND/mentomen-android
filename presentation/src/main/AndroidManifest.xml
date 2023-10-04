@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.auth.login.LoginActivity"
+            android:name=".feature.auth.signin.SignInActivity"
             android:exported="false" />
     </application>
 
