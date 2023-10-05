@@ -11,7 +11,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataSourceModule {
-
     @Binds
     @Singleton
     fun bindsAuthDataSource(
