@@ -11,5 +11,6 @@ import javax.inject.Inject
 class DAuthSignInRepositoryImpl @Inject constructor(
     private val remote: AuthDataSource
 ) : AuthRepository {
-    override suspend fun signIn(dAuthParam: SignInUseCase.DAuthParam): DAuthUser = remote.dAuthSignIn(dAuthParam.toRequest()).toModel()
+    override suspend fun signIn(dAuthParam: SignInUseCase.DAuthParam): DAuthUser =
+        remote.dAuthSignIn(dAuthParam.toRequest()).toModel()
 }

@@ -1,4 +1,4 @@
-package kr.hs.b1nd.intern.mentomen.network.base
+package kr.hs.dgsw.mentomenv2.data.response.base
 
 data class BaseResponse<T>(
     val status: Int,
