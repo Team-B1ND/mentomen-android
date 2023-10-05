@@ -19,7 +19,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel> constructor
 
     private fun performDataBinding() {
         binding = DataBindingUtil.setContentView(this, layoutRes)
-        mViewModel = if(::mViewModel.isInitialized) mViewModel else viewModel
+        mViewModel = if (::mViewModel.isInitialized) mViewModel else viewModel
         binding.setVariable(BR._all, mViewModel)
         binding.lifecycleOwner = this
         binding.executePendingBindings()

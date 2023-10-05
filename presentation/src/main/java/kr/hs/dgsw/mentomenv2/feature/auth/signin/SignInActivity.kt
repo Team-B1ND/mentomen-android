@@ -13,8 +13,8 @@ import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.settingDAuth
 class SignInActivity() : BaseActivity<ActivitySignInBinding, SingInViewModel>(R.layout.activity_sign_in) {
     override val viewModel: SingInViewModel by viewModels()
     override fun start() {
-        settingDAuth(R.string.clientId.toString(),R.string.clientSecret.toString(),R.string.redirectUrl.toString())
-        loginWithDodam(applicationContext,{
+        settingDAuth(R.string.clientId.toString(), R.string.clientSecret.toString(), R.string.redirectUrl.toString())
+        loginWithDodam(applicationContext, {
             // 성공 시 처리할 로직을 입력해 주세요.
             Toast.makeText(
                 this,

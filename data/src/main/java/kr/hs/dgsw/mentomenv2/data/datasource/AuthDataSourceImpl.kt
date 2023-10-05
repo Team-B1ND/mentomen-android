@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
     private val api: AuthService
-) : AuthDataSource{
-    override suspend fun dAuthSignIn(dAuthSignInRequest: DAuthSignInRequest):DAuthSignInResponse {
+) : AuthDataSource {
+    override suspend fun dAuthSignIn(dAuthSignInRequest: DAuthSignInRequest): DAuthSignInResponse {
         return api.signIn(dAuthSignInRequest).execute().body()!!.data
     }
 }

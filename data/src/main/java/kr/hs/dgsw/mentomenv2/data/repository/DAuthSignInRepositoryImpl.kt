@@ -10,6 +10,6 @@ import javax.inject.Inject
 
 class DAuthSignInRepositoryImpl @Inject constructor(
     private val remote: AuthDataSource
-): AuthRepository{
+) : AuthRepository {
     override suspend fun signIn(dAuthParam: SignInUseCase.DAuthParam): DAuthUser = remote.dAuthSignIn(dAuthParam.toRequest()).toModel()
 }
