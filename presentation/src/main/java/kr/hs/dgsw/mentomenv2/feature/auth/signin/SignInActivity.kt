@@ -25,10 +25,6 @@ class SignInActivity() : BaseActivity<ActivitySignInBinding, SingInViewModel>(R.
             // 실패 시 처리할 로직을 입력해 주세요.
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         })
-        binding.vm = viewModel
         binding.lifecycleOwner = this
-        binding.btnLogin.setOnClickListener {
-            viewModel.onClickLogin()
-        }
     }
 }
