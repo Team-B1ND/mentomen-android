@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <receiver
+            android:name="kr.hs.dgsw.di.MyReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+    </application>
+
+</manifest>
