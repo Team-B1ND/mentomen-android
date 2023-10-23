@@ -14,7 +14,7 @@ class SignInActivity() : BaseActivity<ActivitySignInBinding, SingInViewModel>(R.
     override val viewModel: SingInViewModel by viewModels()
     override fun start() {
         settingDAuth(R.string.clientId.toString(), R.string.clientSecret.toString(), R.string.redirectUrl.toString())
-        loginWithDodam(applicationContext, {
+        loginWithDodam(this, {
             // 성공 시 처리할 로직을 입력해 주세요.
             Toast.makeText(
                 this,
