@@ -8,7 +8,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
 import java.lang.reflect.ParameterizedType
@@ -16,29 +15,36 @@ import java.util.Locale
 import java.util.Objects
 
 abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
-    protected lateinit var binding: VB
-    protected lateinit var viewModel: VM
+    protected lateinit var mBinding: VB
+    protected lateinit var mViewModel: VM
+    protected abstract val viewModel: VM
+
+    protected var savedInstanceState: Bundle? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, layoutRes(), container, false)
-        return binding.root
+        mBinding = DataBindingUtil.inflate(inflater, layoutRes(), container, false)
+        return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.savedInstanceState = savedInstanceState
         initialize()
         setupViews()
+        //(activity as? MainActivity)?.setNavVisible(!hasBottomNav)
     }
 
     private fun initialize() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.setVariable(BR.vm, viewModel)
+        mViewModel = if (::mViewModel.isInitialized) mViewModel else viewModel
+        mBinding.setVariable(BR.vm, mViewModel)
+        mBinding.lifecycleOwner = viewLifecycleOwner
+        mBinding.executePendingBindings()
     }
 
-    abstract fun setupViews()
+    protected abstract fun setupViews()
 
     @LayoutRes
     private fun layoutRes(): Int {

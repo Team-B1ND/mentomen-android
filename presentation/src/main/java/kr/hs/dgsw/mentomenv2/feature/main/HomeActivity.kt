@@ -1,12 +1,21 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import kr.hs.dgsw.mentomenv2.R
+import android.widget.Toast
+import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import kr.hs.dgsw.mentomenv2.base.BaseActivity
+import kr.hs.dgsw.mentomenv2.databinding.ActivityHomeBinding
 
-class HomeActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+@AndroidEntryPoint
+class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() {
+    override val viewModel: HomeActivityViewModel by viewModels()
+
+    override fun start() {
+        mBinding.ivNotification.setOnClickListener {
+            Toast.makeText(this, "알림", Toast.LENGTH_SHORT).show()
+        }
+        mBinding.ivSearch.setOnClickListener {
+            Toast.makeText(this, "검색", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -1,23 +1,29 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.ActivityHomeBinding
 
-class HomeFragment : BaseFragment<ActivityHomeBinding, HomeViewModel>() {
-    override val viewModelClass: Class<HomeViewModel>
-        get() = TODO("Not yet implemented")
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<ActivityHomeBinding, HomeFragmentViewModel>() {
+    override val viewModel: HomeFragmentViewModel by viewModels()
 
     override fun setupViews() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+        mBinding.bottomNav.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.action_home -> {
+                    mBinding.bottomNav.selectedItemId = R.id.action_home
+                    true
+                }
+                R.id.action_my -> {
+                    mBinding.bottomNav.selectedItemId = R.id.action_my
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }

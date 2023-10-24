@@ -16,7 +16,9 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".feature.main.HomeActivity"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
         <activity
             android:name=".feature.splash.IntroActivity"
             android:exported="true">

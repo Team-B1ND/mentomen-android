@@ -9,4 +9,12 @@
     <string name="redirectUrl">http://localhost:8080/callback</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="design">Design</string>
+    <string name="web">Web</string>
+    <string name="android">Android</string>
+    <string name="ios">iOS</string>
+    <string name="server">Server</string>
+    <string name="home">홈</string>
+    <string name="my">마이</string>
+    <string name="empty">empty</string>
 </resources>
