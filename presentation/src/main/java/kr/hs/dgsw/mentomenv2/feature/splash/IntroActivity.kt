@@ -2,21 +2,24 @@ package kr.hs.dgsw.mentomenv2.feature.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
-import kr.hs.dgsw.mentomenv2.feature.auth.signin.SignInActivity
+import kr.hs.dgsw.mentomenv2.feature.main.HomeActivity
+import java.lang.Thread.sleep
 
 class IntroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
-        Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
+        CoroutineScope(Dispatchers.Main).launch {
+            val intent = Intent(this@IntroActivity, HomeActivity::class.java)
+            sleep(2000)
             finish()
-        }, 2000)
+            startActivity(intent)
+        }
     }
 
     override fun onPause() {

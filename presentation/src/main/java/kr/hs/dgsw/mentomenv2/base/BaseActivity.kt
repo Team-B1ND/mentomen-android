@@ -34,6 +34,11 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         start()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::mBinding.isInitialized) mBinding.unbind()
+    }
+
     /**
      * Generic Type (Binding) class 를 가져와서 layout 파일명으로 변환 후 자동으로 Layout Resource 를 가져옴
      *
