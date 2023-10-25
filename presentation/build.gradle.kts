@@ -54,7 +54,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.2.5")
 
     // dataStore
-    implementation("androidx.datastore:datastore:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")

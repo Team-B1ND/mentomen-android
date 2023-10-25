@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.feature.auth.signin.SignInActivity
 import kr.hs.dgsw.mentomenv2.feature.main.HomeActivity
 import java.lang.Thread.sleep
 
@@ -15,7 +16,7 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
         CoroutineScope(Dispatchers.Main).launch {
-            val intent = Intent(this@IntroActivity, HomeActivity::class.java)
+            val intent = Intent(this@IntroActivity, SignInActivity::class.java)
             sleep(2000)
             finish()
             startActivity(intent)

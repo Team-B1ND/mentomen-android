@@ -50,6 +50,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
 
+    // dataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     // dagger
     implementation("com.google.dagger:dagger:2.44.2")
 

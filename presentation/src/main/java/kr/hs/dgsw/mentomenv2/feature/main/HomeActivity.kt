@@ -20,17 +20,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() 
     override val viewModel: HomeActivityViewModel by viewModels()
 
     override fun start() {
-        settingDAuth(
-            Client.clientId,
-            Client.clientSecret,
-            Client.redirectUri
-        )
-        DAuth.loginWithDodam(this@HomeActivity, {
-            Toast.makeText(this@HomeActivity, "성공입니다", Toast.LENGTH_SHORT).show()
-        }, { error ->
-            Toast.makeText(this@HomeActivity, error.toString(), Toast.LENGTH_SHORT).show()
-        })
-        
         mBinding.ivNotification.setOnClickListener {
             Toast.makeText(this, "알림", Toast.LENGTH_SHORT).show()
         }
