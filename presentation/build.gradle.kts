@@ -78,7 +78,6 @@ dependencies {
     implementation("com.google.dagger:dagger:2.44.2")
 
     implementation(project(":domain"))
-    implementation(project(":di"))
 
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
