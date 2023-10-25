@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class DataStoreManager @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) {
+){
     fun getDataStoreByKey(key: Preferences.Key<String>): Flow<String?> {
         return dataStore.data.map { prefs ->
             prefs[key]
@@ -23,9 +23,9 @@ class DataStoreManager @Inject constructor(
         }
     }
 
-    suspend fun deleteAccessToken(){
+    suspend fun deleteDataStoreByKey(key: Preferences.Key<String>){
         dataStore.edit { prefs ->
-            prefs.remove(PreferencesKeys.ACCESS_TOKEN)
+            prefs.remove(key)
         }
     }
 }
