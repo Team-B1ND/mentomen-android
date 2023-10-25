@@ -4,8 +4,8 @@ import kr.hs.dgsw.mentomenv2.domain.repository.TokenRepository
 import javax.inject.Inject
 
 class TokenRepositoryImpl @Inject constructor(
-    private val remote : TokenRepositoryImpl
-): TokenRepository {
+    private val remote: TokenRepositoryImpl
+) : TokenRepository {
     override suspend fun getAccessToken(): String =
         remote.getAccessToken()
 
@@ -15,6 +15,7 @@ class TokenRepositoryImpl @Inject constructor(
     override suspend fun setAccessToken(accessToken: String) {
         remote.setAccessToken(accessToken)
     }
+
     override suspend fun setRefreshToken(refreshToken: String) {
         remote.setRefreshToken(refreshToken)
     }

@@ -18,4 +18,3 @@ rootProject.name = "MenToMenV2"
 include(":presentation")
 include(":domain")
 include(":data")
-include(":di")

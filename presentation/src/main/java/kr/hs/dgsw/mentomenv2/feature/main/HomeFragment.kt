@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
@@ -13,15 +12,17 @@ class HomeFragment : BaseFragment<ActivityHomeBinding, HomeFragmentViewModel>() 
 
     override fun setupViews() {
         mBinding.bottomNav.setOnItemSelectedListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.action_home -> {
                     mBinding.bottomNav.selectedItemId = R.id.action_home
                     true
                 }
+
                 R.id.action_my -> {
                     mBinding.bottomNav.selectedItemId = R.id.action_my
                     true
                 }
+
                 else -> false
             }
         }

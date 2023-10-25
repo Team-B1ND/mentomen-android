@@ -13,4 +13,3 @@ data class Post(
     val updateStatus: String,
     val userName: String
 )
-

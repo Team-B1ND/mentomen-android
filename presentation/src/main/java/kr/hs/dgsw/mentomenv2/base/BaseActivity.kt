@@ -1,7 +1,6 @@
 package kr.hs.dgsw.mentomenv2.base
 
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -46,20 +45,22 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
      */
     @LayoutRes
     private fun layoutRes(): Int {
-        val split = (
-                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                    .actualTypeArguments[0] as Class<*>
-                )
-            .simpleName.replace("Binding$".toRegex(), "")
-            .split("(?<=.)(?=\\p{Upper})".toRegex())
-            .dropLastWhile { it.isEmpty() }.toTypedArray()
+        val split =
+            (
+                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                .actualTypeArguments[0] as Class<*>
+                    )
+                .simpleName.replace(
+                    "Binding$".toRegex(),
+                    ""
+                ).split("(?<=.)(?=\\p{Upper})".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()
 
         val name = StringBuilder()
 
         for (i in split.indices) {
             name.append(split[i].lowercase(Locale.ROOT))
-            if (i != split.size - 1)
-                name.append("_")
+            if (i != split.size - 1) name.append("_")
         }
 
         try {

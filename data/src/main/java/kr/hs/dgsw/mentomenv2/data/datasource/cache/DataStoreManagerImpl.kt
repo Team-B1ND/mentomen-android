@@ -4,15 +4,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kr.hs.dgsw.mentomenv2.data.remote.TokenDataSource
-import kr.hs.dgsw.mentomenv2.domain.datastore.PreferencesKeys
 import javax.inject.Inject
 
 class DataStoreManagerImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
-):TokenDataSource{
+) : TokenDataSource {
 
     override suspend fun getAccessToken(): String {
         return dataStore.data.map { prefs ->

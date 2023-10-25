@@ -22,7 +22,8 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     protected var savedInstanceState: Bundle? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, layoutRes(), container, false)
@@ -34,7 +35,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         this.savedInstanceState = savedInstanceState
         initialize()
         setupViews()
-        //(activity as? MainActivity)?.setNavVisible(!hasBottomNav)
+        // (activity as? MainActivity)?.setNavVisible(!hasBottomNav)
     }
 
     private fun initialize() {
@@ -50,9 +51,9 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     private fun layoutRes(): Int {
         val split =
             (
-                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                        .actualTypeArguments[0] as Class<*>
-                    )
+                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                    .actualTypeArguments[0] as Class<*>
+                )
                 .simpleName.replace("Binding$".toRegex(), "")
                 .split("(?<=.)(?=\\p{Upper})".toRegex())
                 .dropLastWhile { it.isEmpty() }.toTypedArray()
