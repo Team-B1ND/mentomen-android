@@ -42,7 +42,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":di"))
 
     // coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
