@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.data.datasource.cache
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
