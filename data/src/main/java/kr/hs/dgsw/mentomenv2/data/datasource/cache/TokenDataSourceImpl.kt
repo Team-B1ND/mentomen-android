@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 import kr.hs.dgsw.mentomenv2.data.remote.TokenDataSource
 import javax.inject.Inject
 
-class DataStoreManagerImpl @Inject constructor(
+class TokenDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : TokenDataSource {
 

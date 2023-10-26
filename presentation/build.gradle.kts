@@ -77,6 +77,7 @@ dependencies {
     // dagger
     implementation("com.google.dagger:dagger:2.44.2")
 
+    implementation(project(":data"))
     implementation(project(":domain"))
 
     // retrofit

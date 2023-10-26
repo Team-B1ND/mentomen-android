@@ -13,31 +13,31 @@ class HomeFragmentViewModel @Inject constructor() : BaseViewModel() {
     val tagState = MutableLiveData<PostState>(PostState.ALL)
     val itemList = MutableStateFlow<List<Post>>(emptyList())
 
-//    init {
-//        getAllPost()
-//    }
-//
-//    fun getAllPost() {
-//
-//    }
-//
-//    fun onClickDesignBtn() {
-//
-//    }
-//
-//    fun onClickWebBtn() {
-//
-//    }
-//
-//    fun onClickAndroidBtn() {
-//
-//    }
-//
-//    fun onClickServerBtn() {
-//
-//    }
-//
-//    fun onClickIOSBtn() {
-//
-//    }
+    init {
+        getAllPost()
+    }
+
+    fun getAllPost() {
+
+    }
+
+    fun onClickDesignBtn() {
+
+    }
+
+    fun onClickWebBtn() {
+
+    }
+
+    fun onClickAndroidBtn() {
+
+    }
+
+    fun onClickServerBtn() {
+
+    }
+
+    fun onClickIOSBtn() {
+
+    }
 }
