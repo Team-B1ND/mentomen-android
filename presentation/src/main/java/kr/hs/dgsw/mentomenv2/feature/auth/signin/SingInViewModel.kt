@@ -16,8 +16,7 @@ class SingInViewModel @Inject constructor(
     val tokenLiveData = MutableStateFlow<Token>(Token("", ""))
     fun setToken(token: Token) {
         viewModelScope.launch {
-            tokenRepository.setAccessToken(token.accessToken)
-            tokenRepository.setRefreshToken(token.refreshToken)
+            tokenRepository.setToken(token)
         }
     }
 
