@@ -30,14 +30,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
                         android:translationZ="2dp"
                         app:cardCornerRadius="30dp"
                         app:cardElevation="4dp">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_design"
-                            designButtonState="@{vm.tagState}"
-                            android:layout_width="65dp"
+                            android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_design"
                             android:fontFamily="@font/pretendard_variable"
@@ -59,7 +59,7 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_web"
-                            android:layout_width="65dp"
+                            android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_web"
                             android:fontFamily="@font/pretendard_variable"
@@ -82,7 +82,7 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_android"
-                            android:layout_width="65dp"
+                            android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_android"
                             android:fontFamily="@font/pretendard_variable"
@@ -104,7 +104,7 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_server"
-                            android:layout_width="65dp"
+                            android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_server"
                             android:fontFamily="@font/pretendard_variable"
@@ -126,7 +126,7 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_ios"
-                            android:layout_width="65dp"
+                            android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_ios"
                             android:fontFamily="@font/pretendard_variable"
@@ -142,6 +142,7 @@
                 android:id="@+id/rv_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                tools:listitem="@layout/item_home"
                 app:layout_constraintTop_toBottomOf="@id/hsv_top_bar"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

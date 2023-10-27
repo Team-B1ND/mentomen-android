@@ -53,6 +53,9 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.2.5")
 
+    //gilde
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
     // dataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
