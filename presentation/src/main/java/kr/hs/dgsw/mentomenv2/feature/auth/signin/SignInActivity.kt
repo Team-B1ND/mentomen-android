@@ -27,7 +27,7 @@ class SignInActivity() : BaseActivity<ActivitySignInBinding, SingInViewModel>() 
         )
         lifecycleScope.launch {
             viewModel.tokenLiveData.collect {
-                val isLogin:Boolean =
+                val isLogin: Boolean =
                     it.accessToken.isNullOrEmpty().not() && it.refreshToken.isNullOrEmpty().not()
 
                 Log.d(
