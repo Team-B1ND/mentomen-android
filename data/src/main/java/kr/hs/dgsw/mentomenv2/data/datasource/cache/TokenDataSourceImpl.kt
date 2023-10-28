@@ -26,7 +26,6 @@ class TokenDataSourceImpl @Inject constructor(
         return Token(accessToken, refreshToken)
     }
 
-
     override suspend fun setToken(token: Token) {
         dataStore.edit { prefs ->
             prefs[stringPreferencesKey("access_token")] = token.accessToken

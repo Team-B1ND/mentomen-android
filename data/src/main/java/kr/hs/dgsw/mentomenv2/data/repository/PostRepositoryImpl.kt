@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
     private val remote: PostDataSource
-): PostRepository {
+) : PostRepository {
     override suspend fun getAllPost(): List<Post> {
         return remote.getAllPost()
     }
@@ -15,5 +15,4 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun getPostByTag(tag: String): List<Post> {
         return remote.getPostByTag(tag)
     }
-
 }

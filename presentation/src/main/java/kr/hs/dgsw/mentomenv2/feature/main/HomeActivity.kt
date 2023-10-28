@@ -13,7 +13,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() 
 
     override fun start() {
         mBinding.bottomNav.background = null
-            mBinding.bottomNav.menu.getItem(1).isEnabled = false
+        mBinding.bottomNav.menu.getItem(1).isEnabled = false
 
         mBinding.ivNotification.setOnClickListener {
             Toast.makeText(this, "알림", Toast.LENGTH_SHORT).show()

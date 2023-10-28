@@ -18,9 +18,23 @@ class HomeFragmentViewModel @Inject constructor(
     private val postRepository: PostRepository
 ) : BaseViewModel() {
     val tagState = MutableStateFlow<PostState>(PostState.ALL)
-    val itemList = MutableLiveData<List<Post>>(listOf(Post(123, "제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요? 1234567890123456789012345678901234567890", listOf("https://flexible.img.hani.co.kr/flexible/normal/847/635/imgdb/original/2023/1027/20231027502376.jpg"), "",123,"",
-        StdInfo(3,2,1), "", "4시간 전", "", "도현욱")))
-
+    val itemList = MutableLiveData<List<Post>>(
+        listOf(
+            Post(
+                123,
+                "제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요? 1234567890123456789012345678901234567890",
+                listOf("https://flexible.img.hani.co.kr/flexible/normal/847/635/imgdb/original/2023/1027/20231027502376.jpg"),
+                "",
+                123,
+                "",
+                StdInfo(3, 2, 1),
+                "",
+                "4시간 전",
+                "",
+                "도현욱"
+            )
+        )
+    )
 
     init {
         getAllPost()

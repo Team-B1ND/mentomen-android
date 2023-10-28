@@ -50,14 +50,14 @@ android {
 
 dependencies {
     // material
-    implementation ("com.google.android.material:material:1.3.0-alpha03")
+    implementation("com.google.android.material:material:1.3.0-alpha03")
 
     // fragment, activity
     implementation("androidx.activity:activity-ktx:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.2.5")
 
-    //gilde
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    // gilde
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     // dataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")

@@ -3,10 +3,8 @@ package kr.hs.dgsw.mentomenv2.feature.main
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
-import kr.hs.dgsw.mentomenv2.databinding.ActivityHomeBinding
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
 
 @AndroidEntryPoint
@@ -20,6 +18,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() 
         viewModel.itemList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-
     }
 }
