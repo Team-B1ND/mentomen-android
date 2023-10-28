@@ -1,30 +1,58 @@
 package kr.hs.dgsw.mentomenv2.feature.auth.signin
 
+import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kr.hs.dgsw.mentomenv2.R
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
+import kr.hs.dgsw.mentomenv2.domain.model.Token
+import kr.hs.dgsw.mentomenv2.feature.main.HomeActivity
+import kr.hs.dgsw.mentomenv2.util.dauth.Client
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.loginWithDodam
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.settingDAuth
 
 @AndroidEntryPoint
-class SignInActivity() : BaseActivity<ActivitySignInBinding, SingInViewModel>(R.layout.activity_sign_in) {
+class SignInActivity() : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override val viewModel: SingInViewModel by viewModels()
+
     override fun start() {
-        settingDAuth(R.string.clientId.toString(), R.string.clientSecret.toString(), R.string.redirectUrl.toString())
-        loginWithDodam(applicationContext, {
-            // 성공 시 처리할 로직을 입력해 주세요.
-            Toast.makeText(
-                this,
-                "${it.accessToken}, ${it.refreshToken}",
-                Toast.LENGTH_SHORT
-            ).show()
-        }, {
-            // 실패 시 처리할 로직을 입력해 주세요.
-            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-        })
-        binding.lifecycleOwner = this
+        settingDAuth(
+            Client.clientId,
+            Client.clientSecret,
+            Client.redirectUri
+        )
+        lifecycleScope.launch {
+            viewModel.tokenLiveData.collect {
+                val isLogin: Boolean =
+                    it.accessToken.isNullOrEmpty().not() && it.refreshToken.isNullOrEmpty().not()
+
+                Log.d(
+                    "start: 12341234",
+                    isLogin.toString() + " " + it.accessToken + " " + it.refreshToken
+                )
+                if (isLogin) {
+                    val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                } else {
+                    loginWithDodam(this@SignInActivity, {
+                        val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                        viewModel.setToken(Token(it.accessToken, it.refreshToken))
+                        startActivity(intent)
+                    }, {
+                        loginWithDodam(this@SignInActivity, {
+                            val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                            startActivity(intent)
+                        }, {
+                            Toast.makeText(this@SignInActivity, "실패입니다", Toast.LENGTH_SHORT).show()
+                        })
+                    })
+                }
+            }
+        }
     }
 }

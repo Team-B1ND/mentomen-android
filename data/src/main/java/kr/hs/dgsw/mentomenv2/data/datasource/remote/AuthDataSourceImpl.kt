@@ -1,4 +1,4 @@
-package kr.hs.dgsw.mentomenv2.data.datasource
+package kr.hs.dgsw.mentomenv2.data.datasource.remote
 
 import kr.hs.dgsw.mentomenv2.data.remote.AuthDataSource
 import kr.hs.dgsw.mentomenv2.data.request.DAuthSignInRequest
