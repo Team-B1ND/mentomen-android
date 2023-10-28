@@ -1,8 +1,10 @@
 package kr.hs.dgsw.mentomenv2.feature.auth.signin
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Token
@@ -23,6 +25,9 @@ class SingInViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             tokenLiveData.emit(tokenRepository.getToken())
+            tokenLiveData.collect {
+                Log.d("TOKEN", "accessToken: ${it.accessToken}\n refreshToken: ${it.refreshToken}")
+            }
         }
     }
 }

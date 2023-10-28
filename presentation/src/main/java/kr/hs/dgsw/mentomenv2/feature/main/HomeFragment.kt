@@ -20,5 +20,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() 
         viewModel.itemList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+
     }
 }

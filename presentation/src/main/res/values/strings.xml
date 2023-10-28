@@ -13,4 +13,5 @@
     <string name="home">홈</string>
     <string name="my">마이</string>
     <string name="empty">empty</string>
+    <string name="todo">TODO</string>
 </resources>

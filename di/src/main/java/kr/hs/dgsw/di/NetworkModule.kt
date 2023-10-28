@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
+import kr.hs.dgsw.mentomenv2.data.service.PostService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,10 +29,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    @Singleton
-    @Provides
-    fun provideSignIn(retrofit: Retrofit): AuthService =
-        retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides
@@ -52,7 +49,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://localhost:8080/")
+            .baseUrl("http://10.0.2.2:8080/")
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
@@ -82,4 +79,14 @@ object NetworkModule {
             produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES) }
         )
     }
+
+    @Singleton
+    @Provides
+    fun providesSignInRepository(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesPostRepository(retrofit: Retrofit): PostService =
+        retrofit.create(PostService::class.java)
 }

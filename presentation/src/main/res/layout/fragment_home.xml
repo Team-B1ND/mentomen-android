@@ -138,12 +138,13 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </HorizontalScrollView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/item_home"
-                app:layout_constraintTop_toBottomOf="@id/hsv_top_bar"/>
+                app:layout_constraintTop_toBottomOf="@id/hsv_top_bar"
+                tools:listitem="@layout/item_home" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>

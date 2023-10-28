@@ -10,10 +10,15 @@
     <color name="ios">#FF4C4C4C</color>
     <color name="hint">#FF858585</color>
     <color name="accent">#FF2745F2</color>
+    <color name="blue">#2749DC</color>
     <color name="blue100">#FFBDC5F2</color>
     <color name="blue300">#FF6B7FF2</color>
     <color name="blue500">#FF415CF2</color>
     <color name="blue700">#FF35337D</color>
     <color name="blue900">#FF29275C</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
     <color name="alarm_red">#FFFF3742</color>
+    <color name="transparent">#000000FF</color>
 </resources>
