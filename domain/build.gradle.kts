@@ -14,10 +14,10 @@ plugins {
 
 android {
     namespace = "kr.hs.dgsw.mentomenv2.domain"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = 33
+        minSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -42,13 +42,15 @@ android {
 }
 
 dependencies {
+
     // coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
+
+    // dataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // dagger
     implementation("com.google.dagger:dagger:2.44.2")

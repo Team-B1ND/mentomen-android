@@ -4,7 +4,14 @@
     <string name="password">도담도담 PW</string>
     <string name="auto_login">자동 로그인</string>
     <string name="login">로그인</string>
-    <string name="clientId">29d5f73236bc4586990b4ec610442d8879b5030758bf489fbb8c3bc851ac5c06</string>
-    <string name="clientSecret">c6979d227706494faf9951b61f4563fe15f69e96d54a42b8aa7f79850a3b1076</string>
-    <string name="redirectUrl">http://localhost:8080/callback</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="design">Design</string>
+    <string name="web">Web</string>
+    <string name="android">Android</string>
+    <string name="ios">iOS</string>
+    <string name="server">Server</string>
+    <string name="home">홈</string>
+    <string name="my">마이</string>
+    <string name="empty">empty</string>
+    <string name="todo">TODO</string>
 </resources>
