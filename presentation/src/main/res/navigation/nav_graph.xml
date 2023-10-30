@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/signInActivity2">
+    <activity
+        android:id="@+id/signInActivity2"
+        android:name="kr.hs.dgsw.mentomenv2.feature.auth.signin.SignInActivity"
+        android:label="activity_sign_in"
+        tools:layout="@layout/activity_sign_in" />
+    <activity
+        android:id="@+id/homeActivity2"
+        android:name="kr.hs.dgsw.mentomenv2.feature.main.HomeActivity"
+        android:label="HomeActivity" />
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="kr.hs.dgsw.mentomenv2.feature.main.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="kr.hs.dgsw.mentomenv2.feature.post.PostFragment"
+        android:label="PostFragment" />
+    <fragment
+        android:id="@+id/myFragment"
+        android:name="kr.hs.dgsw.mentomenv2.feature.my.MyFragment"
+        android:label="fragment_my"
+        tools:layout="@layout/fragment_my" />
 </navigation>

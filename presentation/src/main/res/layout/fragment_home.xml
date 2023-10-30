@@ -15,11 +15,48 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_logo_with_mentomen"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:src="@drawable/ic_notification"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_top_bar"
+                    app:layout_constraintEnd_toEndOf="@id/cl_top_bar"
+                    app:layout_constraintTop_toTopOf="@id/cl_top_bar" />
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_search"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_top_bar"
+                    app:layout_constraintEnd_toStartOf="@id/iv_notification"
+                    app:layout_constraintTop_toTopOf="@id/cl_top_bar" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <HorizontalScrollView
                 android:id="@+id/hsv_top_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_top_bar"
                 app:layout_constraintStart_toStartOf="parent">
                 <LinearLayout
                     android:layout_width="wrap_content"

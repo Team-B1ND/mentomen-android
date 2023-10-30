@@ -8,59 +8,24 @@
         android:layout_height="match_parent"
         tools:context=".feature.main.HomeActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_top_bar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="140dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_logo_with_mentomen"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:src="@drawable/ic_notification"
-                app:layout_constraintBottom_toBottomOf="@id/cl_top_bar"
-                app:layout_constraintEnd_toEndOf="@id/cl_top_bar"
-                app:layout_constraintTop_toTopOf="@id/cl_top_bar" />
-
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_search"
-                app:layout_constraintBottom_toBottomOf="@id/cl_top_bar"
-                app:layout_constraintEnd_toStartOf="@id/iv_notification"
-                app:layout_constraintTop_toTopOf="@id/cl_top_bar" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ScrollView
-            android:id="@+id/sv_home"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container"
+            android:name="kr.hs.dgsw.mentomenv2.feature.main.HomeFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/cl_top_bar"
-            app:layout_constraintBottom_toTopOf="@id/cl_bottom_bar">
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/nav_graph"
-                android:name="kr.hs.dgsw.mentomenv2.feature.main.HomeFragment">
-            </androidx.fragment.app.FragmentContainerView>
-        </ScrollView>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/csl_bottom_bar"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph"/>
 
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/csl_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/cl_bottom_bar"
@@ -72,13 +37,12 @@
                 android:id="@+id/btn_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_plus"
-                app:tint="@color/white"
-                app:elevation="5dp"
                 android:clickable="true"
-                app:layout_anchor="@id/bottomAppBar"
                 android:contentDescription="@string/todo"
-                />
+                android:src="@drawable/ic_plus"
+                app:elevation="5dp"
+                app:layout_anchor="@id/bottomAppBar"
+                app:tint="@color/white" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomAppBar"
@@ -93,14 +57,15 @@
                     android:id="@+id/bottom_nav"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:itemIconSize="20dp"
-                    app:itemBackground="@android:color/transparent"
+                    android:layout_gravity="bottom"
                     android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
-                    android:layout_gravity="bottom"
+                    app:itemBackground="@android:color/transparent"
+                    app:itemIconSize="20dp"
                     app:menu="@menu/menu" />
 
             </com.google.android.material.bottomappbar.BottomAppBar>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

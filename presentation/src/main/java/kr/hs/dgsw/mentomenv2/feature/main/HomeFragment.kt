@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +18,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() 
         mBinding.rvHome.adapter = adapter
         viewModel.itemList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+
+        mBinding.ivNotification.setOnClickListener {
+            Toast.makeText(requireContext(), "알림", Toast.LENGTH_SHORT).show()
+        }
+        mBinding.ivSearch.setOnClickListener {
+            Toast.makeText(requireContext(), "검색", Toast.LENGTH_SHORT).show()
+        }
+        mBinding.logo.setOnClickListener {
+            viewModel.getAllPost()
         }
     }
 }
