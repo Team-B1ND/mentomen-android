@@ -2,8 +2,10 @@ package kr.hs.dgsw.mentomenv2.feature.main
 
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
@@ -28,6 +30,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() 
         }
         mBinding.logo.setOnClickListener {
             viewModel.getAllPost()
+        }
+
+        lifecycleScope.launch {
+            viewModel.errorFlow.collect { text ->
+                Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

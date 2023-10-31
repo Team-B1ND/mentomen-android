@@ -26,7 +26,7 @@ class SignInActivity() : BaseActivity<ActivitySignInBinding, SingInViewModel>() 
             Client.redirectUri
         )
         lifecycleScope.launch {
-            viewModel.tokenLiveData.collect {
+            viewModel.tokenState.collect {
                 val isLogin: Boolean =
                     it.accessToken.isNullOrEmpty().not() && it.refreshToken.isNullOrEmpty().not()
 

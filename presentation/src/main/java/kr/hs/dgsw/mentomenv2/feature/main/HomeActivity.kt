@@ -5,6 +5,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityHomeBinding
+import kr.hs.dgsw.mentomenv2.feature.my.MyFragment
 import kr.hs.dgsw.mentomenv2.feature.post.PostFragment
 
 @AndroidEntryPoint
@@ -18,12 +19,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() 
         mBinding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_home -> {
-                    mBinding.bottomNav.selectedItemId = R.id.action_home
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, HomeFragment())
+                        .commit()
                     true
                 }
 
                 R.id.action_my -> {
-                    mBinding.bottomNav.selectedItemId = R.id.action_my
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, MyFragment())
+                        .commit()
                     true
                 }
 
@@ -34,7 +39,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() 
         mBinding.btnAdd.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PostFragment())
-                .addToBackStack(null)
                 .commit()
         }
     }

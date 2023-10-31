@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Token
@@ -15,7 +14,7 @@ import javax.inject.Inject
 class SingInViewModel @Inject constructor(
     private val tokenRepository: TokenRepository,
 ) : BaseViewModel() {
-    val tokenLiveData = MutableStateFlow<Token>(Token("", ""))
+    val tokenState = MutableStateFlow<Token>(Token("", ""))
     fun setToken(token: Token) {
         viewModelScope.launch {
             tokenRepository.setToken(token)
@@ -24,9 +23,11 @@ class SingInViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            tokenLiveData.emit(tokenRepository.getToken())
-            tokenLiveData.collect {
-                Log.d("TOKEN", "accessToken: ${it.accessToken}\n refreshToken: ${it.refreshToken}")
+            kotlin.runCatching {
+                tokenState.emit(tokenRepository.getToken())
+                tokenState.collect {
+                    Log.d("TOKEN", "accessToken: ${it.accessToken}\n refreshToken: ${it.refreshToken}")
+                }
             }
         }
     }
