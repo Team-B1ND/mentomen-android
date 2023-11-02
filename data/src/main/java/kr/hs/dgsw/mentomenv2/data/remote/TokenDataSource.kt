@@ -5,4 +5,5 @@ import kr.hs.dgsw.mentomenv2.domain.model.Token
 interface TokenDataSource {
     suspend fun getToken(): Token
     suspend fun setToken(token: Token)
+    suspend fun deleteToken()
 }

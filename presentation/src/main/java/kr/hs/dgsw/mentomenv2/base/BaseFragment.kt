@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.domain.util.Util
+import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
 import java.util.Objects
@@ -34,8 +37,17 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         super.onViewCreated(view, savedInstanceState)
         this.savedInstanceState = savedInstanceState
         initialize()
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            if (it == Util.TOKEN_EXCEPTION) {
+                val intent = Intent(requireContext(), IntroActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(intent)
+                this.requireActivity().finishAffinity()
+            }
+        }
+
         setupViews()
-        // (activity as? MainActivity)?.setNavVisible(!hasBottomNav)
     }
 
     private fun initialize() {

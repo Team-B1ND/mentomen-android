@@ -1,5 +1,9 @@
 package kr.hs.dgsw.mentomenv2.state
 
-enum class PostState {
-    DESIGN, ANDROID, IOS, WEB, SERVER, ALL
-}
+import kr.hs.dgsw.mentomenv2.domain.model.Post
+
+data class PostState(
+    val tag: String = "ALL",
+    val postList: List<Post>? = null,
+    val error: String = "",
+)

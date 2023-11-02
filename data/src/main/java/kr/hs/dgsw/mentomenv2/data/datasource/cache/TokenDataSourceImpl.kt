@@ -32,4 +32,11 @@ class TokenDataSourceImpl @Inject constructor(
             prefs[stringPreferencesKey("refresh_token")] = token.refreshToken
         }
     }
+
+    override suspend fun deleteToken() {
+        dataStore.edit { prefs ->
+            prefs.remove(stringPreferencesKey("access_token"))
+            prefs.remove(stringPreferencesKey("refresh_token"))
+        }
+    }
 }

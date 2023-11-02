@@ -14,4 +14,7 @@ class TokenRepositoryImpl @Inject constructor(
     override suspend fun setToken(token: Token) {
         remote.setToken(token)
     }
+    override suspend fun deleteToken() {
+        remote.deleteToken()
+    }
 }
