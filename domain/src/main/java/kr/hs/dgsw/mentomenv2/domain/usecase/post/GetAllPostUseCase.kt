@@ -12,7 +12,6 @@ class GetAllPostUseCase @Inject constructor(
     private val postRepository: PostRepository
 ) : NoParamUseCase<List<Post>>() {
     override operator fun invoke(): Flow<NetworkResult<List<Post>>> = execute {
-        Log.d("collectPostStates: ", "$$$$$$$$$$$$$$$$$$$")
         postRepository.getAllPost()
     }
 }

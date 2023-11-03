@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.util.NetworkResult
 import kr.hs.dgsw.mentomenv2.domain.util.Util
@@ -26,7 +27,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         successAction: (T?) -> Unit,
         errorAction: (String?) -> Unit
     ) = onEach { resource ->
-
+        Log.d("safeApiCall: ", "%%%%%%%%%%%%%%%%%%")
         when (resource) {
             is NetworkResult.Success -> {
                 isLoading.value = false
@@ -45,4 +46,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
             }
         }
     }
+        .catch {
+            Log.i("ERROR", "safeApiCall: ")
+        }
 }
