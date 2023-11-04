@@ -1,12 +1,13 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
+import android.content.Intent
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityHomeBinding
 import kr.hs.dgsw.mentomenv2.feature.my.MyFragment
-import kr.hs.dgsw.mentomenv2.feature.post.PostFragment
+import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() {
@@ -37,9 +38,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() 
         }
 
         mBinding.btnAdd.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, PostFragment())
-                .commit()
+            val intent = Intent(this, PostActivity::class.java)
+            startActivity(intent)
         }
     }
 }

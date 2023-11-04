@@ -49,7 +49,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.80.162.249:8080/")
+            .baseUrl("https://mentomen.team-alt.com/")
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
