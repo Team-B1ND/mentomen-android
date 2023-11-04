@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.data.mapper.toModel
 import kr.hs.dgsw.mentomenv2.data.mapper.toRequest
 import kr.hs.dgsw.mentomenv2.data.remote.AuthDataSource
@@ -11,6 +12,6 @@ import javax.inject.Inject
 class DAuthSignInRepositoryImpl @Inject constructor(
     private val remote: AuthDataSource
 ) : AuthRepository {
-    override suspend fun signIn(dAuthParam: SignInUseCase.DAuthParam): DAuthUser =
+    override fun signIn(dAuthParam: SignInUseCase.DAuthParam): Flow<DAuthUser> =
         remote.dAuthSignIn(dAuthParam.toRequest()).toModel()
 }

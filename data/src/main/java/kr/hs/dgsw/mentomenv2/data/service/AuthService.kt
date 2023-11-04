@@ -11,5 +11,5 @@ interface AuthService {
     @POST("login")
     fun signIn(
         @Body DAuthSignInRequest: DAuthSignInRequest
-    ): Call<BaseResponse<DAuthSignInResponse>>
+    ): BaseResponse<DAuthSignInResponse>
 }
