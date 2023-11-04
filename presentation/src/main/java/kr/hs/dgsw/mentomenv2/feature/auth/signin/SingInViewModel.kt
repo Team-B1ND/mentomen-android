@@ -1,6 +1,7 @@
 package kr.hs.dgsw.mentomenv2.feature.auth.signin
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,9 @@ class SingInViewModel @Inject constructor(
     private val tokenRepository: TokenRepository,
 ) : BaseViewModel() {
     val tokenState = MutableStateFlow<Token>(Token("", ""))
+    val pw = MutableStateFlow<String>("")
+    val id = MutableStateFlow<String>("")
+
     fun setToken(token: Token) {
         viewModelScope.launch {
             tokenRepository.setToken(token)
