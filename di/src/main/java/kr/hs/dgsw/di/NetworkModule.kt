@@ -1,7 +1,6 @@
 package kr.hs.dgsw.di
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.SharedPreferencesMigration
@@ -19,7 +18,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kr.hs.dgsw.mentomenv2.data.interceptor.Intercept
-import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,7 +49,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.80.162.42:8080/")
+            .baseUrl("http://10.80.162.249:8080/")
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
@@ -81,11 +79,6 @@ object NetworkModule {
             produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES) }
         )
     }
-
-    @Singleton
-    @Provides
-    fun providesSignInRepository(retrofit: Retrofit): AuthService =
-        retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides

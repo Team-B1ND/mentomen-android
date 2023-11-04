@@ -11,7 +11,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
-import kr.hs.dgsw.mentomenv2.domain.util.Util
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
@@ -39,7 +39,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         initialize()
 
         viewModel.error.observe(viewLifecycleOwner) {
-            if (it == Util.TOKEN_EXCEPTION) {
+            if (it == Utils.TOKEN_EXCEPTION) {
                 val intent = Intent(requireContext(), IntroActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 startActivity(intent)

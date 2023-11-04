@@ -20,7 +20,9 @@ class PostDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPostByTag(tag: String): List<Post> {
-        return api.getPostByTag(tag).execute().body()!!.data
+    override fun getPostByTag(tag: String): Flow<List<Post>> {
+        return flow {
+            emit(api.getPostByTag(tag).data)
+        }
     }
 }
