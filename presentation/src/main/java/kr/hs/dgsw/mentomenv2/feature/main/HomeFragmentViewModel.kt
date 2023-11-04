@@ -50,10 +50,17 @@ class HomeFragmentViewModel @Inject constructor(
         postRepository.getAllPost().safeApiCall(
             isLoading,
             successAction = {
-                postState.value = PostState(
-                    postList = it,
-                    tag = "ALL"
-                )
+                if (postState.value.tag != "ALL") {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                } else {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                }
             },
             errorAction = {
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
@@ -66,10 +73,17 @@ class HomeFragmentViewModel @Inject constructor(
         postRepository.getPostByTag("DESIGN").safeApiCall(
             isLoading,
             successAction = {
-                postState.value = PostState(
-                    postList = it,
-                    tag = "DESIGN"
-                )
+                if (postState.value.tag != "DESIGN") {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "DESIGN"
+                    )
+                } else {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                }
             },
             errorAction = {
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
@@ -82,10 +96,17 @@ class HomeFragmentViewModel @Inject constructor(
         postRepository.getPostByTag("WEB").safeApiCall(
             isLoading,
             successAction = {
-                postState.value = PostState(
-                    postList = it,
-                    tag = "WEB"
-                )
+                if (postState.value.tag != "WEB") {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "WEB"
+                    )
+                } else {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                }
             },
             errorAction = {
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
@@ -98,10 +119,17 @@ class HomeFragmentViewModel @Inject constructor(
         postRepository.getPostByTag("ANDROID").safeApiCall(
             isLoading,
             successAction = {
-                postState.value = PostState(
-                    postList = it,
-                    tag = "ANDROID"
-                )
+                if (postState.value.tag != "ANDROID") {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ANDROID"
+                    )
+                } else {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                }
             },
             errorAction = {
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
@@ -114,10 +142,17 @@ class HomeFragmentViewModel @Inject constructor(
         postRepository.getPostByTag("SERVER").safeApiCall(
             isLoading,
             successAction = {
-                postState.value = PostState(
-                    postList = it,
-                    tag = "SERVER"
-                )
+                if (postState.value.tag != "SERVER") {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "SERVER"
+                    )
+                } else {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                }
             },
             errorAction = {
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
@@ -130,10 +165,17 @@ class HomeFragmentViewModel @Inject constructor(
         postRepository.getPostByTag("IOS").safeApiCall(
             isLoading,
             successAction = {
-                postState.value = PostState(
-                    postList = it,
-                    tag = "IOS"
-                )
+                if (postState.value.tag != "IOS") {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "IOS"
+                    )
+                } else {
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                }
             },
             errorAction = {
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
