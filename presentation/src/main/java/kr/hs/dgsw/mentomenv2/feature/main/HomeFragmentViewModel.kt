@@ -19,24 +19,7 @@ import javax.inject.Inject
 class HomeFragmentViewModel @Inject constructor(
     private val postRepository: PostRepository,
 ) : BaseViewModel() {
-    val postState = MutableStateFlow<PostState>(
-        PostState(
-            postList = listOf(
-                Post(
-                    1, "123123123",
-                    listOf("https://flexible.img.hani.co.kr/flexible/normal/970/601/imgdb/original/2023/1102/20231102503524.jpg"),
-                    "123",
-                    123,
-                    "https://flexible.img.hani.co.kr/flexible/normal/970/601/imgdb/original/2023/1102/20231102503524.jpg",
-                    StdInfo(1, 1, 1),
-                    "ANDROID",
-                    "123",
-                    "123",
-                    "123"
-                )
-            )
-        )
-    )
+    val postState = MutableStateFlow<PostState>(PostState())
     private val _errorFlow = MutableSharedFlow<String?>()
     val errorFlow = _errorFlow.asSharedFlow()
 
