@@ -12,7 +12,7 @@ interface PostService {
     suspend fun getAllPost(): BaseResponse<List<Post>>
 
     @GET("post/read-all/{tag}")
-    fun getPostByTag(
+    suspend fun getPostByTag(
         @Path("tag") tag: String
-    ): Call<BaseResponse<List<Post>>>
+    ): BaseResponse<List<Post>>
 }

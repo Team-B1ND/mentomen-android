@@ -14,7 +14,7 @@ class PostRepositoryImpl @Inject constructor(
         return remote.getAllPost()
     }
 
-    override suspend fun getPostByTag(tag: String): List<Post> {
+    override fun getPostByTag(tag: String): Flow<List<Post>> {
         return remote.getPostByTag(tag)
     }
 }

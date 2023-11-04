@@ -5,5 +5,5 @@ import kr.hs.dgsw.mentomenv2.domain.model.Post
 
 interface PostDataSource {
     fun getAllPost(): Flow<List<Post>>
-    suspend fun getPostByTag(tag: String): List<Post>
+    fun getPostByTag(tag: String): Flow<List<Post>>
 }
