@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kr.hs.dgsw.mentomenv2.data.interceptor.Intercept
+import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -84,4 +85,9 @@ object NetworkModule {
     @Provides
     fun providesPostRepository(retrofit: Retrofit): PostService =
         retrofit.create(PostService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesAuthRepository(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 }

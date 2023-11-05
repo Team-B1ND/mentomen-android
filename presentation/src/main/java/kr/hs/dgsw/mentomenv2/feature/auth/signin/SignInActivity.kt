@@ -1,7 +1,12 @@
 package kr.hs.dgsw.mentomenv2.feature.auth.signin
 
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
 import kr.hs.dgsw.mentomenv2.domain.usecase.auth.SignInUseCase
@@ -14,6 +19,11 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
         mBinding.vm = viewModel
         mBinding.btnLogin.setOnClickListener {
             viewModel.onClickLogin()
+        }
+        lifecycleScope.launch {
+            viewModel.event.collect { text ->
+                Toast.makeText(this@SignInActivity, text.toString(), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

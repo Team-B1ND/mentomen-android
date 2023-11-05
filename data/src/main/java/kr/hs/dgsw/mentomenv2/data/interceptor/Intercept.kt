@@ -2,6 +2,7 @@ package kr.hs.dgsw.mentomenv2.data.interceptor
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import kr.hs.dgsw.mentomenv2.domain.repository.TokenRepository
 import okhttp3.Interceptor
@@ -23,7 +24,9 @@ class Intercept @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         runBlocking(Dispatchers.IO) {
             tokenRepository.getToken().let {
-                token = it.accessToken
+                it.collect {
+                    token = it.accessToken
+                }
             }
         }
 
@@ -40,7 +43,9 @@ class Intercept @Inject constructor(
     private fun Interceptor.Chain.makeTokenRefreshCall() {
         runBlocking(Dispatchers.IO) {
             tokenRepository.getToken().let {
-                token = it.refreshToken
+                it.collect {
+                    token = it.accessToken
+                }
             }
         }
         response = this.proceedWithToken(this.request())
