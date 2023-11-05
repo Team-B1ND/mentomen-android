@@ -61,15 +61,6 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
-                android:id="@+id/auto_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/auto_login"
-                android:fontFamily="@font/pretendard_variable"
-                android:textSize="12sp"/>
-
-
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.data.remote.PostDataSource
 import kr.hs.dgsw.mentomenv2.domain.model.Post

@@ -34,7 +34,6 @@ interface RepositoryModule {
         authDataSourceImpl: AuthDataSourceImpl
     ): AuthDataSource
 
-
     @Binds
     @Singleton
     fun bindsTokenRepository(

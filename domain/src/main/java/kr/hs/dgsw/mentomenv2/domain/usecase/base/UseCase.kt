@@ -9,7 +9,7 @@ import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import retrofit2.HttpException
 import java.io.IOException
 
-abstract class UseCase<PR ,R> {
+abstract class UseCase<PR, R> {
     abstract operator fun invoke(params: PR): Flow<NetworkResult<R>>
 
     fun execute(action: suspend () -> Flow<R>): Flow<NetworkResult<R>> = flow {

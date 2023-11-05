@@ -34,7 +34,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         }.onCompletion { cause ->
             if (cause?.message == Utils.TOKEN_EXCEPTION) {
                 _error.value = "세선이 만료되었습니다."
-            } else if(cause != null) {
+            } else if (cause != null) {
                 errorAction.invoke(cause.message)
             }
             isLoading?.value = false // 로딩 종료

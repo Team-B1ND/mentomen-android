@@ -8,11 +8,12 @@ import kr.hs.dgsw.mentomenv2.domain.usecase.auth.SignInUseCase
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SignInActivity @Inject constructor(
-    private val singInUseCase: SignInUseCase
-) : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
+class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override val viewModel: SingInViewModel by viewModels()
     override fun start() {
-
+        mBinding.vm = viewModel
+        mBinding.btnLogin.setOnClickListener {
+            viewModel.onClickLogin()
+        }
     }
 }
