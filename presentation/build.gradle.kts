@@ -56,6 +56,10 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.2.5")
 
+    // navigation
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
+
     // gilde
     implementation("com.github.bumptech.glide:glide:4.16.0")
 

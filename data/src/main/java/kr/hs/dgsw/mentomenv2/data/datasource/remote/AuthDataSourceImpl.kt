@@ -1,5 +1,7 @@
 package kr.hs.dgsw.mentomenv2.data.datasource.remote
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kr.hs.dgsw.mentomenv2.data.remote.AuthDataSource
 import kr.hs.dgsw.mentomenv2.data.request.DAuthSignInRequest
 import kr.hs.dgsw.mentomenv2.data.response.DAuthSignInResponse
@@ -9,7 +11,9 @@ import javax.inject.Inject
 class AuthDataSourceImpl @Inject constructor(
     private val api: AuthService
 ) : AuthDataSource {
-    override suspend fun dAuthSignIn(dAuthSignInRequest: DAuthSignInRequest): DAuthSignInResponse {
-        return api.signIn(dAuthSignInRequest).execute().body()!!.data
+    override fun dAuthSignIn(dAuthSignInRequest: DAuthSignInRequest): Flow<DAuthSignInResponse> {
+        return flow {
+            emit(api.signIn(dAuthSignInRequest).data)
+        }
     }
 }

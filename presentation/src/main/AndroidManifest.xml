@@ -15,10 +15,11 @@
         android:theme="@style/Theme.MenToMenV2"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".feature.post.PostActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.main.HomeActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".feature.splash.IntroActivity"
             android:exported="true">
