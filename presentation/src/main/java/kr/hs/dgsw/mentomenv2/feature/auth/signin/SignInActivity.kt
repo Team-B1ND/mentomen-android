@@ -17,13 +17,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override val viewModel: SingInViewModel by viewModels()
     override fun start() {
         mBinding.vm = viewModel
-        mBinding.btnLogin.setOnClickListener {
-            viewModel.onClickLogin()
-        }
-        lifecycleScope.launch {
-            viewModel.event.collect { text ->
-                Toast.makeText(this@SignInActivity, text.toString(), Toast.LENGTH_SHORT).show()
-            }
-        }
+        
     }
 }
