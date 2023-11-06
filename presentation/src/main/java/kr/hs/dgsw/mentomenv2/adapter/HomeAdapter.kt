@@ -6,6 +6,8 @@ import kr.hs.dgsw.mentomenv2.adapter.callback.PostDiffUtilCallback
 import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
 import kr.hs.dgsw.mentomenv2.databinding.ItemHomeBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.util.getYearTimeDate
+import java.time.LocalDateTime
 
 class HomeAdapter() :
     BaseListAdapter<Post, ItemHomeBinding>(R.layout.item_home, PostDiffUtilCallback) {
@@ -13,7 +15,8 @@ class HomeAdapter() :
     override fun action(item: Post, binding: ItemHomeBinding) {
         binding.tvName.text = item.userName
         binding.tvPreview.text = item.content
-        binding.tvTime.text = item.updateDateTime
+        val currentTime = LocalDateTime.now().toString().getYearTimeDate()
+        binding.tvTime.text = currentTime.toString()
         binding.tvStudentId.text =
             item.stdInfo.grade.toString() + "학년" + item.stdInfo.room.toString() + "반" + item.stdInfo.number.toString() + "번"
         Glide.with(binding.ivPreview.context)

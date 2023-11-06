@@ -1,5 +1,7 @@
 package kr.hs.dgsw.mentomenv2.domain.model
 
+import java.time.LocalDateTime
+
 data class Post(
     val author: Int,
     val content: String,
