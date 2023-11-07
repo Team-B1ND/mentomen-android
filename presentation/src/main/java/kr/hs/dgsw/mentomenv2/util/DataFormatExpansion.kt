@@ -6,7 +6,6 @@ import java.util.Date
 import java.util.Locale
 import java.util.regex.Pattern
 
-
 fun String.getTime(): Date {
     val format = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -30,7 +29,10 @@ fun String.getYearDate(): Date {
 }
 
 fun String.isNotEmailValid(): Boolean {
-    return !(!TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches())
+    return !(
+        !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this)
+            .matches()
+        )
 }
 
 fun String.isNotPhoneNumberValid(): Boolean {

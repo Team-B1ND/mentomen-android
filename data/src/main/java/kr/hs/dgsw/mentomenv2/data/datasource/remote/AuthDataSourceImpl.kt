@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
     private val api: AuthService
-): AuthDataSource {
+) : AuthDataSource {
     override fun signIn(code: String): Flow<Token> {
         return flow {
             emit(api.signIn(DAuthClientRequest(code)).data)

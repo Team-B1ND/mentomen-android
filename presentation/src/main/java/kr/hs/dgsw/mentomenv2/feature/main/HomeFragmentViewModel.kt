@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
-import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostUseCases
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.state.PostState

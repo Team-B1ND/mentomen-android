@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val remote: AuthDataSource
-): BaseRepositoryImpl(), AuthRepository {
+) : BaseRepositoryImpl(), AuthRepository {
     override fun signIn(code: String): Flow<NetworkResult<Token>> =
         execute { remote.signIn(code) }
 }

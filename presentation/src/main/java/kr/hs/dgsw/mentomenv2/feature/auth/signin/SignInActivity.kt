@@ -2,12 +2,8 @@ package kr.hs.dgsw.mentomenv2.feature.auth.signin
 
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
 import kr.hs.dgsw.mentomenv2.feature.main.HomeActivity
@@ -25,7 +21,8 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
             Client.clientSecret,
             Client.redirectUri
         )
-        getCode(this@SignInActivity,
+        getCode(
+            this@SignInActivity,
             {
                 viewModel.getToken(it)
                 Intent(this@SignInActivity, HomeActivity::class.java).apply {
@@ -33,7 +30,8 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 }
             },
             {
-                getCode(this@SignInActivity,
+                getCode(
+                    this@SignInActivity,
                     {
                         viewModel.getToken(it)
                         Intent(this@SignInActivity, HomeActivity::class.java).apply {
@@ -42,7 +40,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     },
                     {
                         Log.d("error: ", "how did you get here")
-                    })
-            })
+                    }
+                )
+            }
+        )
     }
 }

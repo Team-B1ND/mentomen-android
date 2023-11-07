@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Token
-import kr.hs.dgsw.mentomenv2.domain.params.DAuthParam
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.TokenRepository
 import kr.hs.dgsw.smartschool.dodamdodam.widget.Event
@@ -29,7 +28,7 @@ class SingInViewModel @Inject constructor(
     val id = MutableStateFlow<String>("")
 
     fun getToken(code: String?) {
-        authRepository.signIn(code?: "").safeApiCall(
+        authRepository.signIn(code ?: "").safeApiCall(
             isLoading = isLoading,
             successAction = {
                 Log.d("success", "access: ${it?.accessToken},refresh: ${it?.refreshToken}")
@@ -43,7 +42,7 @@ class SingInViewModel @Inject constructor(
     init {
         tokenRepository.getToken().safeApiCall(
             successAction = {
-                tokenState.value = it?: Token("", "")
+                tokenState.value = it ?: Token("", "")
             },
             errorAction = {
                 Log.d("error", "error: $it")

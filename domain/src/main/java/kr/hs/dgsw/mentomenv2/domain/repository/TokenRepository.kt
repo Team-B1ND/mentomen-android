@@ -8,5 +8,4 @@ interface TokenRepository {
     fun getToken(): Flow<NetworkResult<Token>>
     fun setToken(refreshToken: Token)
     fun deleteToken()
-
 }

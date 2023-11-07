@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.exception.TokenException
 import kr.hs.dgsw.mentomenv2.domain.util.NetworkResult
@@ -21,11 +20,12 @@ abstract class BaseRepositoryImpl {
                 emit(NetworkResult.Success(data))
             }.catch { e ->
                 Log.d("BaseReppsitory", "onError: ")
-                when(e) {
+                when (e) {
                     is retrofit2.HttpException -> {
                         if (e.code() == 401) emit(NetworkResult.Error(Utils.TOKEN_EXCEPTION))
                         else emit(NetworkResult.Error(Utils.convertErrorBody(e)))
                     }
+
                     is IOException -> emit(NetworkResult.Error(Utils.NETWORK_ERROR_MESSAGE))
                     is TokenException -> emit(NetworkResult.Error(Utils.TOKEN_EXCEPTION))
                     else -> emit(NetworkResult.Error(Utils.EXCEPTION))
