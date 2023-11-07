@@ -9,13 +9,14 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
+import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostUseCases
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.state.PostState
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeFragmentViewModel @Inject constructor(
-    private val postRepository: PostRepository,
+    private val postUseCases: PostUseCases,
 ) : BaseViewModel() {
     val postState = MutableStateFlow<PostState>(PostState())
     private val _errorFlow = MutableSharedFlow<String?>()
@@ -28,7 +29,7 @@ class HomeFragmentViewModel @Inject constructor(
     }
 
     fun getAllPost() {
-        postRepository.getAllPost().safeApiCall(
+        postUseCases.getAllPostUseCase.invoke().safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "ALL") {
@@ -51,7 +52,7 @@ class HomeFragmentViewModel @Inject constructor(
     }
 
     fun onClickDesignBtn() {
-        postRepository.getPostByTag("DESIGN").safeApiCall(
+        postUseCases.getPostsByTagUseCases("DESIGN").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "DESIGN") {
@@ -74,7 +75,7 @@ class HomeFragmentViewModel @Inject constructor(
     }
 
     fun onClickWebBtn() {
-        postRepository.getPostByTag("WEB").safeApiCall(
+        postUseCases.getPostsByTagUseCases("WEB").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "WEB") {
@@ -97,7 +98,7 @@ class HomeFragmentViewModel @Inject constructor(
     }
 
     fun onClickAndroidBtn() {
-        postRepository.getPostByTag("ANDROID").safeApiCall(
+        postUseCases.getPostsByTagUseCases("ANDROID").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "ANDROID") {
@@ -120,7 +121,7 @@ class HomeFragmentViewModel @Inject constructor(
     }
 
     fun onClickServerBtn() {
-        postRepository.getPostByTag("SERVER").safeApiCall(
+        postUseCases.getPostsByTagUseCases("SERVER").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "SERVER") {
@@ -143,7 +144,7 @@ class HomeFragmentViewModel @Inject constructor(
     }
 
     fun onClickIOSBtn() {
-        postRepository.getPostByTag("IOS").safeApiCall(
+        postUseCases.getPostsByTagUseCases("IOS").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "IOS") {

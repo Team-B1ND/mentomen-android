@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetPostsByTagUseCase @Inject constructor(
     private val postRepository: PostRepository
 ) : UseCase<String, List<Post>>() {
-    override operator fun invoke(tag: String): Flow<NetworkResult<List<Post>>> = execute {
+
+    override operator fun invoke(tag: String): Flow<NetworkResult<List<Post>>> =
         postRepository.getPostByTag(tag)
-    }
 }

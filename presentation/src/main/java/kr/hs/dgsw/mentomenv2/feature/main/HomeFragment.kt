@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +10,6 @@ import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
     override val viewModel: HomeFragmentViewModel by viewModels()
@@ -41,7 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() 
     }
 
     private fun collectPostStates() {
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.postState.collect { state ->
                 if (state.postList != null) {
                     adapter.submitList(state.postList)

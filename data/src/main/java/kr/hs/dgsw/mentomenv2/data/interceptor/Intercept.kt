@@ -25,7 +25,7 @@ class Intercept @Inject constructor(
         runBlocking(Dispatchers.IO) {
             tokenRepository.getToken().let {
                 it.collect {
-                    token = it.accessToken
+                    token = it.data?.accessToken ?: ""
                 }
             }
         }
@@ -44,7 +44,7 @@ class Intercept @Inject constructor(
         runBlocking(Dispatchers.IO) {
             tokenRepository.getToken().let {
                 it.collect {
-                    token = it.accessToken
+                    token = it.data?.accessToken ?: ""
                 }
             }
         }
