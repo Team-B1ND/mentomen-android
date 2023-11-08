@@ -3,7 +3,9 @@ package kr.hs.dgsw.mentomenv2.feature.auth.signin
 import android.content.Intent
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
 import kr.hs.dgsw.mentomenv2.feature.main.HomeActivity
@@ -16,6 +18,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override val viewModel: SingInViewModel by viewModels()
     var code: String? = null
     override fun start() {
+        collectTokenState()
         settingDAuth(
             Client.clientId,
             Client.clientSecret,
@@ -24,7 +27,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
         getCode(
             this@SignInActivity,
             {
-                viewModel.getToken(it)
+                viewModel.getTokenUseCode(it)
                 Intent(this@SignInActivity, HomeActivity::class.java).apply {
                     startActivity(this)
                 }
@@ -33,7 +36,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 getCode(
                     this@SignInActivity,
                     {
-                        viewModel.getToken(it)
+                        viewModel.getTokenUseCode(it)
                         Intent(this@SignInActivity, HomeActivity::class.java).apply {
                             startActivity(this)
                         }
@@ -44,5 +47,16 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 )
             }
         )
+
+    }
+
+    private fun collectTokenState() {
+        lifecycleScope.launch {
+            viewModel.tokenState.collect { token ->
+                if (!token.accessToken.isNullOrBlank() && !token.refreshToken.isNullOrBlank()) {
+                    viewModel.setToken(token)
+                }
+            }
+        }
     }
 }

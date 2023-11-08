@@ -26,11 +26,25 @@ class SingInViewModel @Inject constructor(
     private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val pw = MutableStateFlow<String>("")
     val id = MutableStateFlow<String>("")
+    val token: MutableLiveData<Token> = MutableLiveData(Token("", ""))
+    fun getToken(): Token {
+        tokenRepository.getToken().safeApiCall(
+            isLoading = isLoading,
+            successAction = { token.value = it?: Token("", "") },
+            errorAction = { token.value = Token("", "") }
+        )
+        return token.value?: Token("", "")
+    }
 
-    fun getToken(code: String?) {
+    fun setToken(token: Token) {
+        tokenRepository.setToken(token)
+    }
+
+    fun getTokenUseCode(code: String?) {
         authRepository.signIn(code ?: "").safeApiCall(
             isLoading = isLoading,
             successAction = {
+                tokenState.value = it ?: Token("", "")
                 Log.d("success", "access: ${it?.accessToken},refresh: ${it?.refreshToken}")
             },
             errorAction = {
