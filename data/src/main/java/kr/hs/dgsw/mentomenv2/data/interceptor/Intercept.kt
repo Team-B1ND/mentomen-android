@@ -11,6 +11,7 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONException
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class Intercept @Inject constructor(
@@ -33,8 +34,9 @@ class Intercept @Inject constructor(
         response = chain.proceedWithToken(chain.request())
 
         if (response.code == 401) {
-            response.close()
+            tokenRepository.deleteToken()
             chain.makeTokenRefreshCall()
+            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
         }
 
         return response
@@ -51,12 +53,9 @@ class Intercept @Inject constructor(
         response = this.proceedWithToken(this.request())
 
         if (response.code == 401) {
-            try {
-                response.close()
-                response = login()
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
+            tokenRepository.deleteToken()
+            response = login()
+            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
         }
     }
 
