@@ -69,6 +69,7 @@ class Intercept @Inject constructor(
 
         return if (response.code == 401) {
             Log.d("TokenTest", "Here is Login")
+            tokenRepository.deleteToken()
             Response.Builder()
                 .request(this.request())
                 .protocol(Protocol.HTTP_1_1)
