@@ -21,7 +21,7 @@ import java.io.File
 class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     override val viewModel: PostViewModel by viewModels()
 
-    private lateinit var imageAdapter: ImageAdapter
+    private var imageAdapter: ImageAdapter? = null
     private val imageList = MutableLiveData<ArrayList<Uri?>>(arrayListOf())
 
     @SuppressLint("NotifyDataSetChanged")
@@ -49,7 +49,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                     }
                 }
             }
-            imageAdapter.notifyDataSetChanged()
+            imageAdapter?.notifyDataSetChanged()
         }
 
     @SuppressLint("Recycle")
@@ -71,6 +71,9 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                     getImageGallery()
                 }
             }
+        }
+        mBinding.backButton.setOnClickListener {
+            finish()
         }
     }
 
