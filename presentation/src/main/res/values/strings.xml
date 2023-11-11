@@ -19,4 +19,5 @@
     <string name="redirectUrl">http://localhost:3000/callback</string>
     <string name="write_text">글쓰기</string>
     <string name="help">멘토에게 부탁할 내용을 입력하세요.</string>
+    <string name="post">멘토 요청하기</string>
 </resources>

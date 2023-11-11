@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.util.NetworkResult
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.smartschool.dodamdodam.widget.Event
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,8 +17,13 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    private val _tokenErrorEvent = MutableLiveData<String>()
-    val tokenErrorEvent = _tokenErrorEvent
+    private val _viewEvent = MutableLiveData<Event<Any>>()
+    val viewEvent: LiveData<Event<Any>>
+        get() = _viewEvent
+
+    fun viewEvent(content: Any) {
+        _viewEvent.value = Event(content)
+    }
 
     fun <T> Flow<NetworkResult<T>>.safeApiCall(
         isLoading: MutableLiveData<Boolean>? = null,
@@ -36,7 +42,7 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
             is NetworkResult.Error -> {
                 isLoading?.value = false
                 if (resource.message == Utils.TOKEN_EXCEPTION) {
-                    _tokenErrorEvent.value = resource.message ?: "세션이 만료되었습니다."
+                    _error.value = resource.message ?: "세션이 만료되었습니다."
                 } else {
                     errorAction.invoke(resource.message)
                 }

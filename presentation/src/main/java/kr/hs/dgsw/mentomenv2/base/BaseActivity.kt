@@ -1,12 +1,16 @@
 package kr.hs.dgsw.mentomenv2.base
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
 import java.util.Objects
@@ -18,6 +22,23 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     protected abstract val viewModel: VM
 
     protected abstract fun start()
+
+    protected fun bindingViewEvent(action: (event: Any) -> Unit) {
+        viewModel.viewEvent.observe(this) {
+            it.getContentIfNotHandled()?.let { event ->
+                action.invoke(event)
+            }
+        }
+
+        viewModel.error.observe(this) {
+            if (it == Utils.TOKEN_EXCEPTION) {
+                Toast.makeText(this, "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, IntroActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(intent)
+            }
+        }
+    }
 
     private fun performDataBinding() {
         mBinding = DataBindingUtil.setContentView(this, layoutRes())

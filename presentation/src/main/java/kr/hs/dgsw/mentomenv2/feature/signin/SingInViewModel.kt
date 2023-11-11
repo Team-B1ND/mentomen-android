@@ -20,12 +20,8 @@ class SingInViewModel @Inject constructor(
     private val tokenRepository: TokenRepository,
     private val authRepository: AuthRepository
 ) : BaseViewModel() {
-    private val _event = MutableSharedFlow<Event<String?>>()
-    val event = _event.asSharedFlow()
     val tokenState = MutableStateFlow<Token>(Token("", ""))
     private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val pw = MutableStateFlow<String>("")
-    val id = MutableStateFlow<String>("")
     fun getToken() {
         tokenRepository.getToken().safeApiCall(
             isLoading = isLoading,
