@@ -1,4 +1,4 @@
-package kr.hs.dgsw.mentomenv2.feature.auth.signin
+package kr.hs.dgsw.mentomenv2.feature.signin
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.auth.signin.SignInActivity"
+            android:name=".feature.signin.SignInActivity"
             android:exported="false" />
     </application>
 
