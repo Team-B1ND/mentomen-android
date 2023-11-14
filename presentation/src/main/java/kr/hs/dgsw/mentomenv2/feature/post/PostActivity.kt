@@ -32,8 +32,8 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 viewModel.imgFile.value?.clear()
                 if (result.data?.clipData != null) {
                     val count = result.data?.clipData!!.itemCount
-                    if (count > 5) {
-                        Toast.makeText(this, "사진은 5장까지 선택 가능합니다.", Toast.LENGTH_LONG)
+                    if (count > 10) {
+                        Toast.makeText(this, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG)
                             .show()
                         return@registerForActivityResult
                     }
@@ -58,23 +58,30 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         val c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
         val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         c?.moveToFirst()
-
         val result = c?.getString(index!!)
-
         return result!!
     }
 
     override fun start() {
+        imageAdapter = ImageAdapter()
+        mBinding.rvImage.adapter = imageAdapter
         bindingViewEvent {
             when (it) {
                 PostViewModel.ON_CLICK_IMAGE -> {
                     getImageGallery()
+                }
+                PostViewModel.ON_CLICK_CONFIRM -> {
+                    submitPost()
                 }
             }
         }
         mBinding.backButton.setOnClickListener {
             finish()
         }
+    }
+
+    fun submitPost() {
+
     }
 
     private fun getImageGallery() {

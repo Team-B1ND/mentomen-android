@@ -58,9 +58,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
             viewModel.tokenState.collect { tokenState ->
                 if (!tokenState.accessToken.isNullOrBlank() && !tokenState.refreshToken.isNullOrBlank()) {
                     viewModel.setToken(Token(tokenState.accessToken, tokenState.refreshToken))
-                    Intent(this@SignInActivity, HomeActivity::class.java).apply {
-                        startActivity(this)
-                    }
+                    val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
                 }
             }
         }

@@ -33,10 +33,11 @@ class PostViewModel : BaseViewModel() {
     }
 
     fun onClickConfirm() {
-
+        viewEvent(ON_CLICK_CONFIRM)
     }
 
     companion object {
         const val ON_CLICK_IMAGE = 0
+        const val ON_CLICK_CONFIRM = 1
     }
 }

@@ -14,10 +14,10 @@ plugins {
 
 android {
     namespace = "kr.hs.dgsw.mentomenv2.domain"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = 34
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
