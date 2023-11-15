@@ -2,6 +2,7 @@ package kr.hs.dgsw.mentomenv2.feature.signin
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,37 +21,18 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     var code: String? = null
     override fun start() {
         collectTokenState()
-        lifecycleScope.launch {
-            viewModel.getToken()
-            settingDAuth(
-                Client.clientId,
-                Client.clientSecret,
-                Client.redirectUri
-            )
-            getCode(
-                this@SignInActivity,
-                {
-                    viewModel.getTokenUseCode(it)
-                    Intent(this@SignInActivity, HomeActivity::class.java).apply {
-                        startActivity(this)
-                    }
-                },
-                {
-                    getCode(
-                        this@SignInActivity,
-                        {
-                            viewModel.getTokenUseCode(it)
-                            Intent(this@SignInActivity, HomeActivity::class.java).apply {
-                                startActivity(this)
-                            }
-                        },
-                        {
-                            Log.d("error: ", "how did you get here")
-                        }
-                    )
-                }
-            )
-        }
+        settingDAuth(
+            Client.clientId,
+            Client.clientSecret,
+            Client.redirectUri
+        )
+        autoLogin()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        collectTokenState()
+        autoLogin()
     }
 
     private fun collectTokenState() {
@@ -61,8 +43,40 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     val intent = Intent(this@SignInActivity, HomeActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
+                    finish()
                 }
             }
+        }
+    }
+
+    private fun autoLogin() {
+        lifecycleScope.launch {
+            viewModel.getToken()
+            getCode(
+                this@SignInActivity,
+                {
+                    viewModel.getTokenUseCode(it)
+                    val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                    finish()
+                },
+                {
+                    getCode(
+                        this@SignInActivity,
+                        {
+                            viewModel.getTokenUseCode(it)
+                            val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                            finish()
+                        },
+                        {
+                            Log.d("error: ", "how did you get here")
+                        }
+                    )
+                }
+            )
         }
     }
 }
