@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
-import kr.hs.dgsw.mentomenv2.domain.util.NetworkResult
+import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.smartschool.dodamdodam.widget.Event
 import javax.inject.Inject
@@ -25,21 +25,21 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
         _viewEvent.value = Event(content)
     }
 
-    fun <T> Flow<NetworkResult<T>>.safeApiCall(
+    fun <T> Flow<Result<T>>.safeApiCall(
         isLoading: MutableLiveData<Boolean>? = null,
         successAction: (T?) -> Unit,
         errorAction: (String?) -> Unit
     ) = onEach { resource ->
 
         when (resource) {
-            is NetworkResult.Success -> {
+            is Result.Success -> {
                 isLoading?.value = false
                 successAction.invoke(resource.data)
             }
-            is NetworkResult.Loading -> {
+            is Result.Loading -> {
                 isLoading?.value = true
             }
-            is NetworkResult.Error -> {
+            is Result.Error -> {
                 isLoading?.value = false
                 if (resource.message == Utils.TOKEN_EXCEPTION) {
                     _error.value = resource.message ?: "세션이 만료되었습니다."

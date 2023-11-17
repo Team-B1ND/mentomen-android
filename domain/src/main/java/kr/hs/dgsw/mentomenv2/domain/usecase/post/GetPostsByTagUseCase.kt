@@ -4,13 +4,13 @@ import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.usecase.base.UseCase
-import kr.hs.dgsw.mentomenv2.domain.util.NetworkResult
+import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
 class GetPostsByTagUseCase @Inject constructor(
     private val postRepository: PostRepository
 ) : UseCase<String, List<Post>>() {
 
-    override operator fun invoke(tag: String): Flow<NetworkResult<List<Post>>> =
+    override operator fun invoke(tag: String): Flow<Result<List<Post>>> =
         postRepository.getPostByTag(tag)
 }

@@ -7,33 +7,33 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.exception.TokenException
-import kr.hs.dgsw.mentomenv2.domain.util.NetworkResult
+import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import java.io.IOException
 
 abstract class BaseRepositoryImpl {
-    protected fun <R> execute(action: suspend () -> Flow<R>): Flow<NetworkResult<R>> = flow {
+    protected fun <R> execute(action: suspend () -> Flow<R>): Flow<Result<R>> = flow {
         try {
-            emit(NetworkResult.Loading())
+            emit(Result.Loading())
             action().onEach { data ->
                 Log.d("BaseReppsitory", "call action.onEach")
-                emit(NetworkResult.Success(data))
+                emit(Result.Success(data))
             }.catch { e ->
                 Log.d("BaseReppsitory", "onError: ")
                 when (e) {
                     is retrofit2.HttpException -> {
-                        if (e.code() == 401) emit(NetworkResult.Error(Utils.TOKEN_EXCEPTION))
-                        else emit(NetworkResult.Error(Utils.convertErrorBody(e)))
+                        if (e.code() == 401) emit(Result.Error(Utils.TOKEN_EXCEPTION))
+                        else emit(Result.Error(Utils.convertErrorBody(e)))
                     }
 
-                    is IOException -> emit(NetworkResult.Error(Utils.NETWORK_ERROR_MESSAGE))
-                    is TokenException -> emit(NetworkResult.Error(Utils.TOKEN_EXCEPTION))
-                    else -> emit(NetworkResult.Error(Utils.EXCEPTION))
+                    is IOException -> emit(Result.Error(Utils.NETWORK_ERROR_MESSAGE))
+                    is TokenException -> emit(Result.Error(Utils.TOKEN_EXCEPTION))
+                    else -> emit(Result.Error(Utils.EXCEPTION))
                 }
             }.collect()
         } catch (e: Exception) {
             Log.d("BaseReppsitory", "FlowError : $e")
-            emit(NetworkResult.Error(Utils.EXCEPTION))
+            emit(Result.Error(Utils.EXCEPTION))
         }
     }
 }

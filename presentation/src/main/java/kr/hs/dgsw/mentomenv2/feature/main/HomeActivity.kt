@@ -14,6 +14,8 @@ import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() {
     override val viewModel: HomeActivityViewModel by viewModels()
+    private val TIME_INTERVAL: Long = 2000
+    private var mBackPressed: Long = 0
 
     override fun start() {
         mBinding.bottomNav.background = null
@@ -29,6 +31,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() 
                 }
 
                 R.id.action_my -> {
+
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, MyFragment())
                         .commit()
@@ -44,9 +47,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() 
             startActivity(intent)
         }
     }
-
-    private val TIME_INTERVAL: Long = 2000 // 두 번 누를 때까지의 시간 간격
-    private var mBackPressed: Long = 0
 
     override fun onBackPressed() {
         Log.d("Debug", "onBackPressed() called")

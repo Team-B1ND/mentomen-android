@@ -4,18 +4,18 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kr.hs.dgsw.mentomenv2.data.datasource.cache.TokenDataSourceImpl
+import kr.hs.dgsw.mentomenv2.data.datasource.cache.DataStoreDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasource.remote.AuthDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasource.remote.PostDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.remote.AuthDataSource
 import kr.hs.dgsw.mentomenv2.data.remote.PostDataSource
-import kr.hs.dgsw.mentomenv2.data.remote.TokenDataSource
+import kr.hs.dgsw.mentomenv2.data.remote.DataStoreDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.AuthRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.PostRepositoryImplImpl
-import kr.hs.dgsw.mentomenv2.data.repository.TokenRepositoryImpl
+import kr.hs.dgsw.mentomenv2.data.repository.DataSourceRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
-import kr.hs.dgsw.mentomenv2.domain.repository.TokenRepository
+import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import javax.inject.Singleton
 
 @Module
@@ -36,14 +36,14 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindsTokenRepository(
-        tokenRepositoryImpl: TokenRepositoryImpl
-    ): TokenRepository
+        tokenRepositoryImpl: DataSourceRepositoryImpl
+    ): DataStoreRepository
 
     @Binds
     @Singleton
     fun bindsDataStore(
-        tokenDataSourceImpl: TokenDataSourceImpl
-    ): TokenDataSource
+        tokenDataSourceImpl: DataStoreDataSourceImpl
+    ): DataStoreDataSource
 
     @Binds
     @Singleton
