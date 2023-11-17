@@ -25,10 +25,20 @@
                     android:id="@+id/iv_major"
                     android:layout_width="28dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_android"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_user"
+                    app:layout_constraintStart_toStartOf="@id/tv_preview"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/cv_preview"/>
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -38,8 +48,8 @@
                     android:fontFamily="@font/pretendard_variable"
                     android:text="도현욱"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/iv_major"
-                    app:layout_constraintTop_toTopOf="@id/iv_major" />
+                    app:layout_constraintStart_toEndOf="@id/iv_profile"
+                    app:layout_constraintTop_toTopOf="@id/iv_profile" />
 
                 <TextView
                     android:id="@+id/tv_student_id"
@@ -50,7 +60,7 @@
                     android:text="2학년4반6번"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/iv_major"
+                    app:layout_constraintStart_toEndOf="@id/iv_profile"
                     app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
                 <TextView
@@ -66,19 +76,21 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cv_preview" />
+                    app:layout_constraintTop_toBottomOf="@id/cv_preview"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="10dp"/>
 
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
-                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="10dp"
                     android:fontFamily="@font/pretendard_variable"
                     android:text="4시간 전"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_major"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
@@ -86,10 +98,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
+                    android:layout_marginBottom="20dp"
                     app:cardCornerRadius="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_preview"
-                    app:layout_constraintTop_toBottomOf="@id/iv_major"
+                    app:layout_constraintTop_toBottomOf="@id/iv_profile"
                     app:layout_constraintBottom_toTopOf="@id/tv_preview">
 
                     <ImageView
