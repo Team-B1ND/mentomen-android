@@ -2,6 +2,8 @@ package kr.hs.dgsw.mentomenv2.adapter
 
 import android.annotation.SuppressLint
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.callback.PostDiffUtilCallback
 import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
@@ -45,8 +47,16 @@ class HomeAdapter() :
 
         binding.tvStudentId.text =
             item.stdInfo.grade.toString() + "학년" + item.stdInfo.room.toString() + "반" + item.stdInfo.number.toString() + "번"
+
         Glide.with(binding.ivPreview.context)
             .load(item.imgUrls[0]).into(binding.ivPreview)
+
+        Glide.with(binding.ivProfile.context)
+            .load(item.profileUrl)
+            .transform(CircleCrop())
+            .into(binding.ivProfile)
+
+
         val majorImage = when (item.tag) {
             "ANDROID" -> R.drawable.ic_android
             "IOS" -> R.drawable.ic_ios
