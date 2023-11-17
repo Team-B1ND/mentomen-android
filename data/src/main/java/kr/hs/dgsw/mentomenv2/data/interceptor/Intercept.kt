@@ -1,32 +1,33 @@
 package kr.hs.dgsw.mentomenv2.data.interceptor
 
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kr.hs.dgsw.mentomenv2.domain.repository.TokenRepository
+import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.json.JSONException
 import retrofit2.HttpException
 import javax.inject.Inject
 
 class Intercept @Inject constructor(
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: DataStoreRepository,
+    private val coroutineScope: CoroutineScope
 ) : Interceptor {
 
-    private lateinit var token: String
+    private var token: String = ""
     private lateinit var response: Response
 
     @Synchronized
     override fun intercept(chain: Interceptor.Chain): Response {
-        runBlocking(Dispatchers.IO) {
-            tokenRepository.getToken().let {
+        coroutineScope.launch {
+            tokenRepository.getData("access_token", "").let {
                 it.collect {
-                    token = it.data?.accessToken ?: ""
+                    token = it.data?: ""
                 }
             }
         }
@@ -34,7 +35,9 @@ class Intercept @Inject constructor(
         response = chain.proceedWithToken(chain.request())
 
         if (response.code == 401) {
-            tokenRepository.deleteToken()
+            coroutineScope.launch {
+                tokenRepository.clearData()
+            }
             chain.makeTokenRefreshCall()
             throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
         }
@@ -43,17 +46,19 @@ class Intercept @Inject constructor(
     }
 
     private fun Interceptor.Chain.makeTokenRefreshCall() {
-        runBlocking(Dispatchers.IO) {
-            tokenRepository.getToken().let {
+        coroutineScope.launch {
+            tokenRepository.getData("access_token", "").let {
                 it.collect {
-                    token = it.data?.accessToken ?: ""
+                    token = it.data?: ""
                 }
             }
         }
         response = this.proceedWithToken(this.request())
 
-        if (response.code == 401) {
-            tokenRepository.deleteToken()
+        if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
+            coroutineScope.launch {
+                tokenRepository.clearData()
+            }
             response = login()
             throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
         }
@@ -66,9 +71,11 @@ class Intercept @Inject constructor(
         // request에 토큰을 붙여서 새로운 request 생성 -> 진행
         response = this.proceedWithToken(this.request())
 
-        return if (response.code == 401) {
+        return if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
             Log.d("TokenTest", "Here is Login")
-            tokenRepository.deleteToken()
+            coroutineScope.launch {
+                tokenRepository.clearData()
+            }
             Response.Builder()
                 .request(this.request())
                 .protocol(Protocol.HTTP_1_1)

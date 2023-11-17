@@ -14,12 +14,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kr.hs.dgsw.di.annotation.IoDispatcher
 import kr.hs.dgsw.mentomenv2.data.interceptor.Intercept
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
+import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,6 +33,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideInterceptor(
+        tokenRepository: DataStoreRepository,
+        @IoDispatcher coroutineDispatcher: CoroutineDispatcher
+    ): Intercept {
+        return Intercept(tokenRepository, CoroutineScope(coroutineDispatcher))
+    }
 
     @Singleton
     @Provides
