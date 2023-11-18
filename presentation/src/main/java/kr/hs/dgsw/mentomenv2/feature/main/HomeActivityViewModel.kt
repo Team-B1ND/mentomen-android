@@ -5,4 +5,8 @@ import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeActivityViewModel @Inject constructor() : BaseViewModel()
+class HomeActivityViewModel @Inject constructor(
+
+) : BaseViewModel() {
+    val isLogin = false
+}
