@@ -18,21 +18,7 @@
         android:name="kr.hs.dgsw.mentomenv2.feature.main.HomeFragment"
         android:label="HomeFragment" >
         <action
-            android:id="@+id/action_homeFragment2_to_postFragment"
-            app:destination="@id/postFragment" />
-        <action
-            android:id="@+id/action_homeFragment2_to_myFragment"
-            app:destination="@id/myFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/postFragment"
-        android:name="kr.hs.dgsw.mentomenv2.feature.post.PostFragment"
-        android:label="PostFragment" >
-        <action
-            android:id="@+id/action_postFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_postFragment_to_myFragment"
+            android:id="@+id/action_homeFragment_to_myFragment"
             app:destination="@id/myFragment" />
     </fragment>
     <fragment
@@ -41,7 +27,8 @@
         android:label="fragment_my"
         tools:layout="@layout/fragment_my" >
         <action
-            android:id="@+id/action_myFragment_to_homeFragment2"
+            android:id="@+id/action_myFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
 </navigation>

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
+import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import javax.inject.Inject
@@ -8,5 +9,5 @@ import javax.inject.Inject
 class HomeActivityViewModel @Inject constructor(
 
 ) : BaseViewModel() {
-    val isLogin = false
+    val isBottomBarInvisible = MutableLiveData<Boolean>(true)
 }

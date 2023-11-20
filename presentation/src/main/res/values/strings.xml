@@ -20,4 +20,7 @@
     <string name="write_text">글쓰기</string>
     <string name="help">멘토에게 부탁할 내용을 입력하세요.</string>
     <string name="post">멘토 요청하기</string>
+    <string name="example_name">도현욱</string>
+    <string name="welcome">님, 환영합니다!</string>
+    <string name="logout">로그아웃</string>
 </resources>
