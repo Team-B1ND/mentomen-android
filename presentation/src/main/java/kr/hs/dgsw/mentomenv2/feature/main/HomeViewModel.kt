@@ -14,7 +14,7 @@ import kr.hs.dgsw.mentomenv2.state.PostState
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeFragmentViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val postUseCases: PostUseCases,
 ) : BaseViewModel() {
     val postState = MutableStateFlow<PostState>(PostState())

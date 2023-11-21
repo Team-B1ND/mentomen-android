@@ -60,15 +60,6 @@ fun comment(view: TextView, comment: String) {
     view.text = "\"$comment\""
 }
 
-@BindingAdapter("image")
-fun loadImage(view: ImageView, imageUrl: String?) {
-    if (imageUrl.isNullOrBlank().not()) {
-        Glide.with(view.context)
-            .load(imageUrl)
-            .into(view)
-    }
-}
-
 @BindingAdapter("date")
 fun translateDate(view: TextView, dateTime: String) {
     val now = LocalDateTime.now()

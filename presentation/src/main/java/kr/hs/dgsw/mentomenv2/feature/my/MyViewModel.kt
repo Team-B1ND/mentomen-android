@@ -1,6 +1,8 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
 import androidx.lifecycle.MutableLiveData
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
@@ -17,8 +19,8 @@ class MyViewModel: BaseViewModel() {
         stdInfo.value = StdInfo(2,4,6)
         email.value = ""
         name.value = "도현욱"
-        profileImage.value = "https://flexible.img.hani.co.kr/flexible/normal/847/635/imgdb/original/2023/1027/20231027502376.jpg"
-        itemList.value = listOf(Post(123, "제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?", listOf("https://flexible.img.hani.co.kr/flexible/normal/847/635/imgdb/original/2023/1027/20231027502376.jpg"), "",123,"",
-            StdInfo(3,2,1), "", "4시간 전", "", "도현욱"))
+        profileImage.value = "https://dodam.kr.object.ncloudstorage.com/dodam/357d39e0-4c1c-4c31-81c8-f791c14566dfDODAM_FILE_280255852.jpg"
+        itemList.value = listOf(Post(1, "test입니다", listOf("https://flexible.img.hani.co.kr/flexible/normal/640/427/imgdb/original/2023/1106/20231106503357.jpg"), "2023-11-06T14:28:51.528245",123,"https://dodam.kr.object.ncloudstorage.com/dodam/357d39e0-4c1c-4c31-81c8-f791c14566dfDODAM_FILE_280255852.jpg",
+            StdInfo(2,4,6), "DESIGN", "2023-11-06T14:28:51.528245", "NOT_UPDATE", "도현욱"))
     }
 }

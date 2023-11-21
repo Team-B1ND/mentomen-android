@@ -23,4 +23,5 @@
     <string name="example_name">도현욱</string>
     <string name="welcome">님, 환영합니다!</string>
     <string name="logout">로그아웃</string>
+    <string name="comment">댓글을 입력해주세요.</string>
 </resources>

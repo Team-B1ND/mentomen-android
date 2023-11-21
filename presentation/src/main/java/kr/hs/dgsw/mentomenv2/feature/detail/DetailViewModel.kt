@@ -1,4 +1,5 @@
 package kr.hs.dgsw.mentomenv2.feature.detail
 
-class DetailViewModel {
-}
+import kr.hs.dgsw.mentomenv2.base.BaseViewModel
+
+class DetailViewModel: BaseViewModel()

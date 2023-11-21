@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Token
-import kr.hs.dgsw.mentomenv2.feature.main.HomeActivity
+import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getCode
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.settingDAuth
@@ -38,7 +38,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 )
                 if (!tokenState.accessToken.isNullOrBlank() && !tokenState.refreshToken.isNullOrBlank()) {
                     viewModel.setToken(Token(tokenState.accessToken, tokenState.refreshToken))
-                    val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
                     finish()
@@ -56,7 +56,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     Toast.makeText(this@SignInActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                     Log.d("autoLogin: ", "로그인 성공1")
                     viewModel.getTokenUseCode(it)
-                    val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 },
@@ -67,7 +67,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                         {
                             Log.d("autoLogin: ", "로그인 성공2")
                             viewModel.getTokenUseCode(it)
-                            val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+                            val intent = Intent(this@SignInActivity, MainActivity::class.java)
                             startActivity(intent)
                             finish()
                         },

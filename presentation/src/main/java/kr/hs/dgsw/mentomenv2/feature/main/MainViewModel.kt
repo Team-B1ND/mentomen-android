@@ -6,7 +6,7 @@ import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeActivityViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
 
 ) : BaseViewModel() {
     val isBottomBarInvisible = MutableLiveData<Boolean>(true)

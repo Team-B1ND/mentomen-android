@@ -4,7 +4,7 @@
     <data>
         <variable
             name="vm"
-            type="kr.hs.dgsw.mentomenv2.feature.main.HomeFragmentViewModel" />
+            type="kr.hs.dgsw.mentomenv2.feature.main.HomeViewModel" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

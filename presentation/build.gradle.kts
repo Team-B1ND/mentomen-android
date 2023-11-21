@@ -10,6 +10,9 @@ plugins {
 
     // dagger hilt
     id("com.google.dagger.hilt.android")
+
+    // navigation
+    id("androidx.navigation.safeargs.kotlin") version "2.5.2"
 }
 
 buildscript {

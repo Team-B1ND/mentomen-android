@@ -5,8 +5,6 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
@@ -16,8 +14,8 @@ import kr.hs.dgsw.mentomenv2.feature.my.MyFragment
 import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>() {
-    override val viewModel: HomeActivityViewModel by viewModels()
+class MainActivity : BaseActivity<ActivityHomeBinding, MainViewModel>() {
+    override val viewModel: MainViewModel by viewModels()
     private val dialogBinding: DialogLoginBinding by lazy {
         DialogLoginBinding.inflate(layoutInflater)
     }

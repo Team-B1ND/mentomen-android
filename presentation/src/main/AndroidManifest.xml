@@ -19,7 +19,7 @@
             android:name=".feature.post.PostActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.main.HomeActivity"
+            android:name=".feature.main.MainActivity"
             android:exported="false"></activity>
         <activity
             android:name=".feature.splash.IntroActivity"
