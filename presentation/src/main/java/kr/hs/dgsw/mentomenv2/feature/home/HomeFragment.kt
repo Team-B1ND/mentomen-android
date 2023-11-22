@@ -1,5 +1,6 @@
-package kr.hs.dgsw.mentomenv2.feature.main
+package kr.hs.dgsw.mentomenv2.feature.home
 
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,17 +11,16 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
+import kr.hs.dgsw.mentomenv2.feature.my.MyFragmentDirections
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
-    private lateinit var adapter: HomeAdapter
+    private val adapter = HomeAdapter{
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
+        Log.d("HomeFragemnt", "HomeFragment item clicked")
+    }
     override fun setupViews() {
-        adapter = HomeAdapter{
-            val navAction =
-                HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
-            findNavController().navigate(navAction)
-        }
         mBinding.rvHome.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvHome.adapter = adapter
 
@@ -30,7 +30,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             Toast.makeText(requireContext(), "알림", Toast.LENGTH_SHORT).show()
         }
         mBinding.ivSearch.setOnClickListener {
-            Toast.makeText(requireContext(), "검색", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
         mBinding.logo.setOnClickListener {
             viewModel.getAllPost()

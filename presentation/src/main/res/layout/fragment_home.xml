@@ -4,14 +4,15 @@
     <data>
         <variable
             name="vm"
-            type="kr.hs.dgsw.mentomenv2.feature.main.HomeViewModel" />
+            type="kr.hs.dgsw.mentomenv2.feature.home.HomeViewModel" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.main.HomeFragment">
+        tools:context=".feature.home.HomeFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

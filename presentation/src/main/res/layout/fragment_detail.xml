@@ -4,14 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="loginVm"
-            type="kr.hs.b1nd.intern.mentomen.viewmodel.LoginViewModel" />
-
         <variable
             name="vm"
-            type="kr.hs.b1nd.intern.mentomen.viewmodel.DetailViewModel" />
+            type="kr.hs.dgsw.mentomenv2.feature.detail.DetailViewModel" />
     </data>
 
     <FrameLayout
@@ -115,12 +110,12 @@
 
                                     <ImageView
                                         android:id="@+id/iv_profile"
-                                        image="@{vm.profileUrl}"
+                                        circleImage="@{vm.profileUrl}"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
                                         android:contentDescription="@string/todo"
                                         android:scaleType="centerCrop"
-                                        android:src="@drawable/aprofile" />
+                                        android:src="@drawable/ic_user" />
                                 </androidx.cardview.widget.CardView>
 
                                 <TextView
@@ -129,13 +124,13 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginTop="15dp"
-                                    android:fontFamily="@font/regular"
+                                    android:fontFamily="@font/variable"
                                     android:text="@{vm.userName}"
                                     android:textColor="@color/black"
                                     android:textSize="14sp"
                                     app:layout_constraintStart_toEndOf="@+id/cv_profile"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="조상영" />
+                                    tools:text="도현욱" />
 
                                 <TextView
                                     android:id="@+id/grade"
@@ -143,38 +138,38 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:fontFamily="@font/regular"
+                                    android:fontFamily="@font/variable"
                                     android:textColor="@color/gray"
                                     android:textSize="12sp"
                                     app:layout_constraintEnd_toStartOf="@id/room"
                                     app:layout_constraintStart_toEndOf="@id/cv_profile"
                                     app:layout_constraintTop_toBottomOf="@id/name"
-                                    tools:text="1학년" />
+                                    tools:text="2학년" />
 
                                 <TextView
                                     android:id="@+id/room"
                                     room="@{vm.stdInfo.room}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/regular"
+                                    android:fontFamily="@font/variable"
                                     android:textColor="@color/gray"
                                     android:textSize="12sp"
                                     app:layout_constraintEnd_toStartOf="@id/number"
                                     app:layout_constraintStart_toEndOf="@+id/grade"
                                     app:layout_constraintTop_toBottomOf="@+id/name"
-                                    tools:text="2반" />
+                                    tools:text="4반" />
 
                                 <TextView
                                     android:id="@+id/number"
                                     number="@{vm.stdInfo.number}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/regular"
+                                    android:fontFamily="@font/variable"
                                     android:textColor="@color/gray"
                                     android:textSize="12sp"
                                     app:layout_constraintStart_toEndOf="@+id/room"
                                     app:layout_constraintTop_toBottomOf="@+id/name"
-                                    tools:text="15번" />
+                                    tools:text="6번" />
 
                                 <TextView
                                     android:id="@+id/content"
@@ -182,14 +177,14 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="15dp"
                                     android:layout_marginVertical="10dp"
-                                    android:fontFamily="@font/regular"
+                                    android:fontFamily="@font/variable"
                                     android:text="@{vm.content}"
                                     android:textColor="@color/black"
                                     android:textSize="16sp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@id/cv_profile"
-                                    tools:text="ㅁㄴ이라ㅓㅁ닝라ㅓㅁ나ㅣㄹㅇ미낭러밍ㄴ러밈나얼미낭러미ㅏㄴㅇ럼니아ㅓㄹ미낭러미ㅏㄴㅇ러미낭러미ㅏㄴ어리만얾ㄴㅇ림ㄴ어ㅏㄹ마ㅣ" />
+                                    tools:text="test용 입니다." />
 
                                 <FrameLayout
                                     android:id="@+id/viewpager_frame"
@@ -224,13 +219,13 @@
 
                                 <TextView
                                     android:id="@+id/datetime"
-                                    currentDate="@{vm.createDateTime}"
+                                    date="@{vm.createDateTime}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="15dp"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginBottom="15dp"
-                                    android:fontFamily="@font/regular"
+                                    android:fontFamily="@font/variable"
                                     android:textColor="@color/gray"
                                     android:textSize="12sp"
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -294,12 +289,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        image="@{loginVm.profileImage}"
+                        image="@{vm.profileImage}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/todo"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/aprofile" />
+                        android:src="@drawable/ic_user" />
                 </androidx.cardview.widget.CardView>
 
                 <EditText

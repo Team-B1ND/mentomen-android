@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="item"
+            type="kr.hs.dgsw.mentomenv2.domain.model.Post" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
                     android:fontFamily="@font/variable"
-                    android:text="도현욱"
+                    android:text="@{item.userName}"
+                    tools:text="도현욱"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@id/iv_profile"
                     app:layout_constraintTop_toTopOf="@id/iv_profile" />
@@ -57,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
                     android:fontFamily="@font/variable"
-                    android:text="2학년4반6번"
+                    android:text='@{item.stdInfo.grade + "학년" + item.stdInfo.number + "반" + item.stdInfo.number + "번"}'
+                    tools:text="2학년4반6번"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@id/iv_profile"
@@ -72,7 +77,8 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/variable"
                     android:maxLines="3"
-                    android:text="제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?"
+                    android:text="@{item.content}"
+                    tools:text="제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +93,8 @@
                     android:layout_margin="7dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/variable"
-                    android:text="4시간 전"
+                    date="@{item.createDateTime}"
+                    tools:text="4시간 전"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@id/iv_major"

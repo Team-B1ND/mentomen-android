@@ -3,18 +3,20 @@ package kr.hs.dgsw.mentomenv2.feature.main
 import android.app.AlertDialog
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
-import kr.hs.dgsw.mentomenv2.databinding.ActivityHomeBinding
+import kr.hs.dgsw.mentomenv2.databinding.ActivityMainBinding
 import kr.hs.dgsw.mentomenv2.databinding.DialogLoginBinding
+import kr.hs.dgsw.mentomenv2.feature.home.HomeFragment
 import kr.hs.dgsw.mentomenv2.feature.my.MyFragment
 import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityHomeBinding, MainViewModel>() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override val viewModel: MainViewModel by viewModels()
     private val dialogBinding: DialogLoginBinding by lazy {
         DialogLoginBinding.inflate(layoutInflater)
@@ -23,7 +25,6 @@ class MainActivity : BaseActivity<ActivityHomeBinding, MainViewModel>() {
     private var mBackPressed: Long = 0
 
     override fun start() {
-        collectBottomBarVisible()
         mBinding.bottomNav.background = null
         mBinding.bottomNav.menu.getItem(1).isEnabled = false
         mBinding.bottomNav.setOnItemSelectedListener { item ->
@@ -56,19 +57,11 @@ class MainActivity : BaseActivity<ActivityHomeBinding, MainViewModel>() {
         }
     }
 
-    fun collectBottomBarVisible() {
-        viewModel.isBottomBarInvisible.observe(this) {
-            if (it) {
-                mBinding.bottomNav.visibility = android.view.View.VISIBLE
-                mBinding.bottomAppBar.visibility = android.view.View.VISIBLE
-                mBinding.btnAdd.show()
-            } else {
-                showLoginDialog()
-                mBinding.bottomNav.visibility = android.view.View.GONE
-                mBinding.bottomAppBar.visibility = android.view.View.GONE
-                mBinding.btnAdd.hide()
-            }
-        }
+    fun hasBottomBar(hasBottomBar: Boolean = true) {
+        Log.d("hasBottomBar: ", "hasBottomBar : $hasBottomBar")
+        mBinding.bottomNav.visibility = if (hasBottomBar) View.VISIBLE else View.GONE
+        mBinding.bottomAppBar.visibility = if (hasBottomBar) View.VISIBLE else View.GONE
+        mBinding.btnAdd.visibility = if (hasBottomBar) View.VISIBLE else View.GONE
     }
 
     fun showLoginDialog() {

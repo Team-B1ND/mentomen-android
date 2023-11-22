@@ -5,8 +5,8 @@ import android.os.Parcelable
 
 data class StdInfo(
     val grade: Int,
+    val room: Int,
     val number: Int,
-    val room: Int
 ) : Parcelable {
 
     // Parcelable 구현 코드

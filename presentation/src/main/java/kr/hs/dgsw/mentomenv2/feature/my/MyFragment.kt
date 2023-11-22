@@ -1,26 +1,29 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import kr.hs.dgsw.mentomenv2.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentMyBinding
-import kr.hs.dgsw.mentomenv2.feature.main.HomeFragmentDirections
+import kr.hs.dgsw.mentomenv2.feature.home.HomeFragmentDirections
+import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 
 class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
-    private lateinit var homeAdapter: HomeAdapter
     override val viewModel: MyViewModel by viewModels()
     private lateinit var adapter: HomeAdapter
     private fun initHomeAdapter() {
-        adapter = HomeAdapter{
-            val navAction =
-                HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
-            findNavController().navigate(navAction)
+        adapter = HomeAdapter {
+            findNavController().navigate(MyFragmentDirections.actionUserFragmentToDetailFragment(it))
         }
-        mBinding.rvMyPage.adapter = homeAdapter
+        mBinding.rvMyPage.layoutManager = LinearLayoutManager(requireContext())
+        mBinding.rvMyPage.adapter = adapter
+        mBinding.btnLogout.setOnClickListener {
+            val intent = Intent(requireContext(), IntroActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+        }
     }
 
     override fun setupViews() {
@@ -29,12 +32,6 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
     }
 
     private fun observeViewModel() = with(viewModel) {
-        itemList.observe(viewLifecycleOwner) { homeAdapter.submitList(it) }
-        profileImage.observe(viewLifecycleOwner) {
-            Glide.with(mBinding.profileImage.context)
-                .load(it)
-                .transform(CircleCrop())
-                .into(mBinding.profileImage)
-        }
+        itemList.observe(viewLifecycleOwner) { adapter.submitList(it) }
     }
 }

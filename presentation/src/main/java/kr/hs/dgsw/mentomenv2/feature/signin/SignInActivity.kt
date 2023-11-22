@@ -38,10 +38,10 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 )
                 if (!tokenState.accessToken.isNullOrBlank() && !tokenState.refreshToken.isNullOrBlank()) {
                     viewModel.setToken(Token(tokenState.accessToken, tokenState.refreshToken))
-                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    finish()
+//                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                    startActivity(intent)
+//                    finish()
                 }
             }
         }
@@ -53,7 +53,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
             getCode(
                 this@SignInActivity,
                 {
-                    Toast.makeText(this@SignInActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                     Log.d("autoLogin: ", "로그인 성공1")
                     viewModel.getTokenUseCode(it)
                     val intent = Intent(this@SignInActivity, MainActivity::class.java)

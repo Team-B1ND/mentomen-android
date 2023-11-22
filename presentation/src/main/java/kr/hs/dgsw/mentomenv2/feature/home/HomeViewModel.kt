@@ -1,4 +1,4 @@
-package kr.hs.dgsw.mentomenv2.feature.main
+package kr.hs.dgsw.mentomenv2.feature.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
+import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostUseCases
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.state.PostState
@@ -20,8 +21,8 @@ class HomeViewModel @Inject constructor(
     val postState = MutableStateFlow<PostState>(PostState())
     private val _errorFlow = MutableSharedFlow<String?>()
     val errorFlow = _errorFlow.asSharedFlow()
-
     private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    var allPosts: List<Post>? = null
 
     init {
         getAllPost()
@@ -31,17 +32,11 @@ class HomeViewModel @Inject constructor(
         postUseCases.getAllPostUseCase.invoke().safeApiCall(
             isLoading,
             successAction = {
-                if (postState.value.tag != "ALL") {
-                    postState.value = PostState(
-                        postList = it,
-                        tag = "ALL"
-                    )
-                } else {
-                    postState.value = PostState(
-                        postList = it,
-                        tag = "ALL"
-                    )
-                }
+                allPosts = it
+                postState.value = PostState(
+                    postList = it,
+                    tag = "ALL"
+                )
             },
             errorAction = {
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
@@ -61,7 +56,7 @@ class HomeViewModel @Inject constructor(
                     )
                 } else {
                     postState.value = PostState(
-                        postList = it,
+                        postList = allPosts,
                         tag = "ALL"
                     )
                 }
@@ -84,7 +79,7 @@ class HomeViewModel @Inject constructor(
                     )
                 } else {
                     postState.value = PostState(
-                        postList = it,
+                        postList = allPosts,
                         tag = "ALL"
                     )
                 }
@@ -107,7 +102,7 @@ class HomeViewModel @Inject constructor(
                     )
                 } else {
                     postState.value = PostState(
-                        postList = it,
+                        postList = allPosts,
                         tag = "ALL"
                     )
                 }
@@ -130,7 +125,7 @@ class HomeViewModel @Inject constructor(
                     )
                 } else {
                     postState.value = PostState(
-                        postList = it,
+                        postList = allPosts,
                         tag = "ALL"
                     )
                 }
@@ -153,7 +148,7 @@ class HomeViewModel @Inject constructor(
                     )
                 } else {
                     postState.value = PostState(
-                        postList = it,
+                        postList = allPosts,
                         tag = "ALL"
                     )
                 }

@@ -81,7 +81,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     }
 
     fun submitPost() {
-
+        Toast.makeText(this, "등록 성공.", Toast.LENGTH_SHORT).show()
     }
 
     private fun getImageGallery() {

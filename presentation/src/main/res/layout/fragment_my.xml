@@ -102,6 +102,7 @@
 
                                 <ImageView
                                     android:id="@+id/profile_image"
+                                    circleImage="@{vm.profileImage}"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:src="@drawable/ic_user"
