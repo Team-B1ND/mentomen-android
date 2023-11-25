@@ -1,6 +1,7 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
 import android.content.Intent
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,6 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
     }
 
     private fun observeViewModel() = with(viewModel) {
-        itemList.observe(viewLifecycleOwner) { adapter.submitList(it) }
+        post.observe(viewLifecycleOwner) { adapter.submitList(listOf(it)) }
     }
 }

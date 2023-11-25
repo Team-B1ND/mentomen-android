@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
@@ -20,13 +21,26 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override val viewModel: SingInViewModel by viewModels()
     var code: String? = null
     override fun start() {
+        viewModel.getToken()
         collectTokenState()
+        collectEvent()
         settingDAuth(
             Client.clientId,
             Client.clientSecret,
             Client.redirectUri
         )
         setUpDAuth()
+    }
+
+    private fun collectEvent() {
+        lifecycleScope.launch {
+            viewModel.event.collect { event ->
+                Log.d("collectEvent: in SignInActivity", "collect viewModels event")
+                val intent = Intent(this@SignInActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
     private fun collectTokenState() {
@@ -37,11 +51,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     "Token 수집 성공 " + "token : " + tokenState.accessToken + tokenState.refreshToken
                 )
                 if (!tokenState.accessToken.isNullOrBlank() && !tokenState.refreshToken.isNullOrBlank()) {
-                    viewModel.setToken(Token(tokenState.accessToken, tokenState.refreshToken))
-//                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                    startActivity(intent)
-//                    finish()
+                    viewModel.event.emit(Unit)
                 }
             }
         }
@@ -49,15 +59,11 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
 
     private fun setUpDAuth() {
         lifecycleScope.launch {
-            viewModel.getToken()
             getCode(
                 this@SignInActivity,
                 {
                     Log.d("autoLogin: ", "로그인 성공1")
                     viewModel.getTokenUseCode(it)
-                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
                 },
                 {
                     Log.d("autoLogin: ", "로그인 실패1")
@@ -66,9 +72,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                         {
                             Log.d("autoLogin: ", "로그인 성공2")
                             viewModel.getTokenUseCode(it)
-                            val intent = Intent(this@SignInActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
                         },
                         {
                             Log.d("autoLogin: ", "로그인 실패2 정상적인 방법으로 도달 불가능")

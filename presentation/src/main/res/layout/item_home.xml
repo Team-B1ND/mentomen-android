@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
                     android:fontFamily="@font/variable"
-                    android:text='@{item.stdInfo.grade + "학년" + item.stdInfo.number + "반" + item.stdInfo.number + "번"}'
+                    android:text='@{item.stdInfo.grade + "학년" + item.stdInfo.room + "반" + item.stdInfo.number + "번"}'
                     tools:text="2학년4반6번"
                     android:textColor="@color/gray"
                     android:textSize="12sp"

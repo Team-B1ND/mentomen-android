@@ -102,7 +102,7 @@
 
                                 <ImageView
                                     android:id="@+id/profile_image"
-                                    circleImage="@{vm.profileImage}"
+                                    circleImage="@{vm.post.profileUrl}"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:src="@drawable/ic_user"
@@ -159,7 +159,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
                                 android:fontFamily="@font/semibold"
-                                android:text="@{vm.name}"
+                                android:text="@{vm.post.userName}"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
                                 app:layout_constraintStart_toEndOf="@+id/profile_frame"

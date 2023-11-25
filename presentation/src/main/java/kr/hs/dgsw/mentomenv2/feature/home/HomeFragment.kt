@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
-import kr.hs.dgsw.mentomenv2.feature.my.MyFragmentDirections
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -35,7 +34,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         mBinding.logo.setOnClickListener {
             viewModel.getAllPost()
         }
-
         lifecycleScope.launch {
             viewModel.errorFlow.collect { text ->
                 Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()

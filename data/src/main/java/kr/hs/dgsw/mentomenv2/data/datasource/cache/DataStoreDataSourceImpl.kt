@@ -21,6 +21,7 @@ class DataStoreDataSourceImpl @Inject constructor(
         dataStore.edit { preferences ->
             preferences[preferencesKey] = value
         }
+        Log.d("DataStoreDataSourceImpl", "saveData: $key, value: $value 저장 성공")
     }
 
     override fun getToken(): Flow<Token> = flow {

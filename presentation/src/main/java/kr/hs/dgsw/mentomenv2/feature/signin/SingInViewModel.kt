@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
@@ -20,13 +21,25 @@ class SingInViewModel @Inject constructor(
 ) : BaseViewModel() {
     val tokenState = MutableStateFlow<Token>(Token("", ""))
     private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val event = MutableSharedFlow<Unit>()
     fun getToken() {
         dataStoreRepository.getToken().safeApiCall(
             isLoading = isLoading,
-            successAction = { tokenState.value = Token(it!!.accessToken, it!!.refreshToken)
-                Log.d("singInViewModel getToken: StartSuccess", "token: ${tokenState.value.accessToken} + ${ tokenState.value.refreshToken}")},
-            errorAction = { tokenState.value = Token("", "")
-                Log.d("singInViewModel getToken: StartError", "token: ${tokenState.value.accessToken} + ${ tokenState.value.refreshToken}") }
+            successAction = {
+                tokenState.value = Token(it?.accessToken?:"", it?.refreshToken?:"")
+                Log.d(
+                    "singInViewModel getToken: StartSuccess",
+                    "token: ${tokenState.value.accessToken} + ${tokenState.value.refreshToken}"
+                )
+            },
+            errorAction = {
+                tokenState.value = Token("", "")
+                Log.d(
+                    "singInViewModel getToken: StartError",
+                    "token: ${tokenState.value.accessToken} + ${tokenState.value.refreshToken}"
+                )
+            }
         ).launchIn(viewModelScope)
     }
 
@@ -38,26 +51,24 @@ class SingInViewModel @Inject constructor(
     }
 
     fun getTokenUseCode(code: String?) {
+        Log.d("getTokenUseCode: ", "getTokenUseCode: $code 호출됨")
         authRepository.signIn(code ?: "").safeApiCall(
             isLoading = isLoading,
             successAction = {
+                setToken(Token(it?.accessToken?:"", it?.refreshToken?:""))
                 tokenState.value = Token(it?.accessToken ?: "", it?.refreshToken ?: "")
-                Log.d("singInViewModel success", "access: ${it?.accessToken},refresh: ${it?.refreshToken}")
+                Log.d(
+                    "getTokenUseCode: success",
+                    "access: ${it?.accessToken},refresh: ${it?.refreshToken}"
+                )
+                viewModelScope.launch {
+                    Log.d("getTokenUseCode: ", "getTokenUseCode: event emit 호출됨")
+                    event.emit(Unit)
+                }
             },
             errorAction = {
-                Log.d("singInViewModel error", "error: $it")
+                Log.d("getTokenUseCode: error", "error: $it")
             }
         ).launchIn(viewModelScope)
-    }
-
-    init {
-        dataStoreRepository.getToken().safeApiCall(
-            successAction = {
-                tokenState.value = Token(it?.accessToken ?: "", it?.refreshToken ?: "")
-            },
-            errorAction = {
-                Log.d("singInViewModel error", "error: $it")
-            }
-        )
     }
 }
