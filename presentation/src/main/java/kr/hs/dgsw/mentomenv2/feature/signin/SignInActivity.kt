@@ -21,7 +21,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override val viewModel: SingInViewModel by viewModels()
     var code: String? = null
     override fun start() {
-        viewModel.getToken()
         collectTokenState()
         collectEvent()
         settingDAuth(

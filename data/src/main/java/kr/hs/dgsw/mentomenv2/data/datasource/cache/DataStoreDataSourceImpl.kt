@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -16,12 +17,11 @@ import javax.inject.Inject
 class DataStoreDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : DataStoreDataSource {
-    override suspend fun saveData(key: String, value: String) {
+    override fun saveData(key: String, value: String): Flow<Unit> = flow {
         val preferencesKey = stringPreferencesKey(key)
         dataStore.edit { preferences ->
             preferences[preferencesKey] = value
         }
-        Log.d("DataStoreDataSourceImpl", "saveData: $key, value: $value 저장 성공")
     }
 
     override fun getToken(): Flow<Token> = flow {
@@ -31,7 +31,11 @@ class DataStoreDataSourceImpl @Inject constructor(
         val refreshToken = dataStore.data.map { preferences ->
             preferences[stringPreferencesKey("refresh_token")] ?: ""
         }
-        Token(accessToken.first(), refreshToken.first())
+        Log.d(
+            "DataStoreDataSourceImpl",
+            "Token: ${accessToken.first()}, ${refreshToken.first()} 토큰 호출 성공"
+        )
+        emit(Token(accessToken.first(), refreshToken.first()))
     }
 
     override fun getData(key: String, defaultValue: String): Flow<String> = flow {
@@ -41,14 +45,14 @@ class DataStoreDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeData(key: String) {
+    override fun removeData(key: String): Flow<Unit> = flow {
         val preferencesKey = stringPreferencesKey(key)
         dataStore.edit { preferences ->
             preferences.remove(preferencesKey)
         }
     }
 
-    override suspend fun clearData() {
+    override fun clearData(): Flow<Unit> = flow {
         dataStore.edit { preferences ->
             preferences.clear()
         }

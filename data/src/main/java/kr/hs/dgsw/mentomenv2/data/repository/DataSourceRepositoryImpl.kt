@@ -11,7 +11,7 @@ import javax.inject.Inject
 class DataSourceRepositoryImpl @Inject constructor(
     private val remote: DataStoreDataSource
 ) : BaseRepositoryImpl(), DataStoreRepository {
-    override suspend fun saveData(key: String, value: String) {
+    override fun saveData(key: String, value: String): Flow<Result<Unit>> = execute {
         remote.saveData(key, value)
     }
 
@@ -23,11 +23,11 @@ class DataSourceRepositoryImpl @Inject constructor(
         remote.getToken()
     }
 
-    override suspend fun removeData(key: String) {
+    override fun removeData(key: String): Flow<Result<Unit>> = execute{
         remote.removeData(key)
     }
 
-    override suspend fun clearData() {
+    override fun clearData(): Flow<Result<Unit>> = execute {
         remote.clearData()
     }
 }

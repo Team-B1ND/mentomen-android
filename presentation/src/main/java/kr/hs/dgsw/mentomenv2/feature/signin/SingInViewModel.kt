@@ -27,10 +27,10 @@ class SingInViewModel @Inject constructor(
         dataStoreRepository.getToken().safeApiCall(
             isLoading = isLoading,
             successAction = {
-                tokenState.value = Token(it?.accessToken?:"", it?.refreshToken?:"")
+                tokenState.value = Token(it?.accessToken ?: "", it?.refreshToken ?: "")
                 Log.d(
                     "singInViewModel getToken: StartSuccess",
-                    "token: ${tokenState.value.accessToken} + ${tokenState.value.refreshToken}"
+                    "token: ${it?.accessToken ?: ""} + ${it?.refreshToken ?: ""}"
                 )
             },
             errorAction = {
@@ -44,10 +44,31 @@ class SingInViewModel @Inject constructor(
     }
 
     fun setToken(token: Token) {
-        viewModelScope.launch {
-            dataStoreRepository.saveData("access_token", token.accessToken)
-            dataStoreRepository.saveData("refresh_token", token.refreshToken)
-        }
+        Log.d("setToken: ", "호출 Token : " + token.accessToken + token.refreshToken)
+        dataStoreRepository.saveData("access_token", token.accessToken)
+            .safeApiCall(isLoading = isLoading, successAction = {
+                Log.d(
+                    "setToken: ",
+                    "token save succes ${token.accessToken} + ${token.refreshToken}"
+                )
+            }, errorAction = {
+                Log.d(
+                    "setToken: ",
+                    "token save failure ${token.accessToken} + ${token.refreshToken}"
+                )
+            }).launchIn(viewModelScope)
+        dataStoreRepository.saveData("refresh_token", token.refreshToken)
+            .safeApiCall(isLoading = isLoading, successAction = {
+                Log.d(
+                    "setToken: ",
+                    "token save succes ${token.refreshToken} + ${token.refreshToken}"
+                )
+            }, errorAction = {
+                Log.d(
+                    "setToken: ",
+                    "token save failure ${token.accessToken} + ${token.refreshToken}"
+                )
+            }).launchIn(viewModelScope)
     }
 
     fun getTokenUseCode(code: String?) {
@@ -55,13 +76,13 @@ class SingInViewModel @Inject constructor(
         authRepository.signIn(code ?: "").safeApiCall(
             isLoading = isLoading,
             successAction = {
-                setToken(Token(it?.accessToken?:"", it?.refreshToken?:""))
                 tokenState.value = Token(it?.accessToken ?: "", it?.refreshToken ?: "")
                 Log.d(
                     "getTokenUseCode: success",
                     "access: ${it?.accessToken},refresh: ${it?.refreshToken}"
                 )
                 viewModelScope.launch {
+                    setToken(Token(it?.accessToken ?: "", it?.refreshToken ?: ""))
                     Log.d("getTokenUseCode: ", "getTokenUseCode: event emit 호출됨")
                     event.emit(Unit)
                 }
@@ -70,5 +91,9 @@ class SingInViewModel @Inject constructor(
                 Log.d("getTokenUseCode: error", "error: $it")
             }
         ).launchIn(viewModelScope)
+    }
+
+    init {
+        getToken()
     }
 }
