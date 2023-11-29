@@ -231,7 +231,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/viewpager_frame"
-                                    tools:text="2022-10-26 오후 2:44" />
+                                    tools:text="23일 전" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 

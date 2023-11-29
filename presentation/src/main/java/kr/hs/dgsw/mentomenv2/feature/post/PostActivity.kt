@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -24,7 +23,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     private var imageAdapter: ImageAdapter? = null
     private val imageList = MutableLiveData<ArrayList<Uri?>>(arrayListOf())
 
-    @SuppressLint("NotifyDataSetChanged")
     private var launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -49,18 +47,29 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                     }
                 }
             }
-            imageAdapter?.notifyDataSetChanged()
+
+            imageAdapter?.submitList(imageList.value)
         }
 
-    @SuppressLint("Recycle")
     private fun absolutelyPath(path: Uri?, context: Context): String {
         val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        val c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
-        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        c?.moveToFirst()
-        val result = c?.getString(index!!)
-        return result!!
+        var cursor: Cursor? = null
+        var result: String? = null
+
+        try {
+            cursor = context.contentResolver.query(path!!, proj, null, null, null)
+            val index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor?.moveToFirst()
+            result = cursor?.getString(index!!)
+        } catch (e: Exception) {
+            // 예외 처리
+        } finally {
+            cursor?.close()
+        }
+
+        return result ?: ""
     }
+
 
     override fun start() {
         imageAdapter = ImageAdapter()

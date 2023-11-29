@@ -17,11 +17,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(){
     private val args: DetailFragmentArgs by navArgs()
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(false)
-        mBinding.name.text = args.item.userName
-        mBinding.content.text = args.item.content
-        mBinding.grade.text = args.item.stdInfo.grade.toString()
-        mBinding.room.text = args.item.stdInfo.room.toString()
-        mBinding.number.text = args.item.stdInfo.number.toString()
+        viewModel.userName.value = args.item.userName
+        viewModel.content.value = args.item.content
+        viewModel.createDateTime.value = args.item.createDateTime
+        viewModel.stdInfo.value = args.item.stdInfo
 
         if (args.item.profileUrl.isNotEmpty()) {
             Glide.with(requireContext())
