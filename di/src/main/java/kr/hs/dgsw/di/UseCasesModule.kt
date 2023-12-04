@@ -8,7 +8,6 @@ import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostsByTagUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostSubmitUseCase
-import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostUseCases
 import javax.inject.Singleton
 
 @Module

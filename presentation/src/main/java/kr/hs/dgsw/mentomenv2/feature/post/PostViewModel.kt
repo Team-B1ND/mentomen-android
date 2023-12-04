@@ -1,23 +1,18 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
-import kr.hs.dgsw.mentomenv2.domain.model.Post
-import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
-import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostUseCases
+import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostSubmitUseCase
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.model.response.UserResponse
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
 class PostViewModel @Inject constructor(
-    private val postUseCases: PostUseCases,
+    private val submitUseCase: PostSubmitUseCase,
     private val dataStoreRepository: DataStoreRepository
 ) : BaseViewModel() {
     val content = MutableLiveData<String>("")
@@ -57,7 +52,7 @@ class PostViewModel @Inject constructor(
     }
 
     fun submitPost(userInfo: UserResponse) {
-        postUseCases.submitUseCase(PostSubmitParam(content.value!!,imgUrl.value!!,tagState.value!!)).safeApiCall(
+        submitUseCase(PostSubmitParam(content.value!!,imgUrl.value!!,tagState.value!!)).safeApiCall(
             isPostLoading,
             successAction =  {},
             errorAction = {}
