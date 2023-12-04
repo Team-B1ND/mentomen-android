@@ -12,7 +12,7 @@ import kr.hs.dgsw.mentomenv2.data.remote.PostDataSource
 import kr.hs.dgsw.mentomenv2.data.remote.DataStoreDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.AuthRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.PostRepositoryImplImpl
-import kr.hs.dgsw.mentomenv2.data.repository.DataSourceRepositoryImpl
+import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
@@ -36,7 +36,7 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindsTokenRepository(
-        tokenRepositoryImpl: DataSourceRepositoryImpl
+        tokenRepositoryImpl: DataStoreRepositoryImpl
     ): DataStoreRepository
 
     @Binds
