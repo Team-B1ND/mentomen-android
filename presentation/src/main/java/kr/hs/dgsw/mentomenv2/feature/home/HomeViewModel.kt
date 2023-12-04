@@ -7,13 +7,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
+import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostsByTagUseCase
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.state.PostState
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val postUseCases: PostUseCases,
+    private val getAllPostUseCase: GetAllPostUseCase,
+    private val getPostsByTagUseCase: GetPostsByTagUseCase
 ) : BaseViewModel() {
     val postState = MutableStateFlow<PostState>(PostState())
     private val _errorFlow = MutableSharedFlow<String?>()
@@ -27,7 +30,7 @@ class HomeViewModel @Inject constructor(
 
     fun getAllPost() {
         if(postState.value.tag != "ALL") {
-            postUseCases.getAllPostUseCase.invoke().safeApiCall(
+            getAllPostUseCase.invoke().safeApiCall(
                 isLoading,
                 successAction = {
                     allPosts = it
@@ -44,7 +47,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickDesignBtn() {
-        postUseCases.getPostsByTagUseCases("DESIGN").safeApiCall(
+        getPostsByTagUseCase("DESIGN").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "DESIGN") {
@@ -66,7 +69,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickWebBtn() {
-        postUseCases.getPostsByTagUseCases("WEB").safeApiCall(
+        getPostsByTagUseCase("WEB").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "WEB") {
@@ -88,7 +91,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickAndroidBtn() {
-        postUseCases.getPostsByTagUseCases("ANDROID").safeApiCall(
+        getPostsByTagUseCase("ANDROID").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "ANDROID") {
@@ -110,7 +113,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickServerBtn() {
-        postUseCases.getPostsByTagUseCases("SERVER").safeApiCall(
+        getPostsByTagUseCase("SERVER").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "SERVER") {
@@ -132,7 +135,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickIOSBtn() {
-        postUseCases.getPostsByTagUseCases("IOS").safeApiCall(
+        getPostsByTagUseCase("IOS").safeApiCall(
             isLoading,
             successAction = {
                 if (postState.value.tag != "IOS") {
