@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
+import kr.hs.dgsw.mentomenv2.state.PostState
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -22,7 +23,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override fun setupViews() {
         mBinding.rvHome.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvHome.adapter = adapter
-
         collectPostStates()
 
         mBinding.ivNotification.setOnClickListener {

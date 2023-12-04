@@ -3,8 +3,10 @@ package kr.hs.dgsw.mentomenv2.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
@@ -48,5 +50,5 @@ open class BaseViewModel @Inject constructor() : ViewModel() {
                 }
             }
         }
-    }
+    }.launchIn(viewModelScope)
 }

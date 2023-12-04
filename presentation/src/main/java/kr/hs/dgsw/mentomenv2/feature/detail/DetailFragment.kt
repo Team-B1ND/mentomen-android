@@ -31,7 +31,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(){
                 .load(R.drawable.ic_default_user)
                 .into(mBinding.ivProfile)
         }
-        if (!args.item.imgUrls.isNullOrEmpty()) {
+        if (args.item.imgUrls.isNotEmpty()) {
             mBinding.viewpagerFrame.visibility = View.VISIBLE
             val imageAdapter = DetailImageAdapter(args.item.imgUrls) {}
             mBinding.viewpager.adapter = imageAdapter
@@ -51,5 +51,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(){
             Toast.makeText(requireContext(), "댓글 작성 완료", Toast.LENGTH_SHORT).show()
         }
         mBinding.datetime.text = args.item.createDateTime
+        TODO("nav arg로 받는 게 아니라 post Id를 받아와서 호출하는 방식으로 바꿔야함, 실시간성 때문에")
     }
 }

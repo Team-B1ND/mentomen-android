@@ -2,7 +2,9 @@ package kr.hs.dgsw.mentomenv2.data.service
 
 import kr.hs.dgsw.mentomenv2.data.response.base.BaseResponse
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface PostService {
@@ -13,4 +15,9 @@ interface PostService {
     suspend fun getPostByTag(
         @Path("tag") tag: String
     ): BaseResponse<List<Post>>
+
+    @POST("post/submit")
+    suspend fun submitPost(
+        postSubmitParam: PostSubmitParam
+    ): BaseResponse<Unit>
 }

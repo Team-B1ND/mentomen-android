@@ -40,7 +40,7 @@ class SingInViewModel @Inject constructor(
                     "token: ${tokenState.value.accessToken} + ${tokenState.value.refreshToken}"
                 )
             }
-        ).launchIn(viewModelScope)
+        )
     }
 
     fun setToken(token: Token) {
@@ -56,7 +56,7 @@ class SingInViewModel @Inject constructor(
                     "setToken: ",
                     "token save failure ${token.accessToken} + ${token.refreshToken}"
                 )
-            }).launchIn(viewModelScope)
+            })
         dataStoreRepository.saveData("refresh_token", token.refreshToken)
             .safeApiCall(isLoading = isLoading, successAction = {
                 Log.d(
@@ -68,7 +68,7 @@ class SingInViewModel @Inject constructor(
                     "setToken: ",
                     "token save failure ${token.accessToken} + ${token.refreshToken}"
                 )
-            }).launchIn(viewModelScope)
+            })
     }
 
     fun getTokenUseCode(code: String?) {
@@ -90,7 +90,7 @@ class SingInViewModel @Inject constructor(
             errorAction = {
                 Log.d("getTokenUseCode: error", "error: $it")
             }
-        ).launchIn(viewModelScope)
+        )
     }
 
     init {

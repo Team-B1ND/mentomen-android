@@ -212,7 +212,7 @@
             android:layout_height="50dp"
             android:background="@color/gray"
             android:fontFamily="@font/variable"
-            android:onClick="@{() -> vm.onClickConfirm()}"
+            android:onClick="@{() -> vm.onClickSubmit()}"
             android:text="@string/post"
             android:textColor="@color/white"
             android:textSize="14sp"

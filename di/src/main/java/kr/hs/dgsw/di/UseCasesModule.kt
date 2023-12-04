@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostsByTagUseCase
+import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostSubmitUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostUseCases
 import javax.inject.Singleton
 
@@ -18,6 +19,7 @@ class UseCasesModule {
     fun providePostCases(repository: PostRepository): PostUseCases =
         PostUseCases(
             getAllPostUseCase = GetAllPostUseCase(repository),
-            getPostsByTagUseCases = GetPostsByTagUseCase(repository)
+            getPostsByTagUseCases = GetPostsByTagUseCase(repository),
+            submitUseCase = PostSubmitUseCase(repository)
         )
 }

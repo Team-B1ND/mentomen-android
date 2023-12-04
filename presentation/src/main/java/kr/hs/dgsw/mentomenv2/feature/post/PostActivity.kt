@@ -5,23 +5,33 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
+import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getUserInfo
+import kr.hs.dgsw.smartschool.dodamdodam.dauth.model.response.UserResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
+@AndroidEntryPoint
 class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     override val viewModel: PostViewModel by viewModels()
 
     private var imageAdapter: ImageAdapter? = null
     private val imageList = MutableLiveData<ArrayList<Uri?>>(arrayListOf())
+
+    lateinit var userInfo: UserResponse
 
     private var launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -48,7 +58,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 }
             }
 
-            imageAdapter?.submitList(imageList.value)
+            imageAdapter?.notifyDataSetChanged()
         }
 
     private fun absolutelyPath(path: Uri?, context: Context): String {
@@ -72,6 +82,16 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
 
     override fun start() {
+        collectStates()
+        viewModel.getToken()
+        getUserInfo(viewModel.token.value!!,
+            onFailure = {
+                Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
+            },
+            onSuccess = {
+                userInfo = it
+            }
+        )
         imageAdapter = ImageAdapter()
         mBinding.rvImage.adapter = imageAdapter
         bindingViewEvent {
@@ -79,7 +99,8 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 PostViewModel.ON_CLICK_IMAGE -> {
                     getImageGallery()
                 }
-                PostViewModel.ON_CLICK_CONFIRM -> {
+
+                PostViewModel.ON_CLICK_SUBMIT -> {
                     submitPost()
                 }
             }
@@ -89,8 +110,33 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         }
     }
 
+    private fun collectStates() {
+        viewModel.content.observe(this) { content ->
+            if (content.isNotEmpty()) {
+                viewModel.tagState.observe(this) { tag ->
+                    Log.d("collectStates in PostActivity", "tag: $tag + content: $content")
+                    if (tag != "ALL") {
+                        mBinding.btnConfirm.setBackgroundColor(R.drawable.bg_btn_enable)
+                    } else {
+                        mBinding.btnConfirm.setBackgroundColor(R.drawable.bg_btn_disable)
+                    }
+                }
+            } else {
+                mBinding.btnConfirm.setBackgroundColor(R.drawable.bg_btn_disable)
+            }
+        }
+    }
+
     fun submitPost() {
-        Toast.makeText(this, "등록 성공.", Toast.LENGTH_SHORT).show()
+        if (viewModel.content.value.isNullOrBlank()) {
+            Toast.makeText(this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (viewModel.tagState.value == "ALL") {
+            Toast.makeText(this, "태그를 선택해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        viewModel.submitPost(userInfo)
     }
 
     private fun getImageGallery() {

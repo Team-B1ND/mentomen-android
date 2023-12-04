@@ -29,20 +29,21 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getAllPost() {
-        postUseCases.getAllPostUseCase.invoke().safeApiCall(
-            isLoading,
-            successAction = {
-                allPosts = it
-                postState.value = PostState(
-                    postList = it,
-                    tag = "ALL"
-                )
-            },
-            errorAction = {
-                _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-            }
-        )
-            .launchIn(viewModelScope)
+        if(postState.value.tag != "ALL") {
+            postUseCases.getAllPostUseCase.invoke().safeApiCall(
+                isLoading,
+                successAction = {
+                    allPosts = it
+                    postState.value = PostState(
+                        postList = it,
+                        tag = "ALL"
+                    )
+                },
+                errorAction = {
+                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
+                }
+            )
+        }
     }
 
     fun onClickDesignBtn() {
@@ -65,7 +66,6 @@ class HomeViewModel @Inject constructor(
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
             }
         )
-            .launchIn(viewModelScope)
     }
 
     fun onClickWebBtn() {
@@ -88,7 +88,6 @@ class HomeViewModel @Inject constructor(
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
             }
         )
-            .launchIn(viewModelScope)
     }
 
     fun onClickAndroidBtn() {
@@ -111,7 +110,6 @@ class HomeViewModel @Inject constructor(
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
             }
         )
-            .launchIn(viewModelScope)
     }
 
     fun onClickServerBtn() {
@@ -134,7 +132,6 @@ class HomeViewModel @Inject constructor(
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
             }
         )
-            .launchIn(viewModelScope)
     }
 
     fun onClickIOSBtn() {
@@ -157,6 +154,5 @@ class HomeViewModel @Inject constructor(
                 _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
             }
         )
-            .launchIn(viewModelScope)
     }
 }
