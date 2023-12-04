@@ -8,7 +8,7 @@ import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class DataSourceRepositoryImpl @Inject constructor(
+class DataStoreRepositoryImpl @Inject constructor(
     private val remote: DataStoreDataSource
 ) : BaseRepositoryImpl(), DataStoreRepository {
     override fun saveData(key: String, value: String): Flow<Result<Unit>> = execute {
