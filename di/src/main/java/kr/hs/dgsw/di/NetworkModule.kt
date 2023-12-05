@@ -21,6 +21,7 @@ import kotlinx.coroutines.SupervisorJob
 import kr.hs.dgsw.di.annotation.IoDispatcher
 import kr.hs.dgsw.mentomenv2.data.interceptor.Intercept
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
+import kr.hs.dgsw.mentomenv2.data.service.FileService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import okhttp3.OkHttpClient
@@ -102,4 +103,9 @@ object NetworkModule {
     @Provides
     fun providesUserRepository(retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideFileRepository(retrofit: Retrofit): FileService =
+        retrofit.create(FileService::class.java)
 }

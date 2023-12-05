@@ -4,23 +4,20 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
-import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
+import kr.hs.dgsw.mentomenv2.domain.usecase.file.PostFileUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostSubmitUseCase
-import kr.hs.dgsw.smartschool.dodamdodam.dauth.model.response.UserResponse
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val submitUseCase: PostSubmitUseCase,
-    private val dataStoreRepository: DataStoreRepository
+    private val postFileUseCase: PostFileUseCase
 ) : BaseViewModel() {
     val content = MutableLiveData<String>("")
     val tagState = MutableLiveData<String>("ALL")
     val imgFile = MutableLiveData<ArrayList<MultipartBody.Part?>>(arrayListOf())
     val imgUrl = MutableLiveData<List<String?>>(emptyList())
-    val token = MutableLiveData<String>("")
-    val isTokenLoading = MutableLiveData<Boolean>(false)
     val isPostLoading = MutableLiveData<Boolean>(false)
 
     fun onClickDesignBtn() {
@@ -51,22 +48,40 @@ class PostViewModel @Inject constructor(
         viewEvent(ON_CLICK_SUBMIT)
     }
 
-    fun submitPost(userInfo: UserResponse) {
-        submitUseCase(PostSubmitParam(content.value!!,imgUrl.value!!,tagState.value!!)).safeApiCall(
+    private fun loadImage() {
+        postFileUseCase.invoke(imgFile.value!!).safeApiCall(
             isPostLoading,
-            successAction =  {},
-            errorAction = {}
+            successAction = {
+                imgUrl.value = it
+            },
+            errorAction = {
+                imgUrl.value = emptyList()
+            }
         )
     }
 
-    fun getToken() {
-        dataStoreRepository.getToken().safeApiCall(
-            isTokenLoading,
-            successAction =  {
-                token.value = it?.accessToken
+    private fun applyError(message: String) {
+        SUBMIT_MESSAGE = message
+        viewEvent(SUBMIT_MESSAGE)
+    }
+
+    fun submitPost() {
+        if (!imgFile.value.isNullOrEmpty()) {
+            loadImage()
+        }
+        submitUseCase(
+            PostSubmitParam(
+                content.value!!,
+                imgUrl.value!!,
+                tagState.value!!
+            )
+        ).safeApiCall(
+            isPostLoading,
+            successAction = {
+                applyError("게시글 등록에 성공했습니다.")
             },
-            errorAction =  {
-                token.value = ""
+            errorAction = {
+                applyError(it.toString())
             }
         )
     }
@@ -74,5 +89,6 @@ class PostViewModel @Inject constructor(
     companion object {
         const val ON_CLICK_IMAGE = 0
         const val ON_CLICK_SUBMIT = 1
+        var SUBMIT_MESSAGE = ""
     }
 }

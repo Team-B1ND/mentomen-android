@@ -2,9 +2,6 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 
-    // ktLint
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
-
     // kapt
     kotlin("kapt")
 
