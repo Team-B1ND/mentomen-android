@@ -2,9 +2,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 
-    // ktLint
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
-
     // kapt
     kotlin("kapt")
 
@@ -70,6 +67,7 @@ dependencies {
 
     // gilde
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    kapt ("com.github.bumptech.glide:compiler:4.16.0")
 
     // dataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
