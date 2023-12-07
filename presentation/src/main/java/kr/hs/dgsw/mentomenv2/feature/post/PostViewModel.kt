@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
@@ -49,12 +50,15 @@ class PostViewModel @Inject constructor(
     }
 
     private fun loadImage() {
+        Log.d("loadImage: ", "imgFile : ${imgFile.value}")
         postFileUseCase.invoke(imgFile.value!!).safeApiCall(
             isPostLoading,
             successAction = {
+                Log.d("loadImage: success", "result : $it")
                 imgUrl.value = it
             },
             errorAction = {
+                Log.d("loadImage: fail", "result : $it")
                 imgUrl.value = emptyList()
             }
         )
@@ -67,8 +71,10 @@ class PostViewModel @Inject constructor(
 
     fun submitPost() {
         if (!imgFile.value.isNullOrEmpty()) {
+            Log.d("submitPost: ", "이미지가 비어있지 않음 imgFile : ${imgUrl.value}")
             loadImage()
         }
+        Log.d( "submitPost: ", "content : ${content.value} images : ${imgUrl.value} tag : ${tagState.value}")
         submitUseCase(
             PostSubmitParam(
                 content.value!!,

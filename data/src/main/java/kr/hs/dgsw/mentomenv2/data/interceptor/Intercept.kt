@@ -3,9 +3,15 @@ package kr.hs.dgsw.mentomenv2.data.interceptor
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
+import kr.hs.dgsw.mentomenv2.domain.util.Result
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Request
@@ -15,8 +21,7 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 class Intercept @Inject constructor(
-    private val tokenRepository: DataStoreRepository,
-    private val coroutineScope: CoroutineScope
+    private val tokenRepositoryImpl: DataStoreRepositoryImpl
 ) : Interceptor {
 
     private var token: String = ""
@@ -24,43 +29,50 @@ class Intercept @Inject constructor(
 
     @Synchronized
     override fun intercept(chain: Interceptor.Chain): Response {
-        coroutineScope.launch {
-            tokenRepository.getData("access_token", "").let {
+        Log.d("intercept: ", "token : $token")
+        runBlocking(Dispatchers.IO) {
+            tokenRepositoryImpl.getToken().let {
                 it.collect {
-                    token = it.data?: ""
+                    token = when (it) {
+                        is Result.Success -> it.data?.accessToken ?: ""
+                        is Result.Error -> "Error"
+                        is Result.Loading -> "Loading"
+                    }
                 }
             }
         }
-
         response = chain.proceedWithToken(chain.request())
-
-        if (response.code == 401) {
-            coroutineScope.launch {
-                tokenRepository.clearData()
-            }
+        if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
+            runBlocking { tokenRepositoryImpl.clearData() }
+            response.close()
+            Log.d("intercept:", "Here is 401 || 500  1")
             chain.makeTokenRefreshCall()
-            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
+//            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
         }
-
         return response
     }
 
     private fun Interceptor.Chain.makeTokenRefreshCall() {
-        coroutineScope.launch {
-            tokenRepository.getData("access_token", "").let {
+        Log.d("intercept:", "here is makeTokenRefreshCall")
+        runBlocking {
+            tokenRepositoryImpl.getToken().let {
                 it.collect {
-                    token = it.data?: ""
+                    token = when(it) {
+                        is Result.Success -> it.data?.refreshToken ?: ""
+                        is Result.Error -> "Error"
+                        is Result.Loading -> "Loading"
+                    }
                 }
             }
         }
         response = this.proceedWithToken(this.request())
 
         if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
-            coroutineScope.launch {
-                tokenRepository.clearData()
-            }
+            runBlocking { tokenRepositoryImpl.clearData() }
+            response.close()
             response = login()
-            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
+            Log.d("intercept:", "Here is 401 || 500  2")
+//            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
         }
     }
 
@@ -73,9 +85,7 @@ class Intercept @Inject constructor(
 
         return if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
             Log.d("TokenTest", "Here is Login")
-            coroutineScope.launch {
-                tokenRepository.clearData()
-            }
+            runBlocking { tokenRepositoryImpl.clearData() }
             Response.Builder()
                 .request(this.request())
                 .protocol(Protocol.HTTP_1_1)

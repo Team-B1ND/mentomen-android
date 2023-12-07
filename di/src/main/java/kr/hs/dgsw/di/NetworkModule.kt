@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kr.hs.dgsw.di.annotation.IoDispatcher
 import kr.hs.dgsw.mentomenv2.data.interceptor.Intercept
+import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.FileService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
@@ -38,10 +39,9 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideInterceptor(
-        tokenRepository: DataStoreRepository,
-        @IoDispatcher coroutineDispatcher: CoroutineDispatcher
+        tokenRepositoryImpl: DataStoreRepositoryImpl
     ): Intercept {
-        return Intercept(tokenRepository, CoroutineScope(coroutineDispatcher))
+        return Intercept(tokenRepositoryImpl)
     }
 
     @Singleton

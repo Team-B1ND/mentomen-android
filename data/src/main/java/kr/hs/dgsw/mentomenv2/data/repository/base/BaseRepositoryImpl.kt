@@ -14,12 +14,13 @@ import java.io.IOException
 abstract class BaseRepositoryImpl {
     protected fun <R> execute(action: suspend () -> Flow<R>): Flow<Result<R>> = flow {
         try {
+            Log.d("BaseReppsitory", "call Loading")
             emit(Result.Loading())
             action().onEach { data ->
-                Log.d("BaseReppsitory", "call action.onEach")
+                Log.d("BaseReppsitory", "call action.onEach Success")
                 emit(Result.Success(data))
             }.catch { e ->
-                Log.d("BaseReppsitory", "onError: ")
+                Log.d("BaseReppsitory", "onError: $e")
                 when (e) {
                     is retrofit2.HttpException -> {
                         if (e.code() == 401) emit(Result.Error(Utils.TOKEN_EXCEPTION))

@@ -19,8 +19,13 @@ import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okio.Buffer
+import okio.BufferedSource
 import java.io.File
+import java.io.IOException
+import java.nio.charset.Charset
 
 @AndroidEntryPoint
 class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
@@ -128,7 +133,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 viewModel.tagState.observe(this) { tag ->
                     Log.d(
                         "collectStates in PostActivity",
-                        "tag: $tag + content: $content image: ${imageList.value}"
+                        "tag: $tag + content: $content image: ${viewModel.imgUrl.value}"
                     )
                     if (tag != "ALL") {
                         mBinding.btnConfirm.setBackgroundResource(R.drawable.bg_btn_enable)
@@ -141,7 +146,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             }
         }
     }
-
     fun submitPost() {
         if (viewModel.content.value.isNullOrBlank()) {
             Toast.makeText(this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
