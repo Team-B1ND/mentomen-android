@@ -19,7 +19,7 @@ class HomeAdapter(private val itemClick: (Post) -> Unit) :
 
         if (!item.imgUrls.isNullOrEmpty()) {
             Glide.with(binding.ivPreview.context)
-                .load(item.imgUrls.first()).into(binding.ivPreview)
+                .load(item.imgUrls?.first()).into(binding.ivPreview)
         } else {
             binding.ivPreview.visibility = View.GONE
         }

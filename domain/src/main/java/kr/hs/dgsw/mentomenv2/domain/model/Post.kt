@@ -7,7 +7,7 @@ import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 data class Post(
     val author: Int,
     val content: String,
-    val imgUrls: List<String?> = emptyList(),
+    val imgUrls: List<String?>? = emptyList(),
     val createDateTime: String,
     val postId: Int,
     val profileUrl: String,

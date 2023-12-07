@@ -12,7 +12,7 @@ import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentDetailBinding
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 
-class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(){
+class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
     override val viewModel: DetailViewModel by viewModels()
     private val args: DetailFragmentArgs by navArgs()
     override fun setupViews() {
@@ -31,9 +31,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(){
                 .load(R.drawable.ic_default_user)
                 .into(mBinding.ivProfile)
         }
-        if (args.item.imgUrls.isNotEmpty()) {
+        if (!args.item.imgUrls.isNullOrEmpty()) {
             mBinding.viewpagerFrame.visibility = View.VISIBLE
-            val imageAdapter = DetailImageAdapter(args.item.imgUrls) {}
+            val imageAdapter = DetailImageAdapter(args.item.imgUrls ?: emptyList()) {}
             mBinding.viewpager.adapter = imageAdapter
             mBinding.wormDotsIndicator.attachTo(mBinding.viewpager)
 

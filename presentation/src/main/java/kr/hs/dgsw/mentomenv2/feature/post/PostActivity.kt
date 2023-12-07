@@ -73,6 +73,17 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             }
         }
 
+    override fun start() {
+        collectStates()
+        observerViewModel()
+        imageAdapter = ImageAdapter()
+        mBinding.rvImage.adapter = imageAdapter
+        mBinding.rvImage.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        mBinding.backButton.setOnClickListener {
+            finish()
+        }
+    }
 
     private fun absolutelyPath(path: Uri?, context: Context): String {
         val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
@@ -93,18 +104,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         return result ?: ""
     }
 
-
-    override fun start() {
-        collectStates()
-        observerViewModel()
-        imageAdapter = ImageAdapter()
-        mBinding.rvImage.adapter = imageAdapter
-        mBinding.rvImage.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        mBinding.backButton.setOnClickListener {
-            finish()
-        }
-    }
 
     private fun observerViewModel() {
         bindingViewEvent {
@@ -146,6 +145,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             }
         }
     }
+
     fun submitPost() {
         if (viewModel.content.value.isNullOrBlank()) {
             Toast.makeText(this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
