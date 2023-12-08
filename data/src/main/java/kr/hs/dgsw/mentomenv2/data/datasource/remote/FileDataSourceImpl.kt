@@ -10,7 +10,7 @@ import javax.inject.Inject
 class FileDataSourceImpl @Inject constructor(
     private val api: FileService
 ) : FileDataSource {
-    override fun postFile(files: List<MultipartBody.Part?>): Flow<List<String?>> {
+    override fun postFile(files: List<MultipartBody.Part>): Flow<List<String>> {
         return flow {
             emit(api.loadImage(files).data)
         }

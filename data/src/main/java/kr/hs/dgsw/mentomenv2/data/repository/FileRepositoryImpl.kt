@@ -11,7 +11,7 @@ import javax.inject.Inject
 class FileRepositoryImpl @Inject constructor(
     private val fileDataSource: FileDataSource
 ) : BaseRepositoryImpl(), FileRepository {
-    override fun uploadFile(files: List<MultipartBody.Part?>): Flow<Result<List<String?>>> {
+    override fun uploadFile(files: List<MultipartBody.Part>): Flow<Result<List<String>>> {
         return execute {
             fileDataSource.postFile(files)
         }

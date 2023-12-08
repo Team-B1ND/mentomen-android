@@ -9,6 +9,6 @@ import javax.inject.Inject
 class PostFileUseCase @Inject constructor(
     private val fileRepository: FileRepository
 ){
-    operator fun invoke(imageFiles: List<MultipartBody.Part?>): Flow<Result<List<String?>>> =
+    operator fun invoke(imageFiles: List<MultipartBody.Part>): Flow<Result<List<String>>> =
         fileRepository.uploadFile(imageFiles)
 }

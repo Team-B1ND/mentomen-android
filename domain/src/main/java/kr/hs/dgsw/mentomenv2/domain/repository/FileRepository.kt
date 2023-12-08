@@ -5,5 +5,5 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 import okhttp3.MultipartBody
 
 interface FileRepository {
-    fun uploadFile(files: List<MultipartBody.Part?>): Flow<Result<List<String?>>>
+    fun uploadFile(files: List<MultipartBody.Part>): Flow<Result<List<String>>>
 }

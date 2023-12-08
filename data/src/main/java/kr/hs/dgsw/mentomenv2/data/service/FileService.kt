@@ -11,6 +11,6 @@ interface FileService {
     @Multipart
     @POST("file/upload")
     fun loadImage(
-        @Part imageFile: List<MultipartBody.Part?>
-    ): BaseResponse<List<String?>>
+        @Part imageFile: List<MultipartBody.Part>
+    ): BaseResponse<List<String>>
 }

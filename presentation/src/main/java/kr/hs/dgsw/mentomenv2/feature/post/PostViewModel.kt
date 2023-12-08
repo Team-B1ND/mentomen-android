@@ -17,7 +17,7 @@ class PostViewModel @Inject constructor(
 ) : BaseViewModel() {
     val content = MutableLiveData<String>("")
     val tagState = MutableLiveData<String>("ALL")
-    val imgFile = MutableLiveData<ArrayList<MultipartBody.Part?>>(arrayListOf())
+    val imgFile = MutableLiveData<ArrayList<MultipartBody.Part>>(arrayListOf())
     val imgUrl = MutableLiveData<List<String?>>(emptyList())
     val isPostLoading = MutableLiveData<Boolean>(false)
 
@@ -71,25 +71,25 @@ class PostViewModel @Inject constructor(
 
     fun submitPost() {
         if (!imgFile.value.isNullOrEmpty()) {
-            Log.d("submitPost: ", "이미지가 비어있지 않음 imgFile : ${imgUrl.value}")
+            Log.d("submitPost: ", "이미지가 비어있지 않음 imgFile : ${imgFile.value}")
             loadImage()
         }
         Log.d( "submitPost: ", "content : ${content.value} images : ${imgUrl.value} tag : ${tagState.value}")
-        submitUseCase(
-            PostSubmitParam(
-                content.value!!,
-                imgUrl.value!!,
-                tagState.value!!
-            )
-        ).safeApiCall(
-            isPostLoading,
-            successAction = {
-                applyError("게시글 등록에 성공했습니다.")
-            },
-            errorAction = {
-                applyError(it.toString())
-            }
-        )
+//        submitUseCase(
+//            PostSubmitParam(
+//                content.value!!,
+//                imgUrl.value!!,
+//                tagState.value!!
+//            )
+//        ).safeApiCall(
+//            isPostLoading,
+//            successAction = {
+//                applyError("게시글 등록에 성공했습니다.")
+//            },
+//            errorAction = {
+//                applyError(it.toString())
+//            }
+//        )
     }
 
     companion object {
