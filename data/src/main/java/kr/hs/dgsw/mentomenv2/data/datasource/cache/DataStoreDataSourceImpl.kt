@@ -52,7 +52,9 @@ class DataStoreDataSourceImpl @Inject constructor(
         }
     }
 
+
     override fun clearData(): Flow<Unit> = flow {
+        Log.d("clearData: ", "호출 성공")
         dataStore.edit { preferences ->
             preferences.clear()
         }

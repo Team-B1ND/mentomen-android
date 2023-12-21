@@ -1,11 +1,18 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
+import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
+import javax.inject.Inject
 
-class MyViewModel : BaseViewModel() {
+@HiltViewModel
+class MyViewModel @Inject constructor(
+    private val dataStoreRepository: DataStoreRepository,
+) : BaseViewModel() {
     val stdInfo = StdInfo(grade = 2, room = 4, number = 6)
     val post = MutableLiveData<Post>(
         Post(
@@ -22,4 +29,15 @@ class MyViewModel : BaseViewModel() {
             userName = "도현욱"
         )
     )
+    fun logout() {
+        dataStoreRepository.clearData().safeApiCall(
+            null,
+            successAction = {
+                Log.d("logout: ", "dataStore 비우기 성공")
+            },
+            errorAction = {
+                Log.d( "logout: ", error.value.toString())
+            }
+        )
+    }
 }
