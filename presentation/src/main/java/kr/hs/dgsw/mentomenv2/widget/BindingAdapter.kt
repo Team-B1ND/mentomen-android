@@ -8,10 +8,13 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.util.getYearTimeDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
+import java.util.Calendar
+import java.util.TimeZone
 
 @BindingAdapter("designButtonState")
 fun setDesignButtonState(view: Button, tagState: String) {
@@ -83,31 +86,31 @@ fun comment(view: TextView, comment: String) {
 }
 
 @BindingAdapter("date")
-fun translateDate(view: TextView, dateTime: String?) {
-    if (dateTime != null) {
-        val now = LocalDateTime.now()
-        val time = dateTime.split(".")[0]
-        val convertTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val compareSecondTime = ChronoUnit.SECONDS.between(convertTime, now)
-        val compareMinuteTime = ChronoUnit.MINUTES.between(convertTime, now)
-        val compareHourTime = ChronoUnit.HOURS.between(convertTime, now)
-        val compareDayTime = ChronoUnit.DAYS.between(convertTime, now)
-        val compareMonthTime = ChronoUnit.MONTHS.between(convertTime, now)
-        when {
-            compareSecondTime < 60 -> view.text = "${compareSecondTime}초전"
-            compareMinuteTime < 60 -> view.text = "${compareMinuteTime}분전"
-            compareHourTime < 24 -> view.text = "${compareHourTime}시간전"
-            compareDayTime < when (now.monthValue) {
-                1, 3, 5, 7, 8, 10, 12 -> 31
-                2 -> 28
-                else -> 30
-            } -> view.text = "${compareDayTime}일전"
+fun translateDate(tvTime: TextView, dateTime: String) {
+    val currentTime = Calendar.getInstance()
+    currentTime.add(Calendar.HOUR_OF_DAY, -9) // 한국이 UTC+9 라서
+    val postDate = dateTime.getYearTimeDate()
+    val calendar = Calendar.getInstance()
+    calendar.time = postDate
 
-            else -> view.text = "${compareMonthTime}달전"
-        }
-    } else {
-        // dateTime이 null일 경우 처리 (예: 기본 텍스트 설정)
-        view.text = "날짜 없음"
+    val difference = currentTime.timeInMillis - calendar.timeInMillis
+    val seconds = difference / 1000
+    val minutes = seconds / 60
+    val hours = minutes / 60
+    val days = hours / 24
+    val weeks = days / 7
+    val months = weeks / 4
+    val years = months / 12
+
+    when {
+        years > 0 -> tvTime.text = "${years.toInt()}년 전"
+        months > 0 -> tvTime.text = "${months.toInt()}달 전"
+        weeks > 0 -> tvTime.text = "${weeks.toInt()}주 전"
+        days > 0 -> tvTime.text = "${days.toInt()}일 전"
+        hours > 0 -> tvTime.text = "${hours.toInt()}시간 전"
+        minutes > 0 -> tvTime.text = "${minutes.toInt()}분 전"
+        seconds > 0 -> tvTime.text = "${seconds.toInt()}초 전"
+        else -> tvTime.text = "방금 전"
     }
 }
 

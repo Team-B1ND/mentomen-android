@@ -34,7 +34,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
             viewModel.tokenState.collect { token ->
                 if (token.refreshToken != "") {
                     getRefreshToken(token.refreshToken,
-                        getString(R.string.client_id),
+                        Client.clientId,
                         onSuccess = {
                             Log.d("start: getRefreshToken Success", it.expiresIn + "token type : " + it.tokenType)
                             viewModel.setAccessToken(it.accessToken)
