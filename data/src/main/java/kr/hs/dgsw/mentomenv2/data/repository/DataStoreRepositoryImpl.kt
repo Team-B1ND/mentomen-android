@@ -9,25 +9,25 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
 class DataStoreRepositoryImpl @Inject constructor(
-    private val remote: DataStoreDataSource
+    private val dataStoreDataSource: DataStoreDataSource
 ) : BaseRepositoryImpl(), DataStoreRepository {
     override fun saveData(key: String, value: String): Flow<Result<Unit>> = execute {
-        remote.saveData(key, value)
+        dataStoreDataSource.saveData(key, value)
     }
 
     override fun getData(key: String, defaultValue: String): Flow<Result<String>> = execute {
-        remote.getData(key, defaultValue)
+        dataStoreDataSource.getData(key, defaultValue)
     }
 
     override fun getToken(): Flow<Result<Token>> = execute {
-        remote.getToken()
+        dataStoreDataSource.getToken()
     }
 
     override fun removeData(key: String): Flow<Result<Unit>> = execute{
-        remote.removeData(key)
+        dataStoreDataSource.removeData(key)
     }
 
     override fun clearData(): Flow<Result<Unit>> = execute {
-        remote.clearData()
+        dataStoreDataSource.clearData()
     }
 }

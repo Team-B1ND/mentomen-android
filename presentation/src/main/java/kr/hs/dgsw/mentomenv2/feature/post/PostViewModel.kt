@@ -1,16 +1,8 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
-import android.Manifest
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.gun0912.tedpermission.coroutine.TedPermission
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.ImgUrl
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
@@ -60,7 +52,7 @@ class PostViewModel @Inject constructor(
 
     private fun loadImage() {
         Log.d("loadImage: ", "imgFile : ${imgFile.value}")
-        postFileUseCase.invoke(imgFile.value!!).safeApiCall(
+        postFileUseCase(imgFile.value!!).safeApiCall(
             isPostLoading,
             successAction = {
                 Log.d("loadImage: success", "result : $it")
@@ -80,36 +72,27 @@ class PostViewModel @Inject constructor(
 
     fun submitPost() {
         if (!imgFile.value.isNullOrEmpty()) {
-            imgFile.value?.forEach { part ->
-                // MultipartBody.Part의 내용 출력
-                Log.d(
-                    "MultipartBody.Part",
-                    "Content-Disposition: ${part.headers!!["Content-Disposition"]}"
-                )
-                Log.d("MultipartBody.Part", "Content-Type: ${part.headers!!["Content-Type"]}")
-                Log.d("MultipartBody.Part", "Body: ${part.body}")
-            }
             loadImage()
         }
         Log.d(
             "submitPost: ",
             "content : ${content.value} images : ${imgUrl.value} tag : ${tagState.value}"
         )
-//        submitUseCase(
-//            PostSubmitParam(
-//                content.value!!,
-//                imgUrl.value!!,
-//                tagState.value!!
-//            )
-//        ).safeApiCall(
-//            isPostLoading,
-//            successAction = {
-//                applyError("게시글 등록에 성공했습니다.")
-//            },
-//            errorAction = {
-//                applyError(it.toString())
-//            }
-//        )
+        submitUseCase(
+            PostSubmitParam(
+                content.value!!,
+                imgUrl.value!!,
+                tagState.value!!
+            )
+        ).safeApiCall(
+            isPostLoading,
+            successAction = {
+                applyError("게시글 등록에 성공했습니다.")
+            },
+            errorAction = {
+                applyError(it.toString())
+            }
+        )
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.widget
 
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kr.hs.dgsw.mentomenv2.R
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 
 @BindingAdapter("designButtonState")
