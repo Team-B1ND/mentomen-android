@@ -188,22 +188,26 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
     private fun getImageGallery() {
         lifecycleScope.launch {
-//            checkImagePermission()
-//            val permissionResult = withContext(Dispatchers.IO) {
-//                TedPermission.create()
-//                    .setPermissions(
-//                        permissionName
-//                    )
-//                    .check()
-//            }
-            val chooserIntent = Intent(Intent.ACTION_CHOOSER)
-            val intent = Intent(Intent.ACTION_PICK)
+            checkImagePermission()
+            val permissionResult = withContext(Dispatchers.IO) {
+                TedPermission.create()
+                    .setPermissions(
+                        permissionName
+                    )
+                    .check()
+            }
+            if (permissionResult.isGranted) {
+                val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+                val intent = Intent(Intent.ACTION_PICK)
 
-            intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            chooserIntent.putExtra(Intent.EXTRA_INTENT, intent)
-            chooserIntent.putExtra(Intent.EXTRA_TITLE, "사용할 앱을 선택해주세요.")
-            launcher.launch(chooserIntent)
+                intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                chooserIntent.putExtra(Intent.EXTRA_INTENT, intent)
+                chooserIntent.putExtra(Intent.EXTRA_TITLE, "사용할 앱을 선택해주세요.")
+                launcher.launch(chooserIntent)
+            } else {
+                Toast.makeText(applicationContext,"사진 접근 권한이 없습니다. 설정에서 사진 접근 권한을 켜주세요", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
