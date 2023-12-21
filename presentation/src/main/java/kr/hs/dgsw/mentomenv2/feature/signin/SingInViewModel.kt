@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Token
@@ -43,30 +42,34 @@ class SingInViewModel @Inject constructor(
         )
     }
 
-    fun setToken(token: Token) {
-        Log.d("setToken: ", "호출 Token : " + token.accessToken + token.refreshToken)
-        dataStoreRepository.saveData("access_token", token.accessToken)
+    fun setAccessToken(accessToken: String) {
+        Log.d("setToken: ", "호출 Token : $accessToken")
+        dataStoreRepository.saveData("access_token", accessToken)
             .safeApiCall(isLoading = isLoading, successAction = {
                 Log.d(
                     "setToken: ",
-                    "token save succes ${token.accessToken} + ${token.refreshToken}"
+                    "token save succes $accessToken"
                 )
             }, errorAction = {
                 Log.d(
                     "setToken: ",
-                    "token save failure ${token.accessToken} + ${token.refreshToken}"
+                    "token save failure $accessToken"
                 )
             })
-        dataStoreRepository.saveData("refresh_token", token.refreshToken)
+
+    }
+
+    fun setRefreshToken(refreshToken: String) {
+        dataStoreRepository.saveData("refresh_token", refreshToken)
             .safeApiCall(isLoading = isLoading, successAction = {
                 Log.d(
                     "setToken: ",
-                    "token save succes ${token.refreshToken} + ${token.refreshToken}"
+                    "refreshToken save success ${refreshToken}"
                 )
             }, errorAction = {
                 Log.d(
                     "setToken: ",
-                    "token save failure ${token.accessToken} + ${token.refreshToken}"
+                    "refreshToken save failure ${refreshToken}}"
                 )
             })
     }
@@ -82,7 +85,8 @@ class SingInViewModel @Inject constructor(
                     "access: ${it?.accessToken},refresh: ${it?.refreshToken}"
                 )
                 viewModelScope.launch {
-                    setToken(Token(it?.accessToken ?: "", it?.refreshToken ?: ""))
+                    setAccessToken(it?.accessToken ?: "")
+                    setRefreshToken(it?.refreshToken ?: "")
                     Log.d("getTokenUseCode: ", "getTokenUseCode: event emit 호출됨")
                     event.emit(Unit)
                 }

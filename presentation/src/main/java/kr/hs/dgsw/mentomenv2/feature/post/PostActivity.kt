@@ -1,31 +1,35 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gun0912.tedpermission.coroutine.BuildConfig
+import com.gun0912.tedpermission.coroutine.TedPermission
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okio.Buffer
-import okio.BufferedSource
 import java.io.File
-import java.io.IOException
-import java.nio.charset.Charset
 
 @AndroidEntryPoint
 class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
@@ -33,7 +37,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
     private var imageAdapter: ImageAdapter? = null
     private val imageList = MutableLiveData<ArrayList<Uri?>>(arrayListOf())
-
+    private var permissionName = ""
     private var launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -158,14 +162,48 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         viewModel.submitPost()
     }
 
-    private fun getImageGallery() {
-        val chooserIntent = Intent(Intent.ACTION_CHOOSER)
-        val intent = Intent(Intent.ACTION_PICK)
+    private fun checkImagePermission() {
+        Log.d("checkImagePermission: ", "함수 진입")
+        when (VERSION.SDK_INT) {
+//            VERSION_CODES.UPSIDE_DOWN_CAKE -> {
+//                Log.d("checkImagePermission: ", Manifest.permission.READ_MEDIA_IMAGES)
+//                permissionName = Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+//            }
+            VERSION_CODES.UPSIDE_DOWN_CAKE -> {
+                Log.d("checkImagePermission: ", Manifest.permission.READ_MEDIA_IMAGES)
+                permissionName = Manifest.permission.READ_MEDIA_IMAGES
+            }
 
-        intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        chooserIntent.putExtra(Intent.EXTRA_INTENT, intent)
-        chooserIntent.putExtra(Intent.EXTRA_TITLE, "사용할 앱을 선택해주세요.")
-        launcher.launch(chooserIntent)
+            VERSION_CODES.TIRAMISU -> {
+                Log.d("checkImagePermission: ", Manifest.permission.READ_MEDIA_IMAGES)
+                permissionName = Manifest.permission.READ_MEDIA_IMAGES
+            }
+
+            else -> {
+                Log.d("checkImagePermission: ", Manifest.permission.READ_EXTERNAL_STORAGE)
+                permissionName = Manifest.permission.READ_EXTERNAL_STORAGE
+            }
+        }
+    }
+
+    private fun getImageGallery() {
+        lifecycleScope.launch {
+//            checkImagePermission()
+//            val permissionResult = withContext(Dispatchers.IO) {
+//                TedPermission.create()
+//                    .setPermissions(
+//                        permissionName
+//                    )
+//                    .check()
+//            }
+            val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+            val intent = Intent(Intent.ACTION_PICK)
+
+            intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            chooserIntent.putExtra(Intent.EXTRA_INTENT, intent)
+            chooserIntent.putExtra(Intent.EXTRA_TITLE, "사용할 앱을 선택해주세요.")
+            launcher.launch(chooserIntent)
+        }
     }
 }

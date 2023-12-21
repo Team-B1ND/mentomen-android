@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.data.service
 
+import kr.hs.dgsw.mentomenv2.data.response.ImgUrlResponseDto
 import kr.hs.dgsw.mentomenv2.data.response.base.BaseResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -10,7 +11,7 @@ import retrofit2.http.Part
 interface FileService {
     @Multipart
     @POST("file/upload")
-    fun loadImage(
+    fun postFile(
         @Part imageFile: List<MultipartBody.Part>
-    ): BaseResponse<List<String>>
+    ): Call<BaseResponse<List<ImgUrlResponseDto>>>
 }

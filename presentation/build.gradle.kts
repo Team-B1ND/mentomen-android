@@ -14,18 +14,18 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.44")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.49")
     }
 }
 
 android {
     namespace = "kr.hs.dgsw.mentomenv2"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "kr.hs.dgsw.mentomenv2"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -55,6 +55,9 @@ android {
 }
 
 dependencies {
+    //tedPermission
+    implementation("io.github.ParkSangGwon:tedpermission-coroutine:3.3.0")
+
     // material
     implementation("com.google.android.material:material:1.7.0")
 
@@ -67,7 +70,7 @@ dependencies {
 
     // gilde
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt ("com.github.bumptech.glide:compiler:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     // dataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -105,8 +108,8 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     // viewpager2
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
-    implementation ("com.tbuonomo:dotsindicator:4.3")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
 
 kapt {

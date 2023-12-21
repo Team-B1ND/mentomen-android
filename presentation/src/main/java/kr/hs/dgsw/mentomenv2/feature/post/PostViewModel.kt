@@ -1,9 +1,18 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
+import android.Manifest
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.gun0912.tedpermission.coroutine.TedPermission
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
+import kr.hs.dgsw.mentomenv2.domain.model.ImgUrl
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
 import kr.hs.dgsw.mentomenv2.domain.usecase.file.PostFileUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.PostSubmitUseCase
@@ -18,7 +27,7 @@ class PostViewModel @Inject constructor(
     val content = MutableLiveData<String>("")
     val tagState = MutableLiveData<String>("ALL")
     val imgFile = MutableLiveData<ArrayList<MultipartBody.Part>>(arrayListOf())
-    val imgUrl = MutableLiveData<List<String?>>(emptyList())
+    val imgUrl = MutableLiveData<List<ImgUrl?>>(emptyList())
     val isPostLoading = MutableLiveData<Boolean>(false)
 
     fun onClickDesignBtn() {
@@ -71,10 +80,21 @@ class PostViewModel @Inject constructor(
 
     fun submitPost() {
         if (!imgFile.value.isNullOrEmpty()) {
-            Log.d("submitPost: ", "이미지가 비어있지 않음 imgFile : ${imgFile.value}")
+            imgFile.value?.forEach { part ->
+                // MultipartBody.Part의 내용 출력
+                Log.d(
+                    "MultipartBody.Part",
+                    "Content-Disposition: ${part.headers!!["Content-Disposition"]}"
+                )
+                Log.d("MultipartBody.Part", "Content-Type: ${part.headers!!["Content-Type"]}")
+                Log.d("MultipartBody.Part", "Body: ${part.body}")
+            }
             loadImage()
         }
-        Log.d( "submitPost: ", "content : ${content.value} images : ${imgUrl.value} tag : ${tagState.value}")
+        Log.d(
+            "submitPost: ",
+            "content : ${content.value} images : ${imgUrl.value} tag : ${tagState.value}"
+        )
 //        submitUseCase(
 //            PostSubmitParam(
 //                content.value!!,
