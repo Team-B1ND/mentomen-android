@@ -1,7 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
@@ -52,8 +51,7 @@ class PostViewModel @Inject constructor(
     }
 
     private fun loadImage() {
-        SUBMIT_MESSAGE = "이미지를 업로드 중입니다."
-        viewEvent(SUBMIT_MESSAGE)
+        applyEvent("이미지 업로드 중입니다.")
         Log.d("loadImage: ", "imgFile : ${imgFile.value}")
         postFileUseCase(imgFile.value!!).safeApiCall(
             isPostLoading,
@@ -70,23 +68,22 @@ class PostViewModel @Inject constructor(
                 ).safeApiCall(
                     isPostLoading,
                     successAction = {
-                        applyError("게시글 등록에 성공했습니다.")
+                        applyEvent("게시글 등록에 성공했습니다.")
                     },
                     errorAction = {
-                        applyError(it.toString())
+                        applyEvent(it.toString())
                     }
                 )
             },
             errorAction = {
-                SUBMIT_MESSAGE = it.toString()
-                viewEvent(SUBMIT_MESSAGE)
+                applyEvent(it.toString())
                 Log.d("loadImage: fail", "result : $it")
                 imgUrl.value = emptyList()
             }
         )
     }
 
-    private fun applyError(message: String) {
+    private fun applyEvent(message: String) {
         SUBMIT_MESSAGE = message
         viewEvent(SUBMIT_MESSAGE)
     }
@@ -108,10 +105,10 @@ class PostViewModel @Inject constructor(
             ).safeApiCall(
                 isPostLoading,
                 successAction = {
-                    applyError("게시글 등록에 성공했습니다.")
+                    applyEvent("게시글 등록에 성공했습니다.")
                 },
                 errorAction = {
-                    applyError(it.toString())
+                    applyEvent(it.toString())
                 }
             )
         }

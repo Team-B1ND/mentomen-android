@@ -122,7 +122,9 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
                 PostViewModel.SUBMIT_MESSAGE -> {
                     Toast.makeText(this, PostViewModel.SUBMIT_MESSAGE, Toast.LENGTH_SHORT).show()
-                    finish()
+                    if (PostViewModel.SUBMIT_MESSAGE == "게시글 등록에 성공했습니다.") {
+                        finish()
+                    }
                 }
             }
         }

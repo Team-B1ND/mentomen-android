@@ -25,7 +25,6 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
         mBinding.btnLogout.setOnClickListener {
             viewModel.logout()
             val intent = Intent(requireContext(), IntroActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
         }
     }
