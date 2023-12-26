@@ -1,6 +1,7 @@
 package kr.hs.dgsw.mentomenv2.feature.post
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
@@ -51,14 +52,34 @@ class PostViewModel @Inject constructor(
     }
 
     private fun loadImage() {
+        SUBMIT_MESSAGE = "이미지를 업로드 중입니다."
+        viewEvent(SUBMIT_MESSAGE)
         Log.d("loadImage: ", "imgFile : ${imgFile.value}")
         postFileUseCase(imgFile.value!!).safeApiCall(
             isPostLoading,
             successAction = {
                 Log.d("loadImage: success", "result : $it")
                 imgUrl.value = it
+
+                submitUseCase(
+                    PostSubmitParam(
+                        content.value!!,
+                        imgUrl.value!!,
+                        tagState.value!!
+                    )
+                ).safeApiCall(
+                    isPostLoading,
+                    successAction = {
+                        applyError("게시글 등록에 성공했습니다.")
+                    },
+                    errorAction = {
+                        applyError(it.toString())
+                    }
+                )
             },
             errorAction = {
+                SUBMIT_MESSAGE = it.toString()
+                viewEvent(SUBMIT_MESSAGE)
                 Log.d("loadImage: fail", "result : $it")
                 imgUrl.value = emptyList()
             }
@@ -71,28 +92,29 @@ class PostViewModel @Inject constructor(
     }
 
     fun submitPost() {
-        if (!imgFile.value.isNullOrEmpty()) {
-            loadImage()
-        }
         Log.d(
             "submitPost: ",
             "content : ${content.value} images : ${imgUrl.value} tag : ${tagState.value}"
         )
-        submitUseCase(
-            PostSubmitParam(
-                content.value!!,
-                imgUrl.value!!,
-                tagState.value!!
+        if (!imgFile.value.isNullOrEmpty()) {
+            loadImage()
+        } else {
+            submitUseCase(
+                PostSubmitParam(
+                    content.value!!,
+                    imgUrl.value!!,
+                    tagState.value!!
+                )
+            ).safeApiCall(
+                isPostLoading,
+                successAction = {
+                    applyError("게시글 등록에 성공했습니다.")
+                },
+                errorAction = {
+                    applyError(it.toString())
+                }
             )
-        ).safeApiCall(
-            isPostLoading,
-            successAction = {
-                applyError("게시글 등록에 성공했습니다.")
-            },
-            errorAction = {
-                applyError(it.toString())
-            }
-        )
+        }
     }
 
     companion object {

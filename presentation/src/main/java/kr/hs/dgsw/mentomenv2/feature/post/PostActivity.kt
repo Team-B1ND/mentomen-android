@@ -122,9 +122,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
                 PostViewModel.SUBMIT_MESSAGE -> {
                     Toast.makeText(this, PostViewModel.SUBMIT_MESSAGE, Toast.LENGTH_SHORT).show()
-                    if (PostViewModel.SUBMIT_MESSAGE == "게시글 등록에 성공했습니다.") {
-                        finish()
-                    }
+                    finish()
                 }
             }
         }
@@ -206,7 +204,11 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 chooserIntent.putExtra(Intent.EXTRA_TITLE, "사용할 앱을 선택해주세요.")
                 launcher.launch(chooserIntent)
             } else {
-                Toast.makeText(applicationContext,"사진 접근 권한이 없습니다. 설정에서 사진 접근 권한을 켜주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    "사진 접근 권한이 없습니다. 설정에서 사진 접근 권한을 켜주세요",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
