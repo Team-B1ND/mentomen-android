@@ -70,10 +70,10 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
             (
                 (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
                     .actualTypeArguments[0] as Class<*>
-                )
+            )
                 .simpleName.replace(
                     "Binding$".toRegex(),
-                    ""
+                    "",
                 ).split("(?<=.)(?=\\p{Upper})".toRegex()).dropLastWhile { it.isEmpty() }
                 .toTypedArray()
 

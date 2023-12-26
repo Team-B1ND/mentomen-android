@@ -30,9 +30,10 @@ fun String.getYearDate(): Date {
 
 fun String.isNotEmailValid(): Boolean {
     return !(
-        !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this)
-            .matches()
-        )
+        !TextUtils.isEmpty(this) &&
+            android.util.Patterns.EMAIL_ADDRESS.matcher(this)
+                .matches()
+    )
 }
 
 fun String.isNotPhoneNumberValid(): Boolean {
@@ -46,13 +47,13 @@ fun String?.toNullValue(): String? {
     return if (this.isNullOrBlank()) null else this
 }
 
-fun String.removeBlankInString(): String =
-    this.replace(" ", "")
+fun String.removeBlankInString(): String = this.replace(" ", "")
 
 fun String.getExtension(): String {
     val idx = this.lastIndexOf('.')
     var extension: String = ""
-    if (idx > 0)
+    if (idx > 0) {
         extension = this.substring(idx)
+    }
     return extension
 }

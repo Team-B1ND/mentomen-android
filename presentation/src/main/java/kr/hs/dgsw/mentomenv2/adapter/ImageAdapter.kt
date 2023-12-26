@@ -12,7 +12,6 @@ import kr.hs.dgsw.mentomenv2.adapter.callback.ImageDiffUtil
 import kr.hs.dgsw.mentomenv2.databinding.ItemImageBinding
 
 class ImageAdapter : ListAdapter<Uri?, ImageAdapter.ImageViewHolder>(ImageDiffUtil) {
-
     inner class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Uri?) {
             Glide.with(binding.cardView.context)
@@ -21,18 +20,24 @@ class ImageAdapter : ListAdapter<Uri?, ImageAdapter.ImageViewHolder>(ImageDiffUt
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): ImageViewHolder {
         return ImageViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_image,
                 parent,
-                false
-            )
+                false,
+            ),
         )
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: ImageViewHolder,
+        position: Int,
+    ) {
         holder.bind(getItem(position))
     }
 }

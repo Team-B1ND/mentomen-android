@@ -12,17 +12,18 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
-class FileRepositoryImpl @Inject constructor(
-    private val fileDataSource: FileDataSource
-) : BaseRepositoryImpl(), FileRepository {
-    override fun uploadFile(files: List<MultipartBody.Part>): Flow<Result<List<ImgUrl>>> =
-        execute {
-            fileDataSource.postFile(files).map {
-                it.map {
-                    Log.d("uploadFile: ", it.toModel().imgUrl)
-                    it.toModel()
+class FileRepositoryImpl
+    @Inject
+    constructor(
+        private val fileDataSource: FileDataSource,
+    ) : BaseRepositoryImpl(), FileRepository {
+        override fun uploadFile(files: List<MultipartBody.Part>): Flow<Result<List<ImgUrl>>> =
+            execute {
+                fileDataSource.postFile(files).map {
+                    it.map {
+                        Log.d("uploadFile: ", it.toModel().imgUrl)
+                        it.toModel()
+                    }
                 }
             }
-        }
-}
-
+    }

@@ -8,9 +8,12 @@ import com.bumptech.glide.Glide
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.databinding.ItemDetailImageBinding
 
-class DetailImageAdapter(private val imageList: List<String?>, private val itemClick: (String) -> Unit) : RecyclerView.Adapter<DetailImageAdapter.ImageDetailViewHolder>() {
-
-    inner class ImageDetailViewHolder(private val binding: ItemDetailImageBinding) : RecyclerView.ViewHolder(binding.root) {
+class DetailImageAdapter(
+    private val imageList: List<String?>,
+    private val itemClick: (String) -> Unit,
+) : RecyclerView.Adapter<DetailImageAdapter.ImageDetailViewHolder>() {
+    inner class ImageDetailViewHolder(private val binding: ItemDetailImageBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String?) {
             Glide.with(binding.root.context)
                 .load(item)
@@ -18,21 +21,26 @@ class DetailImageAdapter(private val imageList: List<String?>, private val itemC
 
             binding.root.setOnClickListener { itemClick(item!!) }
         }
-
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageDetailViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): ImageDetailViewHolder {
         return ImageDetailViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.item_detail_image,
                 parent,
-                false
-            )
+                false,
+            ),
         )
     }
 
-    override fun onBindViewHolder(holder: ImageDetailViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: ImageDetailViewHolder,
+        position: Int,
+    ) {
         holder.bind(imageList[position])
     }
 

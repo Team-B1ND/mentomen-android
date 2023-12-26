@@ -8,24 +8,26 @@ import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
 import javax.inject.Inject
 
-class PostDataSourceImpl @Inject constructor(
-    private val api: PostService
-) : PostDataSource {
-    override fun getAllPost(): Flow<List<Post>> {
-        return flow {
-            emit(api.getAllPost().data)
+class PostDataSourceImpl
+    @Inject
+    constructor(
+        private val api: PostService,
+    ) : PostDataSource {
+        override fun getAllPost(): Flow<List<Post>> {
+            return flow {
+                emit(api.getAllPost().data)
+            }
         }
-    }
 
-    override fun getPostByTag(tag: String): Flow<List<Post>> {
-        return flow {
-            emit(api.getPostByTag(tag).data)
+        override fun getPostByTag(tag: String): Flow<List<Post>> {
+            return flow {
+                emit(api.getPostByTag(tag).data)
+            }
         }
-    }
 
-    override fun submitPost(postSubmitParam: PostSubmitParam): Flow<Unit> {
-        return flow {
-            emit(api.submitPost(postSubmitParam).data)
+        override fun submitPost(postSubmitParam: PostSubmitParam): Flow<Unit> {
+            return flow {
+                emit(api.submitPost(postSubmitParam).data)
+            }
         }
     }
-}

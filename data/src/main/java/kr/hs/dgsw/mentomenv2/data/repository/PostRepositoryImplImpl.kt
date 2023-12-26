@@ -9,15 +9,14 @@ import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class PostRepositoryImplImpl @Inject constructor(
-    private val remote: PostDataSource
-) : BaseRepositoryImpl(), PostRepository {
-    override fun getAllPost(): Flow<Result<List<Post>>> =
-        execute { remote.getAllPost() }
+class PostRepositoryImplImpl
+    @Inject
+    constructor(
+        private val remote: PostDataSource,
+    ) : BaseRepositoryImpl(), PostRepository {
+        override fun getAllPost(): Flow<Result<List<Post>>> = execute { remote.getAllPost() }
 
-    override fun getPostByTag(tag: String): Flow<Result<List<Post>>> =
-        execute { remote.getPostByTag(tag) }
+        override fun getPostByTag(tag: String): Flow<Result<List<Post>>> = execute { remote.getPostByTag(tag) }
 
-    override fun submitPost(postSubmitParam: PostSubmitParam): Flow<Result<Unit>> =
-        execute { remote.submitPost(postSubmitParam) }
-}
+        override fun submitPost(postSubmitParam: PostSubmitParam): Flow<Result<Unit>> = execute { remote.submitPost(postSubmitParam) }
+    }

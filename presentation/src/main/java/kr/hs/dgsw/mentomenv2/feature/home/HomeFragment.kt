@@ -11,15 +11,16 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
-import kr.hs.dgsw.mentomenv2.state.PostState
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
-    private val adapter = HomeAdapter{
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
-        Log.d("HomeFragemnt", "HomeFragment item clicked")
-    }
+    private val adapter =
+        HomeAdapter {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
+            Log.d("HomeFragemnt", "HomeFragment item clicked")
+        }
+
     override fun setupViews() {
         mBinding.rvHome.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvHome.adapter = adapter

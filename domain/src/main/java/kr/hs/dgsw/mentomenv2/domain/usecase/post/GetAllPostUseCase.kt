@@ -6,9 +6,10 @@ import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class GetAllPostUseCase @Inject constructor(
-    private val postRepository: PostRepository
-){
-    operator fun invoke(): Flow<Result<List<Post>>> =
-        postRepository.getAllPost()
-}
+class GetAllPostUseCase
+    @Inject
+    constructor(
+        private val postRepository: PostRepository,
+    ) {
+        operator fun invoke(): Flow<Result<List<Post>>> = postRepository.getAllPost()
+    }

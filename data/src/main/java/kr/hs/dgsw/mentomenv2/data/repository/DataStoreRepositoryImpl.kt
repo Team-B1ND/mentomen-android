@@ -8,26 +8,39 @@ import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class DataStoreRepositoryImpl @Inject constructor(
-    private val dataStoreDataSource: DataStoreDataSource
-) : BaseRepositoryImpl(), DataStoreRepository {
-    override fun saveData(key: String, value: String): Flow<Result<Unit>> = execute {
-        dataStoreDataSource.saveData(key, value)
-    }
+class DataStoreRepositoryImpl
+    @Inject
+    constructor(
+        private val dataStoreDataSource: DataStoreDataSource,
+    ) : BaseRepositoryImpl(), DataStoreRepository {
+        override fun saveData(
+            key: String,
+            value: String,
+        ): Flow<Result<Unit>> =
+            execute {
+                dataStoreDataSource.saveData(key, value)
+            }
 
-    override fun getData(key: String, defaultValue: String): Flow<Result<String>> = execute {
-        dataStoreDataSource.getData(key, defaultValue)
-    }
+        override fun getData(
+            key: String,
+            defaultValue: String,
+        ): Flow<Result<String>> =
+            execute {
+                dataStoreDataSource.getData(key, defaultValue)
+            }
 
-    override fun getToken(): Flow<Result<Token>> = execute {
-        dataStoreDataSource.getToken()
-    }
+        override fun getToken(): Flow<Result<Token>> =
+            execute {
+                dataStoreDataSource.getToken()
+            }
 
-    override fun removeData(key: String): Flow<Result<Unit>> = execute{
-        dataStoreDataSource.removeData(key)
-    }
+        override fun removeData(key: String): Flow<Result<Unit>> =
+            execute {
+                dataStoreDataSource.removeData(key)
+            }
 
-    override fun clearData(): Flow<Result<Unit>> = execute {
-        dataStoreDataSource.clearData()
+        override fun clearData(): Flow<Result<Unit>> =
+            execute {
+                dataStoreDataSource.clearData()
+            }
     }
-}

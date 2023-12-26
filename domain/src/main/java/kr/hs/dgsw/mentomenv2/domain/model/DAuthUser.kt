@@ -8,5 +8,5 @@ data class DAuthUser(
     val profileImage: String,
     val role: String,
     val room: String,
-    val uniqueId: String
+    val uniqueId: String,
 )

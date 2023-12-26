@@ -8,9 +8,11 @@ data class StdInfo(
     val room: Int,
     val number: Int,
 ) : Parcelable {
-
     // Parcelable 구현 코드
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
+    override fun writeToParcel(
+        parcel: Parcel,
+        flags: Int,
+    ) {
         parcel.writeInt(grade)
         parcel.writeInt(number)
         parcel.writeInt(room)
@@ -33,6 +35,6 @@ data class StdInfo(
     private constructor(parcel: Parcel) : this(
         grade = parcel.readInt(),
         number = parcel.readInt(),
-        room = parcel.readInt()
+        room = parcel.readInt(),
     )
 }

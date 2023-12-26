@@ -9,11 +9,13 @@ import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(
-    private val remote: AuthDataSource
-) : BaseRepositoryImpl(), AuthRepository {
-    override fun signIn(code: String): Flow<Result<Token>> {
-        Log.d("AuthRepositoryImpl", "signIn: $code")
-        return execute { remote.signIn(code) }
+class AuthRepositoryImpl
+    @Inject
+    constructor(
+        private val remote: AuthDataSource,
+    ) : BaseRepositoryImpl(), AuthRepository {
+        override fun signIn(code: String): Flow<Result<Token>> {
+            Log.d("AuthRepositoryImpl", "signIn: $code")
+            return execute { remote.signIn(code) }
+        }
     }
-}

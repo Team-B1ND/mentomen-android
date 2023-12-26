@@ -21,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     private val dialogBinding: DialogLoginBinding by lazy {
         DialogLoginBinding.inflate(layoutInflater)
     }
-    private val TIME_INTERVAL: Long = 2000
+    private val timeInterval: Long = 2000
     private var mBackPressed: Long = 0
 
     override fun start() {
@@ -65,8 +65,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     fun showLoginDialog() {
-        val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-            .create()
+        val builder =
+            AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                .create()
         val view = layoutInflater.inflate(R.layout.dialog_login, null)
         builder.setView(view)
         dialogBinding.btnDauth.setOnClickListener {
@@ -78,7 +79,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onBackPressed() {
         Log.d("Debug", "onBackPressed() called")
-        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+        if (mBackPressed + timeInterval > System.currentTimeMillis()) {
             super.onBackPressed()
             return
         } else {

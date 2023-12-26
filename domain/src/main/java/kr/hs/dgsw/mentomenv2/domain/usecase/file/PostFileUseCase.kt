@@ -7,9 +7,10 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
-class PostFileUseCase @Inject constructor(
-    private val fileRepository: FileRepository
-){
-    operator fun invoke(imageFiles: List<MultipartBody.Part>): Flow<Result<List<ImgUrl>>> =
-        fileRepository.uploadFile(imageFiles)
-}
+class PostFileUseCase
+    @Inject
+    constructor(
+        private val fileRepository: FileRepository,
+    ) {
+        operator fun invoke(imageFiles: List<MultipartBody.Part>): Flow<Result<List<ImgUrl>>> = fileRepository.uploadFile(imageFiles)
+    }

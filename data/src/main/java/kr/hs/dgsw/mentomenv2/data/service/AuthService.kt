@@ -9,6 +9,6 @@ import retrofit2.http.POST
 interface AuthService {
     @POST("auth/code")
     suspend fun signIn(
-        @Body code: DAuthClientRequest
+        @Body code: DAuthClientRequest,
     ): BaseResponse<Token>
 }

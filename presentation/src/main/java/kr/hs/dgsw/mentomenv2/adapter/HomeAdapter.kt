@@ -12,9 +12,11 @@ import kr.hs.dgsw.mentomenv2.domain.model.Post
 
 class HomeAdapter(private val itemClick: (Post) -> Unit) :
     BaseListAdapter<Post, ItemHomeBinding>(R.layout.item_home, PostDiffUtilCallback) {
-
     @SuppressLint("SetTextI18n")
-    override fun action(item: Post, binding: ItemHomeBinding) {
+    override fun action(
+        item: Post,
+        binding: ItemHomeBinding,
+    ) {
         binding.item = item
 
         if (!item.imgUrls.isNullOrEmpty()) {
@@ -37,14 +39,15 @@ class HomeAdapter(private val itemClick: (Post) -> Unit) :
 
         binding.root.setOnClickListener { itemClick(item) }
 
-        val majorImage = when (item.tag) {
-            "ANDROID" -> R.drawable.ic_android
-            "IOS" -> R.drawable.ic_ios
-            "WEB" -> R.drawable.ic_web
-            "SERVER" -> R.drawable.ic_server
-            "DESIGN" -> R.drawable.ic_design
-            else -> R.drawable.ic_android
-        }
+        val majorImage =
+            when (item.tag) {
+                "ANDROID" -> R.drawable.ic_android
+                "IOS" -> R.drawable.ic_ios
+                "WEB" -> R.drawable.ic_web
+                "SERVER" -> R.drawable.ic_server
+                "DESIGN" -> R.drawable.ic_design
+                else -> R.drawable.ic_android
+            }
         Glide.with(binding.ivMajor.context)
             .load(majorImage)
             .into(binding.ivMajor)

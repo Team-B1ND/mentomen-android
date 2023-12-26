@@ -2,17 +2,14 @@ package kr.hs.dgsw.mentomenv2.data.repository.base
 
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
-import kr.hs.dgsw.mentomenv2.domain.exception.TokenException
 import kr.hs.dgsw.mentomenv2.domain.util.Result
-import kr.hs.dgsw.mentomenv2.domain.util.Utils
-import java.io.IOException
 
 abstract class BaseRepositoryImpl {
-    protected fun <R> execute(action: suspend () -> Flow<R>): Flow<Result<R>> = flow {
+    protected fun <R> execute(action: suspend () -> Flow<R>): Flow<Result<R>> =
+        flow {
 //        try {
             Log.d("BaseReppsitory", "call Loading")
             emit(Result.Loading())
@@ -37,5 +34,5 @@ abstract class BaseRepositoryImpl {
 //            Log.d("BaseReppsitory", "FlowError : $e")
 //            emit(Result.Error(Utils.EXCEPTION))
 //        }
-    }
+        }
 }

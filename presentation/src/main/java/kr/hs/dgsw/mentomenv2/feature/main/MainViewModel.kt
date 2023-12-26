@@ -5,4 +5,6 @@ import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : BaseViewModel()
+class MainViewModel
+    @Inject
+    constructor() : BaseViewModel()

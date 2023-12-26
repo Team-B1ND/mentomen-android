@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.widget
 
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,15 +8,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.util.getYearTimeDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
-import java.time.temporal.ChronoUnit
 import java.util.Calendar
-import java.util.TimeZone
 
 @BindingAdapter("designButtonState")
-fun setDesignButtonState(view: Button, tagState: String) {
+fun setDesignButtonState(
+    view: Button,
+    tagState: String,
+) {
     if (tagState == "DESIGN" || tagState == "ALL") {
         view.setBackgroundResource(R.drawable.bg_selected_design)
     } else {
@@ -26,7 +23,10 @@ fun setDesignButtonState(view: Button, tagState: String) {
 }
 
 @BindingAdapter("webButtonState")
-fun setWebButtonState(view: Button, tagState: String) {
+fun setWebButtonState(
+    view: Button,
+    tagState: String,
+) {
     if (tagState == "WEB" || tagState == "ALL") {
         view.setBackgroundResource(R.drawable.bg_selected_web)
     } else {
@@ -35,7 +35,10 @@ fun setWebButtonState(view: Button, tagState: String) {
 }
 
 @BindingAdapter("androidButtonState")
-fun setAndroidButtonState(view: Button, tagState: String) {
+fun setAndroidButtonState(
+    view: Button,
+    tagState: String,
+) {
     if (tagState == "ANDROID" || tagState == "ALL") {
         view.setBackgroundResource(R.drawable.bg_selected_android)
     } else {
@@ -44,7 +47,10 @@ fun setAndroidButtonState(view: Button, tagState: String) {
 }
 
 @BindingAdapter("serverButtonState")
-fun setServerButtonState(view: Button, tagState: String) {
+fun setServerButtonState(
+    view: Button,
+    tagState: String,
+) {
     if (tagState == "SERVER" || tagState == "ALL") {
         view.setBackgroundResource(R.drawable.bg_selected_server)
     } else {
@@ -53,7 +59,10 @@ fun setServerButtonState(view: Button, tagState: String) {
 }
 
 @BindingAdapter("iosButtonState")
-fun setIosButtonState(view: Button, tagState: String) {
+fun setIosButtonState(
+    view: Button,
+    tagState: String,
+) {
     if (tagState == "IOS" || tagState == "ALL") {
         view.setBackgroundResource(R.drawable.bg_selected_ios)
     } else {
@@ -62,7 +71,10 @@ fun setIosButtonState(view: Button, tagState: String) {
 }
 
 @BindingAdapter("image")
-fun loadImage(view: ImageView, imageUrl: String?) {
+fun loadImage(
+    view: ImageView,
+    imageUrl: String?,
+) {
     if (imageUrl.isNullOrBlank().not()) {
         Glide.with(view.context)
             .load(imageUrl)
@@ -71,7 +83,10 @@ fun loadImage(view: ImageView, imageUrl: String?) {
 }
 
 @BindingAdapter("circleImage")
-fun loadCircleImage(view: ImageView, imageUrl: String?) {
+fun loadCircleImage(
+    view: ImageView,
+    imageUrl: String?,
+) {
     if (imageUrl.isNullOrBlank().not()) {
         Glide.with(view.context)
             .load(imageUrl)
@@ -81,12 +96,18 @@ fun loadCircleImage(view: ImageView, imageUrl: String?) {
 }
 
 @BindingAdapter("notice")
-fun comment(view: TextView, comment: String) {
+fun comment(
+    view: TextView,
+    comment: String,
+) {
     view.text = "\"$comment\""
 }
 
 @BindingAdapter("date")
-fun translateDate(tvTime: TextView, dateTime: String) {
+fun translateDate(
+    tvTime: TextView,
+    dateTime: String,
+) {
     val currentTime = Calendar.getInstance()
     currentTime.add(Calendar.HOUR_OF_DAY, -9) // 한국이 UTC+9 라서
     val postDate = dateTime.getYearTimeDate()
@@ -114,27 +135,26 @@ fun translateDate(tvTime: TextView, dateTime: String) {
     }
 }
 
-@BindingAdapter("currentDate")
-fun setDate(view: TextView, dateTime: String?) {
-    dateTime?.let {
-        val time = it.split(".")[0]
-        val convertTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        view.text =
-            "${convertTime.year}.${convertTime.monthValue}.${convertTime.dayOfMonth} ${if (convertTime.hour >= 12) "오후" else "오전"} ${if (convertTime.hour >= 12) convertTime.hour - 12 else convertTime.hour}:${convertTime.minute}"
-    }
-}
-
 @BindingAdapter("grade")
-fun setGrade(view: TextView, grade: Int) {
+fun setGrade(
+    view: TextView,
+    grade: Int,
+) {
     view.text = "${grade}학년 "
 }
 
 @BindingAdapter("room")
-fun setRoom(view: TextView, room: Int) {
+fun setRoom(
+    view: TextView,
+    room: Int,
+) {
     view.text = "${room}반 "
 }
 
 @BindingAdapter("number")
-fun setNumber(view: TextView, number: Int) {
+fun setNumber(
+    view: TextView,
+    number: Int,
+) {
     view.text = "${number}번"
 }

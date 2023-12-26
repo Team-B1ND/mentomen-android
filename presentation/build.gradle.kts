@@ -2,6 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 
+    // ktlint
+    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
+
     // kapt
     kotlin("kapt")
 
@@ -37,7 +40,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -55,7 +58,7 @@ android {
 }
 
 dependencies {
-    //tedPermission
+    // tedPermission
     implementation("io.github.ParkSangGwon:tedpermission-coroutine:3.3.0")
 
     // material

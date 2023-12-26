@@ -45,13 +45,16 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, layoutRes(), container, false)
         return mBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         this.savedInstanceState = savedInstanceState
         initialize()
@@ -83,7 +86,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
             (
                 (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
                     .actualTypeArguments[0] as Class<*>
-                )
+            )
                 .simpleName.replace("Binding$".toRegex(), "")
                 .split("(?<=.)(?=\\p{Upper})".toRegex())
                 .dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -92,8 +95,9 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
         for (i in split.indices) {
             name.append(split[i].lowercase(Locale.ROOT))
-            if (i != split.size - 1)
+            if (i != split.size - 1) {
                 name.append("_")
+            }
         }
 
         try {

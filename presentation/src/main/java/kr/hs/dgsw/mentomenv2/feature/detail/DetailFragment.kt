@@ -15,6 +15,7 @@ import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
     override val viewModel: DetailViewModel by viewModels()
     private val args: DetailFragmentArgs by navArgs()
+
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(false)
         viewModel.userName.value = args.item.userName
@@ -51,6 +52,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
             Toast.makeText(requireContext(), "댓글 작성 완료", Toast.LENGTH_SHORT).show()
         }
         mBinding.datetime.text = args.item.createDateTime
-        //nav arg로 받는 게 아니라 post Id를 받아와서 호출하는 방식으로 바꿔야함, 실시간성 때문에
+        // nav arg로 받는 게 아니라 post Id를 받아와서 호출하는 방식으로 바꿔야함, 실시간성 때문에
     }
 }

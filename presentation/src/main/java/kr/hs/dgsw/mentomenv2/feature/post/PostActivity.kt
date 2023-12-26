@@ -16,7 +16,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gun0912.tedpermission.coroutine.BuildConfig
 import com.gun0912.tedpermission.coroutine.TedPermission
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -89,7 +88,10 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         }
     }
 
-    private fun absolutelyPath(path: Uri?, context: Context): String {
+    private fun absolutelyPath(
+        path: Uri?,
+        context: Context,
+    ): String {
         val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         var cursor: Cursor? = null
         var result: String? = null
@@ -108,7 +110,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         return result ?: ""
     }
 
-
     private fun observerViewModel() {
         bindingViewEvent {
             when (it) {
@@ -120,9 +121,9 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                     submitPost()
                 }
 
-                PostViewModel.SUBMIT_MESSAGE -> {
-                    Toast.makeText(this, PostViewModel.SUBMIT_MESSAGE, Toast.LENGTH_SHORT).show()
-                    if (PostViewModel.SUBMIT_MESSAGE == "게시글 등록에 성공했습니다.") {
+                PostViewModel.submitMessage -> {
+                    Toast.makeText(this, PostViewModel.submitMessage, Toast.LENGTH_SHORT).show()
+                    if (PostViewModel.submitMessage == "게시글 등록에 성공했습니다.") {
                         finish()
                     }
                 }
@@ -136,7 +137,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 viewModel.tagState.observe(this) { tag ->
                     Log.d(
                         "collectStates in PostActivity",
-                        "tag: $tag + content: $content image: ${viewModel.imgUrl.value}"
+                        "tag: $tag + content: $content image: ${viewModel.imgUrl.value}",
                     )
                     if (tag != "ALL") {
                         mBinding.btnConfirm.setBackgroundResource(R.drawable.bg_btn_enable)
@@ -189,13 +190,14 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     private fun getImageGallery() {
         lifecycleScope.launch {
             checkImagePermission()
-            val permissionResult = withContext(Dispatchers.IO) {
-                TedPermission.create()
-                    .setPermissions(
-                        permissionName
-                    )
-                    .check()
-            }
+            val permissionResult =
+                withContext(Dispatchers.IO) {
+                    TedPermission.create()
+                        .setPermissions(
+                            permissionName,
+                        )
+                        .check()
+                }
             if (permissionResult.isGranted) {
                 val chooserIntent = Intent(Intent.ACTION_CHOOSER)
                 val intent = Intent(Intent.ACTION_PICK)
@@ -209,7 +211,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 Toast.makeText(
                     applicationContext,
                     "사진 접근 권한이 없습니다. 설정에서 사진 접근 권한을 켜주세요",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_SHORT,
                 ).show()
             }
         }

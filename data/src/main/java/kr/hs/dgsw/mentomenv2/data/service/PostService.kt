@@ -14,11 +14,11 @@ interface PostService {
 
     @GET("post/read-all/{tag}")
     suspend fun getPostByTag(
-        @Path("tag") tag: String
+        @Path("tag") tag: String,
     ): BaseResponse<List<Post>>
 
     @POST("post/submit")
     suspend fun submitPost(
-        @Body postSubmitParam: PostSubmitParam
+        @Body postSubmitParam: PostSubmitParam,
     ): BaseResponse<Unit>
 }

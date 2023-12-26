@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
@@ -20,20 +19,20 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override val viewModel: SingInViewModel by viewModels()
     var code: String? = null
 
-
     override fun start() {
         collectTokenState()
         collectEvent()
         settingDAuth(
             Client.clientId,
             Client.clientSecret,
-            Client.redirectUri
+            Client.redirectUri,
         )
         lifecycleScope.launch {
             viewModel.getToken()
             viewModel.tokenState.collect { token ->
                 if (token.refreshToken != "") {
-                    getRefreshToken(token.refreshToken,
+                    getRefreshToken(
+                        token.refreshToken,
                         Client.clientId,
                         onSuccess = {
                             Log.d("start: getRefreshToken Success", it.expiresIn + "token type : " + it.tokenType)
@@ -41,7 +40,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                         },
                         onFailure = {
                             Log.d("start: getRefreshToken : ", it.message.toString())
-                        }
+                        },
                     )
                 }
             }
@@ -65,7 +64,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
             viewModel.tokenState.collect { tokenState ->
                 Log.d(
                     "collectTokenState: ",
-                    "Token 수집 성공 " + "token : " + tokenState.accessToken + tokenState.refreshToken
+                    "Token 수집 성공 " + "token : " + tokenState.accessToken + tokenState.refreshToken,
                 )
                 if (!tokenState.accessToken.isNullOrBlank() && !tokenState.refreshToken.isNullOrBlank()) {
                     viewModel.event.emit(Unit)
@@ -92,9 +91,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                         },
                         {
                             Log.d("autoLogin: ", "로그인 실패2 정상적인 방법으로 도달 불가능")
-                        }
+                        },
                     )
-                }
+                },
             )
         }
     }
