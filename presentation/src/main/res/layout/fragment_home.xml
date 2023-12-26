@@ -4,22 +4,60 @@
     <data>
         <variable
             name="vm"
-            type="kr.hs.dgsw.mentomenv2.feature.main.HomeFragmentViewModel" />
+            type="kr.hs.dgsw.mentomenv2.feature.home.HomeViewModel" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.main.HomeFragment">
+        tools:context=".feature.home.HomeFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_logo_with_mentomen"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:src="@drawable/ic_notification"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_top_bar"
+                    app:layout_constraintEnd_toEndOf="@id/cl_top_bar"
+                    app:layout_constraintTop_toTopOf="@id/cl_top_bar" />
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_search"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_top_bar"
+                    app:layout_constraintEnd_toStartOf="@id/iv_notification"
+                    app:layout_constraintTop_toTopOf="@id/cl_top_bar" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <HorizontalScrollView
                 android:id="@+id/hsv_top_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_top_bar"
                 app:layout_constraintStart_toStartOf="parent">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -40,8 +78,9 @@
                             android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_design"
-                            android:fontFamily="@font/pretendard_variable"
+                            android:fontFamily="@font/variable"
                             android:onClick="@{() -> vm.onClickDesignBtn()}"
+                            designButtonState="@{vm.postState.tag}"
                             android:text="@string/design"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
@@ -62,8 +101,9 @@
                             android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_web"
-                            android:fontFamily="@font/pretendard_variable"
+                            android:fontFamily="@font/variable"
                             android:onClick="@{() -> vm.onClickWebBtn()}"
+                            webButtonState="@{vm.postState.tag}"
                             android:text="@string/web"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
@@ -85,8 +125,9 @@
                             android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_android"
-                            android:fontFamily="@font/pretendard_variable"
+                            android:fontFamily="@font/variable"
                             android:onClick="@{() -> vm.onClickAndroidBtn()}"
+                            androidButtonState="@{vm.postState.tag}"
                             android:text="@string/android"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
@@ -107,8 +148,9 @@
                             android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_server"
-                            android:fontFamily="@font/pretendard_variable"
+                            android:fontFamily="@font/variable"
                             android:onClick="@{() -> vm.onClickServerBtn()}"
+                            serverButtonState="@{vm.postState.tag}"
                             android:text="@string/server"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
@@ -129,8 +171,9 @@
                             android:layout_width="70dp"
                             android:layout_height="28dp"
                             android:background="@drawable/bg_selected_ios"
-                            android:fontFamily="@font/pretendard_variable"
+                            android:fontFamily="@font/variable"
                             android:onClick="@{() -> vm.onClickIOSBtn()}"
+                            iosButtonState="@{vm.postState.tag}"
                             android:text="@string/ios"
                             android:textAllCaps="false"
                             android:textColor="@color/white"

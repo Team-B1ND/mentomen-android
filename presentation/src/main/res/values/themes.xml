@@ -18,4 +18,7 @@
         <item name="colorAccent">@color/blue</item>
         <item name="colorControlNormal">@color/gray</item>
     </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_btn_rounded</item>
+    </style>
 </resources>

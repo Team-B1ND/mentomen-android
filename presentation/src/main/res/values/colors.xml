@@ -2,12 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#F4F4F4</color>
     <color name="gray">#FF858585</color>
     <color name="design">#FFEC6B77</color>
     <color name="web">#FFF19F62</color>
     <color name="android">#FF5AAC73</color>
     <color name="server">#FF628FD3</color>
     <color name="ios">#FF4C4C4C</color>
+    <color name="unselected">#D2D2D2</color>
     <color name="hint">#FF858585</color>
     <color name="accent">#FF2745F2</color>
     <color name="blue">#2749DC</color>

@@ -1,8 +1,14 @@
 package kr.hs.dgsw.mentomenv2.domain.repository
 
+import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
+import kr.hs.dgsw.mentomenv2.domain.util.Result
 
 interface PostRepository {
-    suspend fun getAllPost(): List<Post>
-    suspend fun getPostByTag(tag: String): List<Post>
+    fun getAllPost(): Flow<Result<List<Post>>>
+
+    fun getPostByTag(tag: String): Flow<Result<List<Post>>>
+
+    fun submitPost(postSubmitParam: PostSubmitParam): Flow<Result<Unit>>
 }

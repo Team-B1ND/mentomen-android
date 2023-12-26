@@ -1,15 +1,19 @@
 package kr.hs.dgsw.mentomenv2.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
 import java.util.Objects
@@ -21,21 +25,50 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
     protected var savedInstanceState: Bundle? = null
 
+    protected fun bindingViewEvent(action: (event: Any) -> Unit) {
+        viewModel.viewEvent.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let { event ->
+                action.invoke(event)
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            if (it == Utils.TOKEN_EXCEPTION) {
+                Toast.makeText(requireContext(), "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(requireContext(), IntroActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(intent)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, layoutRes(), container, false)
         return mBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         this.savedInstanceState = savedInstanceState
         initialize()
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            if (it == Utils.TOKEN_EXCEPTION) {
+                val intent = Intent(requireContext(), IntroActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(intent)
+                this.requireActivity().finishAffinity()
+            }
+        }
+
         setupViews()
-        // (activity as? MainActivity)?.setNavVisible(!hasBottomNav)
     }
 
     private fun initialize() {
@@ -53,7 +86,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
             (
                 (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
                     .actualTypeArguments[0] as Class<*>
-                )
+            )
                 .simpleName.replace("Binding$".toRegex(), "")
                 .split("(?<=.)(?=\\p{Upper})".toRegex())
                 .dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -62,8 +95,9 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
         for (i in split.indices) {
             name.append(split[i].lowercase(Locale.ROOT))
-            if (i != split.size - 1)
+            if (i != split.size - 1) {
                 name.append("_")
+            }
         }
 
         try {

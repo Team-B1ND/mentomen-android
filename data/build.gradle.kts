@@ -2,8 +2,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 
-    // ktLint
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    // ktlint
+    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
 
     // kapt
     kotlin("kapt")
@@ -17,7 +17,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 34
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -28,7 +28,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -46,9 +46,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
 
     // dataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
