@@ -17,8 +17,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
     private val adapter =
         HomeAdapter {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
-            Log.d("HomeFragemnt", "HomeFragment item clicked")
+            TODO("여기에 바텀 시트 다이얼로그 짜야합니다.")
         }
 
     override fun setupViews() {

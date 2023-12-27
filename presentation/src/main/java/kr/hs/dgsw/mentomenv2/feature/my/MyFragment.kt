@@ -18,7 +18,7 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
     private fun initHomeAdapter() {
         adapter =
             HomeAdapter {
-                findNavController().navigate(MyFragmentDirections.actionUserFragmentToDetailFragment(it))
+                TODO("여기에 바텀 시트 다이얼로그 짜야합니다.")
             }
         mBinding.rvMyPage.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvMyPage.adapter = adapter
