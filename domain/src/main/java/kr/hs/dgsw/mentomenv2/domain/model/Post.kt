@@ -12,4 +12,5 @@ data class Post(
     val updateDateTime: String,
     val updateStatus: String,
     val userName: String,
+    var isExpended: Boolean = false,
 )

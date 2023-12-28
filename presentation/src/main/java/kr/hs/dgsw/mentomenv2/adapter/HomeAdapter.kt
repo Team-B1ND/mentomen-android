@@ -10,19 +10,42 @@ import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
 import kr.hs.dgsw.mentomenv2.databinding.ItemHomeBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 
-class HomeAdapter(private val itemClick: (Post) -> Unit) :
+
+class HomeAdapter(
+    private val itemClick: (Post) -> Unit
+) :
     BaseListAdapter<Post, ItemHomeBinding>(R.layout.item_home, PostDiffUtilCallback) {
+
     @SuppressLint("SetTextI18n")
     override fun action(
         item: Post,
         binding: ItemHomeBinding,
     ) {
         binding.item = item
+        if (item.isExpended) {
+            binding.tvPreview.maxLines = Int.MAX_VALUE
+            binding.btnShowMore.visibility = View.GONE
+        } else {
+            binding.tvPreview.maxLines = 3
+        }
 
+        binding.tvPreview.post {
+            val layout = binding.tvPreview.layout
+
+            // 마지막 줄이 완전히 보이지 않는 경우에는 "..."이 있는 것으로 판단
+            val lastLineVisible = layout.getEllipsisCount(layout.lineCount - 1) == 0
+
+            if (!lastLineVisible) {
+                binding.btnShowMore.visibility = View.VISIBLE
+            } else {
+                binding.btnShowMore.visibility = View.GONE
+            }
+        }
         if (!item.imgUrls.isNullOrEmpty()) {
             binding.ivPreview.visibility = View.VISIBLE
             Glide.with(binding.ivPreview.context)
-                .load(item.imgUrls?.first()).into(binding.ivPreview)
+                .load(item.imgUrls?.first())
+                .into(binding.ivPreview)
         } else {
             binding.ivPreview.visibility = View.GONE
         }
@@ -39,6 +62,12 @@ class HomeAdapter(private val itemClick: (Post) -> Unit) :
         }
 
         binding.root.setOnClickListener { itemClick(item) }
+
+        binding.btnShowMore.setOnClickListener {
+            item.isExpended = true
+            binding.tvPreview.maxLines = Int.MAX_VALUE
+            binding.btnShowMore.visibility = View.GONE
+        }
 
         val majorImage =
             when (item.tag) {

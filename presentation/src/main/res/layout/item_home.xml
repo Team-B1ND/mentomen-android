@@ -76,7 +76,6 @@
                     android:layout_marginTop="20dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/variable"
-                    android:maxLines="3"
                     android:text="@{item.content}"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@id/cv_preview"
@@ -84,6 +83,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_profile"
                     tools:text="제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?" />
+
+                <TextView
+                    android:id="@+id/btn_show_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_more"
+                    android:fontFamily="@font/variable"
+                    android:textColor="@color/gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_preview"
+                    app:layout_constraintStart_toStartOf="@id/tv_preview" />
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -108,13 +117,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_preview"
-                    app:layout_constraintTop_toBottomOf="@id/tv_preview">
+                    app:layout_constraintTop_toBottomOf="@id/btn_show_more">
 
                     <ImageView
                         android:id="@+id/iv_preview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_user"
+                        android:adjustViewBounds="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
