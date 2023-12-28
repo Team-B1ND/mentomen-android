@@ -58,7 +58,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_upload_toolbar"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:importantForAutofill="no" />
 
         <HorizontalScrollView
