@@ -78,7 +78,6 @@
                     android:fontFamily="@font/variable"
                     android:text="@{item.content}"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@id/cv_preview"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_profile"

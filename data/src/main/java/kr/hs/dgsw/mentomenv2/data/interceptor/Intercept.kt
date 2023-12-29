@@ -11,6 +11,8 @@ import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.json.JSONException
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class Intercept
@@ -63,12 +65,18 @@ class Intercept
             }
             response = this.proceedWithToken(this.request())
 
-            if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
-                runBlocking { tokenRepositoryImpl.clearData() }
-                response.close()
-                response = login()
-                Log.d("intercept:", "Here is 401 || 500  2")
-//            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
+            if (response.code == 401) {
+                try {
+                    runBlocking { tokenRepositoryImpl.clearData() }
+                    Log.d("intercept:", "Here is 401 || 500  2")
+                    response.close()
+                    response = login()
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
+                }
+
+//
             }
         }
 
@@ -79,7 +87,7 @@ class Intercept
             // request에 토큰을 붙여서 새로운 request 생성 -> 진행
             response = this.proceedWithToken(this.request())
 
-            return if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
+            return if (response.code == 401) {
                 Log.d("TokenTest", "Here is Login")
                 runBlocking { tokenRepositoryImpl.clearData() }
                 Response.Builder()

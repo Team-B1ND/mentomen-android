@@ -1,6 +1,7 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -22,23 +23,23 @@ class HomeAdapter(
         binding: ItemHomeBinding,
     ) {
         binding.item = item
+        Log.d("action: ", "${item.isExpended} + ${item.content}")
         if (item.isExpended) {
             binding.tvPreview.maxLines = Int.MAX_VALUE
             binding.btnShowMore.visibility = View.GONE
         } else {
             binding.tvPreview.maxLines = 3
-        }
+            binding.tvPreview.post {
+                val layout = binding.tvPreview.layout
 
-        binding.tvPreview.post {
-            val layout = binding.tvPreview.layout
+                // 마지막 줄이 완전히 보이지 않는 경우에는 "..."이 있는 것으로 판단
+                val lastLineVisible = layout.getEllipsisCount(layout.lineCount - 1) == 0
 
-            // 마지막 줄이 완전히 보이지 않는 경우에는 "..."이 있는 것으로 판단
-            val lastLineVisible = layout.getEllipsisCount(layout.lineCount - 1) == 0
-
-            if (!lastLineVisible) {
-                binding.btnShowMore.visibility = View.VISIBLE
-            } else {
-                binding.btnShowMore.visibility = View.GONE
+                if (!lastLineVisible) {
+                    binding.btnShowMore.visibility = View.VISIBLE
+                } else {
+                    binding.btnShowMore.visibility = View.GONE
+                }
             }
         }
         if (!item.imgUrls.isNullOrEmpty()) {

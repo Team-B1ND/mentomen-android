@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.take
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
@@ -15,153 +16,50 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel
-    @Inject
-    constructor(
-        private val getAllPostUseCase: GetAllPostUseCase,
-        private val getPostsByTagUseCase: GetPostsByTagUseCase,
-    ) : BaseViewModel() {
-        val postState = MutableStateFlow<PostState>(PostState())
-        private val _errorFlow = MutableSharedFlow<String?>()
-        val errorFlow = _errorFlow.asSharedFlow()
-        private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-        var allPosts: List<Post>? = null
+@Inject
+constructor(
+    private val getAllPostUseCase: GetAllPostUseCase,
+    private val getPostsByTagUseCase: GetPostsByTagUseCase,
+) : BaseViewModel() {
+    val postState = MutableStateFlow<PostState>(PostState())
+    private val _errorFlow = MutableSharedFlow<String?>()
+    val errorFlow = _errorFlow.asSharedFlow()
+    private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    var allPosts: List<Post>? = null
 
-        init {
+    init {
+        getAllPost()
+    }
+
+    fun getAllPost() {
+        getAllPostUseCase.invoke().safeApiCall(
+            isLoading,
+            successAction = {
+                allPosts = it
+                postState.value =
+                    PostState(
+                        postList = it,
+                        tag = "ALL",
+                    )
+            },
+            errorAction = {
+                _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
+            },
+        )
+    }
+
+    fun onClickDesignBtn() {
+        if (postState.value.tag == "DESIGN") {
             getAllPost()
-        }
-
-        fun getAllPost() {
-            if (postState.value.tag != "ALL") {
-                getAllPostUseCase.invoke().safeApiCall(
-                    isLoading,
-                    successAction = {
-                        allPosts = it
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "ALL",
-                            )
-                    },
-                    errorAction = {
-                        _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                    },
-                )
-            }
-        }
-
-        fun onClickDesignBtn() {
+        } else {
             getPostsByTagUseCase("DESIGN").safeApiCall(
                 isLoading,
                 successAction = {
-                    if (postState.value.tag != "DESIGN") {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "DESIGN",
-                            )
-                    } else {
-                        postState.value =
-                            PostState(
-                                postList = allPosts,
-                                tag = "ALL",
-                            )
-                    }
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
-            )
-        }
-
-        fun onClickWebBtn() {
-            getPostsByTagUseCase("WEB").safeApiCall(
-                isLoading,
-                successAction = {
-                    if (postState.value.tag != "WEB") {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "WEB",
-                            )
-                    } else {
-                        postState.value =
-                            PostState(
-                                postList = allPosts,
-                                tag = "ALL",
-                            )
-                    }
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
-            )
-        }
-
-        fun onClickAndroidBtn() {
-            getPostsByTagUseCase("ANDROID").safeApiCall(
-                isLoading,
-                successAction = {
-                    if (postState.value.tag != "ANDROID") {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "ANDROID",
-                            )
-                    } else {
-                        postState.value =
-                            PostState(
-                                postList = allPosts,
-                                tag = "ALL",
-                            )
-                    }
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
-            )
-        }
-
-        fun onClickServerBtn() {
-            getPostsByTagUseCase("SERVER").safeApiCall(
-                isLoading,
-                successAction = {
-                    if (postState.value.tag != "SERVER") {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "SERVER",
-                            )
-                    } else {
-                        postState.value =
-                            PostState(
-                                postList = allPosts,
-                                tag = "ALL",
-                            )
-                    }
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
-            )
-        }
-
-        fun onClickIOSBtn() {
-            getPostsByTagUseCase("IOS").safeApiCall(
-                isLoading,
-                successAction = {
-                    if (postState.value.tag != "IOS") {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "IOS",
-                            )
-                    } else {
-                        postState.value =
-                            PostState(
-                                postList = allPosts,
-                                tag = "ALL",
-                            )
-                    }
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "DESIGN",
+                        )
                 },
                 errorAction = {
                     _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
@@ -169,3 +67,84 @@ class HomeViewModel
             )
         }
     }
+
+    fun onClickWebBtn() {
+        if (postState.value.tag == "WEB") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("WEB").safeApiCall(
+                isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "WEB",
+                        )
+                },
+                errorAction = {
+                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
+                },
+            )
+        }
+    }
+
+    fun onClickAndroidBtn() {
+        if (postState.value.tag == "ANDROID") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("ANDROID").safeApiCall(
+                isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "ANDROID",
+                        )
+                },
+                errorAction = {
+                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
+                },
+            )
+        }
+    }
+
+    fun onClickServerBtn() {
+        if (postState.value.tag == "SERVER") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("SERVER").safeApiCall(
+                isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "SERVER",
+                        )
+                },
+                errorAction = {
+                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
+                },
+            )
+        }
+    }
+
+    fun onClickIOSBtn() {
+        if (postState.value.tag == "IOS") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("IOS").safeApiCall(
+                isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "IOS",
+                        )
+                },
+                errorAction = {
+                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
+                },
+            )
+        }
+    }
+}
