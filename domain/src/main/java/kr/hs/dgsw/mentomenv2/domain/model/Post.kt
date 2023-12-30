@@ -15,6 +15,7 @@ data class Post(
     val updateDateTime: String,
     val updateStatus: String,
     val userName: String,
+    var isExpended: Boolean = false,
 ) : Parcelable {
     // Parcelable 구현 코드
     override fun writeToParcel(
@@ -32,6 +33,7 @@ data class Post(
         parcel.writeString(updateDateTime)
         parcel.writeString(updateStatus)
         parcel.writeString(userName)
+        parcel.writeByte(if (isExpended) 1 else 0)
     }
 
     override fun describeContents(): Int {
@@ -60,5 +62,6 @@ data class Post(
         updateDateTime = parcel.readString() ?: "",
         updateStatus = parcel.readString() ?: "",
         userName = parcel.readString() ?: "",
+        isExpended = parcel.readByte() != 0.toByte(),
     )
 }

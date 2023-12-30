@@ -24,7 +24,7 @@ class MyViewModel
                     imgUrls = listOf("https://flexible.img.hani.co.kr/flexible/normal/640/427/imgdb/original/2023/1106/20231106503357.jpg"),
                     createDateTime = "2023-11-06T14:28:51.528245",
                     postId = 1,
-                    profileUrl = "https://dodam.kr.object.ncloudstorage.com/dodam/357d39e0-4c1c-4c31-81c8-f791c14566dfDODAM_FILE_280255852.jpg",
+                    "https://dodam.kr.object.ncloudstorage.com/dodam/357d39e0-4c1c-4c31-81c8-f791c14566dfDODAM_FILE_280255852.jpg",
                     stdInfo = stdInfo,
                     tag = "DESIGN",
                     updateDateTime = "2023-11-06T14:28:51.528245",

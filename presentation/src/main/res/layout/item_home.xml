@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="kr.hs.dgsw.mentomenv2.domain.model.Post" />
@@ -39,7 +40,6 @@
                     android:layout_height="35dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/ic_user"
-                    app:layout_constraintBottom_toTopOf="@id/cv_preview"
                     app:layout_constraintStart_toStartOf="@id/tv_preview"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,10 +50,10 @@
                     android:layout_marginStart="7dp"
                     android:fontFamily="@font/variable"
                     android:text="@{item.userName}"
-                    tools:text="도현욱"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@id/iv_profile"
-                    app:layout_constraintTop_toTopOf="@id/iv_profile" />
+                    app:layout_constraintTop_toTopOf="@id/iv_profile"
+                    tools:text="도현욱" />
 
                 <TextView
                     android:id="@+id/tv_student_id"
@@ -62,61 +62,68 @@
                     android:layout_marginStart="7dp"
                     android:fontFamily="@font/variable"
                     android:text='@{item.stdInfo.grade + "학년" + item.stdInfo.room + "반" + item.stdInfo.number + "번"}'
-                    tools:text="2학년4반6번"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@id/iv_profile"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_name"
+                    tools:text="2학년4반6번" />
 
                 <TextView
                     android:id="@+id/tv_preview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="20dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/variable"
-                    android:maxLines="3"
                     android:text="@{item.content}"
-                    tools:text="제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cv_preview"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="10dp"/>
+                    app:layout_constraintTop_toBottomOf="@id/iv_profile"
+                    tools:text="제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?" />
+
+                <TextView
+                    android:id="@+id/btn_show_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_more"
+                    android:fontFamily="@font/variable"
+                    android:textColor="@color/gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_preview"
+                    app:layout_constraintStart_toStartOf="@id/tv_preview" />
 
                 <TextView
                     android:id="@+id/tv_time"
+                    date="@{item.createDateTime}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/variable"
-                    date="@{item.createDateTime}"
-                    tools:text="4시간 전"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@id/iv_major"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="4시간 전" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_preview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:layout_marginBottom="20dp"
                     app:cardCornerRadius="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_preview"
-                    app:layout_constraintTop_toBottomOf="@id/iv_profile"
-                    app:layout_constraintBottom_toTopOf="@id/tv_preview">
+                    app:layout_constraintTop_toBottomOf="@id/btn_show_more">
 
                     <ImageView
                         android:id="@+id/iv_preview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_user"
+                        android:adjustViewBounds="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
