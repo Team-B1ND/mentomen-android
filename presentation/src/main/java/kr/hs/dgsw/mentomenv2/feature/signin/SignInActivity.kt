@@ -23,9 +23,9 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
         collectTokenState()
         collectEvent()
         settingDAuth(
-            Client.clientId,
-            Client.clientSecret,
-            Client.redirectUri,
+            Client.CLIENT_ID,
+            Client.CLIENT_SECRET,
+            Client.REDIRECT_URL,
         )
         lifecycleScope.launch {
             viewModel.getToken()
@@ -33,7 +33,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 if (token.refreshToken != "") {
                     getRefreshToken(
                         token.refreshToken,
-                        Client.clientId,
+                        Client.CLIENT_ID,
                         onSuccess = {
                             Log.d("start: getRefreshToken Success", it.expiresIn + "token type : " + it.tokenType)
                             viewModel.setAccessToken(it.accessToken)

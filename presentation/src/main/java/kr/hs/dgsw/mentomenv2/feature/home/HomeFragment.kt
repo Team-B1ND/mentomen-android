@@ -19,7 +19,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         HomeAdapter {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
             Log.d("HomeFragemnt", "HomeFragment item clicked")
-
         }
 
     override fun setupViews() {

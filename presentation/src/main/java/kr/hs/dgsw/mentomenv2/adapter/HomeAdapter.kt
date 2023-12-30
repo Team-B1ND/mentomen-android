@@ -11,12 +11,10 @@ import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
 import kr.hs.dgsw.mentomenv2.databinding.ItemHomeBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 
-
 class HomeAdapter(
-    private val itemClick: (Post) -> Unit
+    private val itemClick: (Post) -> Unit,
 ) :
     BaseListAdapter<Post, ItemHomeBinding>(R.layout.item_home, PostDiffUtilCallback) {
-
     @SuppressLint("SetTextI18n")
     override fun action(
         item: Post,
