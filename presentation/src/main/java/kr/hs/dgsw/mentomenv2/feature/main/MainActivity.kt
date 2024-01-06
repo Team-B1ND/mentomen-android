@@ -79,11 +79,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onBackPressed() {
         Log.d("Debug", "onBackPressed() called")
-        if (mBackPressed + timeInterval > System.currentTimeMillis()) {
-            super.onBackPressed()
-            return
+
+        val detailFragment = supportFragmentManager.findFragmentByTag("DetailFragment")
+
+        if (detailFragment != null && detailFragment.isVisible) {
+            // DetailFragment가 열려있을 때
+            supportFragmentManager.beginTransaction().remove(detailFragment).commit()
+            // 또는 supportFragmentManager.popBackStack()를 사용하여 back stack에서 fragment를 제거할 수도 있습니다.
         } else {
-            Toast.makeText(baseContext, "한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            // DetailFragment가 닫혀있을 때
+            if (mBackPressed + timeInterval > System.currentTimeMillis()) {
+                super.onBackPressed()
+                return
+            } else {
+                Toast.makeText(baseContext, "한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         mBackPressed = System.currentTimeMillis()

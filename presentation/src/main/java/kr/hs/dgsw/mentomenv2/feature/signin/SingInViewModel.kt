@@ -22,8 +22,7 @@ class SingInViewModel
     ) : BaseViewModel() {
         val tokenState = MutableStateFlow<Token>(Token("", ""))
         private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-
-        val event = MutableSharedFlow<Unit>()
+        val event = MutableSharedFlow<String>()
 
         fun getToken() {
             dataStoreRepository.getToken().safeApiCall(
@@ -37,6 +36,9 @@ class SingInViewModel
                 },
                 errorAction = {
                     tokenState.value = Token("", "")
+                    viewModelScope.launch {
+                        event.emit("Login")
+                    }
                     Log.d(
                         "singInViewModel getToken: StartError",
                         "token: ${tokenState.value.accessToken} + ${tokenState.value.refreshToken}",
@@ -90,16 +92,19 @@ class SingInViewModel
                         setAccessToken(it?.accessToken ?: "")
                         setRefreshToken(it?.refreshToken ?: "")
                         Log.d("getTokenUseCode: ", "getTokenUseCode: event emit 호출됨")
-                        event.emit(Unit)
+                        if (!it?.accessToken.isNullOrBlank() && !it?.refreshToken.isNullOrBlank()) {
+                            event.emit("Start")
+                        }
                     }
                 },
                 errorAction = {
+                    viewModelScope.launch {
+                        setAccessToken("")
+                        setRefreshToken("")
+                        event.emit("Login")
+                    }
                     Log.d("getTokenUseCode: error", "error: $it")
                 },
             )
-        }
-
-        init {
-            getToken()
         }
     }
