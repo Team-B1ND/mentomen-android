@@ -6,17 +6,21 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.hs.dgsw.mentomenv2.data.datasource.cache.DataStoreDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasource.remote.AuthDataSourceImpl
+import kr.hs.dgsw.mentomenv2.data.datasource.remote.CommentDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasource.remote.FileDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasource.remote.PostDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.remote.AuthDataSource
+import kr.hs.dgsw.mentomenv2.data.remote.CommentDataSource
 import kr.hs.dgsw.mentomenv2.data.remote.DataStoreDataSource
 import kr.hs.dgsw.mentomenv2.data.remote.FileDataSource
 import kr.hs.dgsw.mentomenv2.data.remote.PostDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.AuthRepositoryImpl
+import kr.hs.dgsw.mentomenv2.data.repository.CommentRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.FileRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.PostRepositoryImplImpl
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
+import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.FileRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
@@ -56,4 +60,11 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindsFileDataSource(fileDataSourceImpl: FileDataSourceImpl): FileDataSource
+
+    @Binds
+    @Singleton
+    fun bindsCommentRepository(commentRepositoryImpl: CommentRepositoryImpl): CommentRepository
+    @Binds
+    @Singleton
+    fun bindsCommentDataSource(commentDataSourceImpl: CommentDataSourceImpl): CommentDataSource
 }
