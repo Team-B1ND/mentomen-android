@@ -45,7 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private fun collectPostStates() {
         lifecycleScope.launch {
             viewModel.postState.collect { state ->
-                if (state.postList != null) {
+                if ((state.postList?: emptyList()).isNotEmpty()) {
                     adapter.submitList(state.postList)
                 }
                 if (state.error.isNotBlank()) {

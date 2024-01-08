@@ -33,6 +33,14 @@ class SingInViewModel
                         "singInViewModel getToken: StartSuccess",
                         "token: ${it?.accessToken ?: ""} + ${it?.refreshToken ?: ""}",
                     )
+                    viewModelScope.launch {
+                        if (!it?.accessToken.isNullOrBlank() && !it?.refreshToken.isNullOrBlank()) {
+                            event.emit("Start")
+                        }
+                        else {
+                            event.emit("Login")
+                        }
+                    }
                 },
                 errorAction = {
                     tokenState.value = Token("", "")

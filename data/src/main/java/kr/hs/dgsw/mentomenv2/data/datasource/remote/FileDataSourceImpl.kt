@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.data.remote.FileDataSource
-import kr.hs.dgsw.mentomenv2.data.response.ImgUrlResponseDto
+import kr.hs.dgsw.mentomenv2.data.response.ImgUrlResponse
 import kr.hs.dgsw.mentomenv2.data.service.FileService
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -15,7 +15,7 @@ class FileDataSourceImpl
     constructor(
         private val api: FileService,
     ) : FileDataSource {
-        override fun postFile(files: List<MultipartBody.Part>): Flow<List<ImgUrlResponseDto>> {
+        override fun postFile(files: List<MultipartBody.Part>): Flow<List<ImgUrlResponse>> {
             return flow {
                 val response = api.postFile(files).execute()
 

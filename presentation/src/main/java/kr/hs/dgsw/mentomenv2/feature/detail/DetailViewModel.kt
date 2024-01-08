@@ -1,11 +1,20 @@
 package kr.hs.dgsw.mentomenv2.feature.detail
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
+import kr.hs.dgsw.mentomenv2.domain.model.Comment
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
-import org.w3c.dom.Comment
+import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
+import kr.hs.dgsw.mentomenv2.state.CommentState
+import javax.inject.Inject
 
-class DetailViewModel : BaseViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    private val commentRepository: CommentRepository
+) : BaseViewModel() {
     val itemList = MutableLiveData<List<Comment>>()
     val userId = MutableLiveData<Int>()
     val author = MutableLiveData<Int>()
@@ -19,7 +28,25 @@ class DetailViewModel : BaseViewModel() {
     val userName = MutableLiveData<String>()
     val commentContent = MutableLiveData<String>()
     val profileImage = MutableLiveData<String>()
+    val postState = MutableStateFlow<CommentState>(CommentState())
 
     fun postComment() {
+    }
+
+    fun getComment(postId: Int) {
+        commentRepository.getCommentList(postId).safeApiCall(
+            null,
+            { comments ->
+                Log.d("getComment: ", "getComment: $comments")
+                postState.value = CommentState(
+                    commentList = comments,
+                )
+            },
+            {
+                postState.value = CommentState(
+                    error = it.toString(),
+                )
+            }
+        )
     }
 }

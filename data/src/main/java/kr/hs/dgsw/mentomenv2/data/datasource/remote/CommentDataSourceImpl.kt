@@ -1,7 +1,10 @@
 package kr.hs.dgsw.mentomenv2.data.datasource.remote
 
+import android.util.Log
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.data.remote.CommentDataSource
 import kr.hs.dgsw.mentomenv2.data.request.CommentSubmitRequest
 import kr.hs.dgsw.mentomenv2.data.request.CommentUpdateRequest
@@ -16,8 +19,14 @@ constructor(
 ) : CommentDataSource {
     override fun getCommentList(postId: Int): Flow<List<Comment>> {
         return flow {
-            emit(api.getCommentList(postId).data)
-        }
+            val response = api.getCommentList(postId).execute()
+
+            if (response.isSuccessful) {
+                emit(response.body()?.data ?: emptyList())
+            } else {
+                throw Exception("댓글 목록을 불러오는데 실패했습니다.")
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
     override fun submitComment(commentSubmitRequest: CommentSubmitRequest): Flow<Unit> {

@@ -4,6 +4,7 @@ import kr.hs.dgsw.mentomenv2.data.request.CommentSubmitRequest
 import kr.hs.dgsw.mentomenv2.data.request.CommentUpdateRequest
 import kr.hs.dgsw.mentomenv2.data.response.base.BaseResponse
 import kr.hs.dgsw.mentomenv2.domain.model.Comment
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -15,7 +16,7 @@ interface CommentService {
     @GET("comment/read/{postId}")
     fun getCommentList(
         @Path("postId") postId: Int
-    ): BaseResponse<List<Comment>>
+    ): Call<BaseResponse<List<Comment>>>
 
     @POST("comment/submit")
     fun submitComment(
