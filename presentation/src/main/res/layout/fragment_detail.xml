@@ -320,14 +320,14 @@
                 <ImageButton
                     android:id="@+id/iv_send"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="7dp"
                     android:background="#00FFFFFF"
                     android:contentDescription="@string/todo"
-                    android:onClick="@{() -> vm.postComment()}"
                     android:src="@drawable/ic_send"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/et_comment" />
 

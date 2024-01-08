@@ -21,7 +21,7 @@ interface CommentService {
     @POST("comment/submit")
     fun submitComment(
         @Body commentSubmitDto: CommentSubmitRequest
-    ): BaseResponse<Unit>
+    ): Call<BaseResponse<Unit>>
 
     @DELETE("comment/delete/{id}")
     fun deleteComment(

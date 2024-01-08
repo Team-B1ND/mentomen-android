@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
-import kr.hs.dgsw.mentomenv2.domain.exception.TokenException
+import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import java.io.IOException
@@ -27,9 +27,8 @@ abstract class BaseRepositoryImpl {
                             if (e.code() == 401) emit(Result.Error(Utils.TOKEN_EXCEPTION))
                             else emit(Result.Error(Utils.convertErrorBody(e)))
                         }
-
+                        is MenToMenException -> emit(Result.Error(e.message))
                         is IOException -> emit(Result.Error(Utils.NETWORK_ERROR_MESSAGE))
-                        is TokenException -> emit(Result.Error(Utils.TOKEN_EXCEPTION))
                         else -> emit(Result.Error(Utils.EXCEPTION))
                     }
                 }.collect()

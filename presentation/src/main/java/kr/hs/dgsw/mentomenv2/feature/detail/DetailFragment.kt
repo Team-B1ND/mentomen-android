@@ -29,13 +29,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
         }
 
     override fun setupViews() {
-        viewModel.getComment(args.item.postId)
         collectState()
         (activity as MainActivity).hasBottomBar(false)
         viewModel.userName.value = args.item.userName
         viewModel.content.value = args.item.content
         viewModel.createDateTime.value = args.item.createDateTime
         viewModel.stdInfo.value = args.item.stdInfo
+        viewModel.postId.value = args.item.postId
+        viewModel.getComment()
 
         mBinding.datetime.text = args.item.createDateTime
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
@@ -69,7 +70,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
         }
 
         mBinding.ivSend.setOnClickListener {
-            Toast.makeText(requireContext(), "댓글 작성 완료", Toast.LENGTH_SHORT).show()
+            viewModel.postComment()
         }
 
         // nav arg로 받는 게 아니라 post Id를 받아와서 호출하는 방식으로 바꿔야함, 실시간성 때문에
@@ -78,7 +79,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
 
     private fun collectState() {
         lifecycleScope.launch {
-            viewModel.postState.collect { state ->
+            viewModel.commentState.collect { state ->
                 if ((state.commentList ?: emptyList()).isNotEmpty()) {
                     Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
                     commentAdapter.submitList(state.commentList)

@@ -17,17 +17,30 @@ class CommentRepositoryImpl
 constructor(
     private val commentDataSource: CommentDataSource,
 ) : BaseRepositoryImpl(), CommentRepository {
-    override fun submitComment(commentSubmitParam: CommentSubmitParam) {
-        commentDataSource.submitComment(CommentSubmitRequest(commentSubmitParam.content, commentSubmitParam.postId))
-    }
+    override fun submitComment(commentSubmitParam: CommentSubmitParam): Flow<Result<Unit>> =
+        execute {
+            commentDataSource.submitComment(
+                CommentSubmitRequest(
+                    commentSubmitParam.content,
+                    commentSubmitParam.postId
+                )
+            )
+        }
 
-    override fun updateComment(commentUpdateParam: CommentUpdateParam) {
-        commentDataSource.updateComment(CommentUpdateRequest(commentUpdateParam.commentId, commentUpdateParam.content))
-    }
+    override fun updateComment(commentUpdateParam: CommentUpdateParam): Flow<Result<Unit>> =
+        execute {
+            commentDataSource.updateComment(
+                CommentUpdateRequest(
+                    commentUpdateParam.commentId,
+                    commentUpdateParam.content
+                )
+            )
+        }
 
-    override fun deleteComment(commentId: Int) {
-        commentDataSource.deleteComment(commentId)
-    }
+    override fun deleteComment(commentId: Int): Flow<Result<Unit>> =
+        execute {
+            commentDataSource.deleteComment(commentId)
+        }
 
     override fun getCommentList(postId: Int): Flow<Result<List<Comment>>> =
         execute {

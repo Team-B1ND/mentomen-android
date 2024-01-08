@@ -89,10 +89,10 @@
                     android:fontFamily="@font/variable"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/name"
                     app:layout_constraintEnd_toStartOf="@id/room"
                     app:layout_constraintStart_toEndOf="@id/name"
                     app:layout_constraintTop_toTopOf="@id/name"
-                    app:layout_constraintBottom_toBottomOf="@id/name"
                     tools:text="1학년" />
 
                 <TextView
@@ -103,11 +103,10 @@
                     android:fontFamily="@font/variable"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
-                    android:layout_marginStart="3dp"
+                    app:layout_constraintBottom_toBottomOf="@id/name"
                     app:layout_constraintEnd_toStartOf="@id/number"
                     app:layout_constraintStart_toEndOf="@+id/grade"
                     app:layout_constraintTop_toTopOf="@id/name"
-                    app:layout_constraintBottom_toBottomOf="@id/name"
                     tools:text="2반" />
 
                 <TextView
@@ -118,10 +117,9 @@
                     android:fontFamily="@font/variable"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
-                    android:layout_marginStart="3dp"
+                    app:layout_constraintBottom_toBottomOf="@id/name"
                     app:layout_constraintStart_toEndOf="@+id/room"
                     app:layout_constraintTop_toTopOf="@id/name"
-                    app:layout_constraintBottom_toBottomOf="@id/name"
                     tools:text="15번" />
 
                 <TextView
@@ -141,6 +139,19 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_time"
+                date="@{item.createDateTime}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:fontFamily="@font/variable"
+                android:textColor="@color/gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="10시간 전" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
