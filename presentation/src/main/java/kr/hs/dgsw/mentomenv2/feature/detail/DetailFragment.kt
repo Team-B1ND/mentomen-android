@@ -24,9 +24,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
     private val args: DetailFragmentArgs by navArgs()
 
     private val commentAdapter =
-        CommentAdapter {
-            Log.d("Comment", "Comment item clicked")
-        }
+        CommentAdapter()
 
     override fun setupViews() {
         collectState()

@@ -13,6 +13,8 @@
     <color name="hint">#FF858585</color>
     <color name="accent">#FF2745F2</color>
     <color name="blue">#2749DC</color>
+    <color name="ios_blue">#FF007AFF</color>
+    <color name="ios_red">#FFFF3b30</color>
     <color name="blue100">#FFBDC5F2</color>
     <color name="blue300">#FF6B7FF2</color>
     <color name="blue500">#FF415CF2</color>
