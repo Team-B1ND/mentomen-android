@@ -22,13 +22,15 @@ class CommentAdapter(private val callback: CommentAdapterCallback) :
         val bottomSheetDialog = BottomSheetDialog(binding.root.context)
 
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
-        
+
         binding.btnMore.setOnClickListener {
             bottomSheetDialog.show()
         }
+
         bottomSheetBinding.tvCancel.setOnClickListener {
             bottomSheetDialog.dismiss()
         }
+
         bottomSheetBinding.tvDelete.setOnClickListener {
             callback.deleteComment(item.commentId.toInt())
             bottomSheetDialog.dismiss()

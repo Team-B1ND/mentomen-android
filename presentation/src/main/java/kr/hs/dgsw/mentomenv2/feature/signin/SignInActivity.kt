@@ -12,6 +12,7 @@ import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getCode
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getRefreshToken
+import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getUserInfo
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.settingDAuth
 
 @AndroidEntryPoint
@@ -29,24 +30,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 Client.REDIRECT_URL,
             )
             viewModel.getToken()
-            viewModel.tokenState.collect { token ->
-                if (token.refreshToken != "") {
-                    getRefreshToken(
-                        token.refreshToken,
-                        Client.CLIENT_ID,
-                        onSuccess = {
-                            Log.d(
-                                "start: getRefreshToken Success",
-                                it.expiresIn + "token type : " + it.tokenType
-                            )
-                            viewModel.setAccessToken(it.accessToken)
-                        },
-                        onFailure = {
-                            Log.d("start: getRefreshToken : ", it.message.toString())
-                        },
-                    )
-                }
-            }
         }
     }
 
