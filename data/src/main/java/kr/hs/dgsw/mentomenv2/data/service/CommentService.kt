@@ -26,10 +26,10 @@ interface CommentService {
     @DELETE("comment/delete/{id}")
     fun deleteComment(
         @Path("id") id: Int
-    ): BaseResponse<Unit>
+    ): Call<BaseResponse<Unit>>
 
     @PATCH("comment/update")
     fun updateComment(
         @Body commentUpdateDto: CommentUpdateRequest
-    ): BaseResponse<Unit>
+    ): Call<BaseResponse<Unit>>
 }

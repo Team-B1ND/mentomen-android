@@ -43,13 +43,25 @@ constructor(
 
     override fun updateComment(commentUpdateRequest: CommentUpdateRequest): Flow<Unit> {
         return flow {
-            emit(api.updateComment(commentUpdateRequest).data)
-        }
+            val response = api.updateComment(commentUpdateRequest).execute()
+
+            if (response.isSuccessful) {
+                emit(response.body()?.data ?: Unit)
+            } else {
+                throw MenToMenException("댓글을 수정하는데 실패했습니다.")
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
     override fun deleteComment(commentId: Int): Flow<Unit> {
         return flow {
-            emit(api.deleteComment(commentId).data)
-        }
+            val response = api.deleteComment(commentId).execute()
+
+            if (response.isSuccessful) {
+                emit(response.body()?.data ?: Unit)
+            } else {
+                throw MenToMenException("댓글을 삭제하는데 실패했습니다.")
+            }
+        }.flowOn(Dispatchers.IO)
     }
 }

@@ -14,20 +14,22 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.CommentAdapter
 import kr.hs.dgsw.mentomenv2.adapter.DetailImageAdapter
+import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentDetailBinding
 import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
+class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
+    CommentAdapterCallback {
     private val commentViewModel: CommentViewModel by viewModels()
     override val detailViewModel: DetailViewModel by viewModels()
 
     private val args: DetailFragmentArgs by navArgs()
 
     private val commentAdapter =
-        CommentAdapter()
+        CommentAdapter(this)
 
     override fun setupViews() {
         collectState()
@@ -44,6 +46,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
         mBinding.datetime.text = args.item.createDateTime
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvComment.adapter = commentAdapter
+
+
 
         if (args.item.profileUrl.isNotEmpty()) {
             Glide.with(requireContext())
@@ -83,10 +87,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
     private fun collectState() {
         lifecycleScope.launch {
             commentViewModel.commentState.collect { state ->
-                if ((state.commentList ?: emptyList()).isNotEmpty()) {
-                    Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
-                    commentAdapter.submitList(state.commentList)
-                }
+                Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
+                commentAdapter.submitList(state.commentList)
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
@@ -97,5 +99,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
     override fun onDestroyView() {
         super.onDestroyView()
         (activity as MainActivity).hasBottomBar(true)
+    }
+
+    override fun deleteComment(commentId: Int) {
+        commentViewModel.deleteComment(commentId)
+    }
+
+    override fun updateComment(commentId: Int, content: String) {
+        commentViewModel.updateComment(commentId, content)
     }
 }

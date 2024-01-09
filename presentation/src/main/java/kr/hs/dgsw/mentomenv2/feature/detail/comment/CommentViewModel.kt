@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentViewModel @Inject constructor(
     private val commentRepository: CommentRepository
-): BaseViewModel() {
+) : BaseViewModel() {
     val commentState = MutableStateFlow<CommentState>(CommentState())
     val postId = MutableLiveData<Int>()
     val commentContent = MutableLiveData<String>()
@@ -36,27 +36,13 @@ class CommentViewModel @Inject constructor(
                 ).safeApiCall(
                     null,
                     {
-                        commentContent.value = ""
-                        commentState.value = CommentState(
-                            error = "댓글 작성 성공"
-                        )
-                        commentRepository.getCommentList(postId.value ?: 0).safeApiCall(null,
-                            { comments ->
-                                commentState.value = CommentState(
-                                    commentList = comments,
-                                )
-                            },
-                            {
-                                commentState.value = CommentState(
-                                    error = it.toString(),
-                                )
-                            })
-                        Log.d("postComment: ", "postComment 성공")
+                        getComment()
                     },
                     {
                         commentState.value = CommentState(
                             error = it.toString()
                         )
+                        getComment()
                     }
                 )
             }
@@ -89,23 +75,18 @@ class CommentViewModel @Inject constructor(
                     commentState.value = CommentState(
                         error = "댓글 삭제 성공"
                     )
-                    commentRepository.getCommentList(postId.value ?: 0).safeApiCall(null,
-                        { comments ->
-                            commentState.value = CommentState(
-                                commentList = comments,
-                            )
-                        },
-                        {
-                            commentState.value = CommentState(
-                                error = it.toString(),
-                            )
-                        })
+                    getComment()
                 },
                 {
                     commentState.value = CommentState(
                         error = it.toString()
                     )
+                    getComment()
                 }
             )
+    }
+
+    fun updateComment(commentId: Int, content: String) {
+
     }
 }

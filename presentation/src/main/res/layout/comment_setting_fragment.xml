@@ -12,6 +12,7 @@
         app:behavior_draggable="true"
         app:behavior_peekHeight="50dp"
         app:behavior_hideable="true"
+        android:background="@color/ios_gray"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <TextView
@@ -21,6 +22,7 @@
             android:fontFamily="@font/variable"
             android:gravity="center"
             android:text="@string/cancel"
+            android:background="@color/white"
             android:textColor="@color/ios_blue"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,9 +33,10 @@
             android:id="@+id/tv_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="5dp"
             android:fontFamily="@font/variable"
             android:gravity="center"
+            android:background="@color/white"
             android:text="@string/edit"
             android:textColor="@color/ios_blue"
             android:textSize="18sp"
@@ -49,6 +52,7 @@
             android:fontFamily="@font/variable"
             android:gravity="center"
             android:text="@string/delete"
+            android:background="@color/white"
             android:textColor="@color/ios_red"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_edit"
