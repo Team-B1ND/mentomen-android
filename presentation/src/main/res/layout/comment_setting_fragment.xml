@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="viewModel"
-            type="kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentSheetViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:behavior_draggable="true"
+        app:behavior_peekHeight="50dp"
         app:behavior_hideable="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -23,7 +20,6 @@
             android:layout_height="50dp"
             android:fontFamily="@font/variable"
             android:gravity="center"
-            android:onClick="@{() -> viewModel.cancel()}"
             android:text="@string/cancel"
             android:textColor="@color/ios_blue"
             android:textSize="18sp"
@@ -38,7 +34,6 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/variable"
             android:gravity="center"
-            android:onClick="@{() -> viewModel.editComment()}"
             android:text="@string/edit"
             android:textColor="@color/ios_blue"
             android:textSize="18sp"
@@ -53,7 +48,6 @@
             android:layout_height="50dp"
             android:fontFamily="@font/variable"
             android:gravity="center"
-            android:onClick="@{() -> viewModel.deleteComment()}"
             android:text="@string/delete"
             android:textColor="@color/ios_red"
             android:textSize="18sp"

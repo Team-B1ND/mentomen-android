@@ -21,18 +21,18 @@ import java.util.Objects
 abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
     protected lateinit var mBinding: VB
     protected lateinit var mViewModel: VM
-    protected abstract val viewModel: VM
+    protected abstract val detailViewModel: VM
 
     protected var savedInstanceState: Bundle? = null
 
     protected fun bindingViewEvent(action: (event: Any) -> Unit) {
-        viewModel.viewEvent.observe(viewLifecycleOwner) {
+        detailViewModel.viewEvent.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { event ->
                 action.invoke(event)
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        detailViewModel.error.observe(viewLifecycleOwner) {
             if (it == Utils.TOKEN_EXCEPTION) {
                 Toast.makeText(requireContext(), "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(requireContext(), IntroActivity::class.java)
@@ -59,7 +59,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         this.savedInstanceState = savedInstanceState
         initialize()
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        detailViewModel.error.observe(viewLifecycleOwner) {
             if (it == Utils.TOKEN_EXCEPTION) {
                 val intent = Intent(requireContext(), IntroActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -72,7 +72,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     }
 
     private fun initialize() {
-        mViewModel = if (::mViewModel.isInitialized) mViewModel else viewModel
+        mViewModel = if (::mViewModel.isInitialized) mViewModel else detailViewModel
         mBinding.setVariable(BR.vm, mViewModel)
         mBinding.lifecycleOwner = viewLifecycleOwner
         mBinding.executePendingBindings()

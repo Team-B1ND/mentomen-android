@@ -16,11 +16,14 @@ import kr.hs.dgsw.mentomenv2.adapter.CommentAdapter
 import kr.hs.dgsw.mentomenv2.adapter.DetailImageAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentDetailBinding
+import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
-    override val viewModel: DetailViewModel by viewModels()
+    private val commentViewModel: CommentViewModel by viewModels()
+    override val detailViewModel: DetailViewModel by viewModels()
+
     private val args: DetailFragmentArgs by navArgs()
 
     private val commentAdapter =
@@ -29,12 +32,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
     override fun setupViews() {
         collectState()
         (activity as MainActivity).hasBottomBar(false)
-        viewModel.userName.value = args.item.userName
-        viewModel.content.value = args.item.content
-        viewModel.createDateTime.value = args.item.createDateTime
-        viewModel.stdInfo.value = args.item.stdInfo
-        viewModel.postId.value = args.item.postId
-        viewModel.getComment()
+        mBinding.detailViewModel = detailViewModel
+        mBinding.commentViewModel = commentViewModel
+        detailViewModel.userName.value = args.item.userName
+        detailViewModel.content.value = args.item.content
+        detailViewModel.createDateTime.value = args.item.createDateTime
+        detailViewModel.stdInfo.value = args.item.stdInfo
+        commentViewModel.postId.value = args.item.postId
+        commentViewModel.getComment()
 
         mBinding.datetime.text = args.item.createDateTime
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
@@ -68,7 +73,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
         }
 
         mBinding.ivSend.setOnClickListener {
-            viewModel.postComment()
+            commentViewModel.postComment()
         }
 
         // nav arg로 받는 게 아니라 post Id를 받아와서 호출하는 방식으로 바꿔야함, 실시간성 때문에
@@ -77,7 +82,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>() {
 
     private fun collectState() {
         lifecycleScope.launch {
-            viewModel.commentState.collect { state ->
+            commentViewModel.commentState.collect { state ->
                 if ((state.commentList ?: emptyList()).isNotEmpty()) {
                     Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
                     commentAdapter.submitList(state.commentList)

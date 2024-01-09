@@ -104,13 +104,21 @@ fun comment(
 }
 
 @BindingAdapter("date")
-fun translateDate(
-    tvTime: TextView,
-    dateTime: String,
-) {
+fun translateDate(tvTime: TextView, dateTime: String?) {
+    if (dateTime == null) {
+        // dateTime이 null인 경우 처리
+        return
+    }
+
     val currentTime = Calendar.getInstance()
     currentTime.add(Calendar.HOUR_OF_DAY, -9) // 한국이 UTC+9 라서
     val postDate = dateTime.getYearTimeDate()
+
+    if (postDate == null) {
+        // postDate가 null인 경우 처리
+        return
+    }
+
     val calendar = Calendar.getInstance()
     calendar.time = postDate
 
