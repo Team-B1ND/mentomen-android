@@ -36,6 +36,7 @@ class CommentViewModel @Inject constructor(
                 ).safeApiCall(
                     null,
                     {
+                        commentContent.value = ""
                         getComment()
                     },
                     {

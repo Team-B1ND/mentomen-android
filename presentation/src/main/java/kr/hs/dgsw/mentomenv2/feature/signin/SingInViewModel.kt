@@ -58,10 +58,6 @@ constructor(
                     "token: ${it?.accessToken ?: ""} + ${it?.refreshToken ?: ""}",
                 )
                 checkToken()
-//                 else {
-//                        event.emit("Login")
-//                    }
-//                }
             },
             errorAction = {
                 tokenState.value = Token("", "")

@@ -44,6 +44,18 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
         commentViewModel.postId.value = args.item.postId
         commentViewModel.getComment()
 
+        detailViewModel.profileImage.observe(this) {
+            if (it.isNotEmpty()) {
+                Glide.with(requireContext())
+                    .load(it)
+                    .into(mBinding.ivCommentProfile)
+            } else {
+                Glide.with(requireContext())
+                    .load(R.drawable.ic_default_user)
+                    .into(mBinding.ivCommentProfile)
+            }
+        }
+
         mBinding.datetime.text = args.item.createDateTime
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvComment.adapter = commentAdapter
