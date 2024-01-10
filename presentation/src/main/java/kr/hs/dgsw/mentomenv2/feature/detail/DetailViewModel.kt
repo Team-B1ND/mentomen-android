@@ -5,11 +5,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Comment
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
-import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
+import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor() : BaseViewModel() {
+class DetailViewModel @Inject constructor(
+    private val getMyInfoUseCase: GetMyInfoUseCase
+) : BaseViewModel() {
     val itemList = MutableLiveData<List<Comment>>()
     val userId = MutableLiveData<Int>()
     val author = MutableLiveData<Int>()
@@ -23,5 +25,15 @@ class DetailViewModel @Inject constructor() : BaseViewModel() {
     val userName = MutableLiveData<String>()
     val profileImage = MutableLiveData<String>()
 
-    fun getPostInfo() {}
+    fun getUserInfo() {
+        getMyInfoUseCase.invoke().safeApiCall(
+            null,
+            {
+                profileImage.value = it?.profileImage
+            },
+            {
+                //401이라면? 로그인 되어 있지 않다는 상태 저장 후 댓글 작성 editText 클릭 시 로그인창 띄우기
+            }
+        )
+    }
 }

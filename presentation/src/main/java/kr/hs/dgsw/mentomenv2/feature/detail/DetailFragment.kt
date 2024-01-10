@@ -36,6 +36,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
         (activity as MainActivity).hasBottomBar(false)
         mBinding.detailViewModel = detailViewModel
         mBinding.commentViewModel = commentViewModel
+        detailViewModel.getUserInfo()
         detailViewModel.userName.value = args.item.userName
         detailViewModel.content.value = args.item.content
         detailViewModel.createDateTime.value = args.item.createDateTime

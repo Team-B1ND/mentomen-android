@@ -39,7 +39,7 @@ constructor(
             }
         }
         response = chain.proceedWithToken(chain.request())
-        if (response.code == 401) {
+        if (response.code == 401 || response.code == 400) {
             runBlocking { tokenRepositoryImpl.clearData() }
             response.close()
             Log.d("intercept:", "Here is first 401")
@@ -66,18 +66,9 @@ constructor(
         }
         response = this.proceedWithToken(this.request())
 
-        if (response.code == 401) {
-            try {
-                runBlocking { tokenRepositoryImpl.clearData() }
-                Log.d("intercept:", "Here is second 401")
-                response.close()
-                response = login()
-            } catch (e: JSONException) {
-                e.printStackTrace()
-                throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
-            }
-
-//
+        if (response.code == 401 || response.code == 400) {
+            runBlocking { tokenRepositoryImpl.clearData() }
+            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
         }
     }
 

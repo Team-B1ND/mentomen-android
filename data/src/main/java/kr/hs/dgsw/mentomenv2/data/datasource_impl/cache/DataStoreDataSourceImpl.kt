@@ -1,4 +1,4 @@
-package kr.hs.dgsw.mentomenv2.data.datasource.cache
+package kr.hs.dgsw.mentomenv2.data.datasource_impl.cache
 
 import android.util.Log
 import androidx.datastore.core.DataStore
@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kr.hs.dgsw.mentomenv2.data.remote.DataStoreDataSource
+import kr.hs.dgsw.mentomenv2.data.datasource.DataStoreDataSource
+import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
 import kr.hs.dgsw.mentomenv2.domain.model.Token
 import javax.inject.Inject
 
@@ -43,7 +44,11 @@ class DataStoreDataSourceImpl
                     "DataStoreDataSourceImpl",
                     "Token: ${accessToken.first()}, ${refreshToken.first()} 토큰 호출 성공",
                 )
-                emit(Token(accessToken.first(), refreshToken.first()))
+                if (accessToken.first() == "" || refreshToken.first() == "") {
+                    throw MenToMenException("토큰이 없습니다.")
+                } else {
+                    emit(Token(accessToken.first(), refreshToken.first()))
+                }
             }
 
         override fun getData(

@@ -1,7 +1,7 @@
 package kr.hs.dgsw.mentomenv2.data.repository
 
 import kotlinx.coroutines.flow.Flow
-import kr.hs.dgsw.mentomenv2.data.remote.CommentDataSource
+import kr.hs.dgsw.mentomenv2.data.datasource.CommentDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.base.BaseRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.request.CommentSubmitRequest
 import kr.hs.dgsw.mentomenv2.data.request.CommentUpdateRequest

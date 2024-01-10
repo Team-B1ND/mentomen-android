@@ -21,7 +21,7 @@ abstract class BaseRepositoryImpl {
                     Log.d("BaseReppsitory", "call action.onEach Success")
                     emit(Result.Success(data))
                 }.catch { e ->
-                    Log.d("BaseReppsitory", "onError: e.name: $e message: ${e.message}")
+                    Log.d("BaseReppsitory", "action name: ${javaClass.simpleName} : e.name: $e message: ${e.message}")
                     when (e) {
                         is retrofit2.HttpException -> {
                             if (e.code() == 401) emit(Result.Error(Utils.TOKEN_EXCEPTION))

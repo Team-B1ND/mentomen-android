@@ -4,7 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kr.hs.dgsw.mentomenv2.data.mapper.toModel
-import kr.hs.dgsw.mentomenv2.data.remote.FileDataSource
+import kr.hs.dgsw.mentomenv2.data.datasource.FileDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.base.BaseRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.ImgUrl
 import kr.hs.dgsw.mentomenv2.domain.repository.FileRepository

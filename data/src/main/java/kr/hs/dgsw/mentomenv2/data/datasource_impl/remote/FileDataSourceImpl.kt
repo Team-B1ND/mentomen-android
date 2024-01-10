@@ -1,10 +1,10 @@
-package kr.hs.dgsw.mentomenv2.data.datasource.remote
+package kr.hs.dgsw.mentomenv2.data.datasource_impl.remote
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kr.hs.dgsw.mentomenv2.data.remote.FileDataSource
+import kr.hs.dgsw.mentomenv2.data.datasource.FileDataSource
 import kr.hs.dgsw.mentomenv2.data.response.ImgUrlResponse
 import kr.hs.dgsw.mentomenv2.data.service.FileService
 import okhttp3.MultipartBody

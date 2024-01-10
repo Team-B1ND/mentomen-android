@@ -297,7 +297,7 @@
                         android:layout_height="match_parent"
                         android:contentDescription="@string/todo"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_user" />
+                        android:src="@drawable/ic_default_user" />
                 </androidx.cardview.widget.CardView>
 
                 <EditText

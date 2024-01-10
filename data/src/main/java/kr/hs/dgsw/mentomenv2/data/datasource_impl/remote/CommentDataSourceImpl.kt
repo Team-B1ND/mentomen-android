@@ -1,11 +1,11 @@
-package kr.hs.dgsw.mentomenv2.data.datasource.remote
+package kr.hs.dgsw.mentomenv2.data.datasource_impl.remote
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
-import kr.hs.dgsw.mentomenv2.data.remote.CommentDataSource
+import kr.hs.dgsw.mentomenv2.data.datasource.CommentDataSource
 import kr.hs.dgsw.mentomenv2.data.request.CommentSubmitRequest
 import kr.hs.dgsw.mentomenv2.data.request.CommentUpdateRequest
 import kr.hs.dgsw.mentomenv2.data.service.CommentService

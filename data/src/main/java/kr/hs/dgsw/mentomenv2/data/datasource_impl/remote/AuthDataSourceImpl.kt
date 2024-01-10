@@ -1,9 +1,9 @@
-package kr.hs.dgsw.mentomenv2.data.datasource.remote
+package kr.hs.dgsw.mentomenv2.data.datasource_impl.remote
 
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kr.hs.dgsw.mentomenv2.data.remote.AuthDataSource
+import kr.hs.dgsw.mentomenv2.data.datasource.AuthDataSource
 import kr.hs.dgsw.mentomenv2.data.request.DAuthClientRequest
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.domain.model.Token

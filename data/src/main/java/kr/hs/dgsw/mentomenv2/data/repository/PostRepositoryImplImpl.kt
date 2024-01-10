@@ -1,7 +1,7 @@
 package kr.hs.dgsw.mentomenv2.data.repository
 
 import kotlinx.coroutines.flow.Flow
-import kr.hs.dgsw.mentomenv2.data.remote.PostDataSource
+import kr.hs.dgsw.mentomenv2.data.datasource.PostDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.base.BaseRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
