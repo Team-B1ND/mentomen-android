@@ -33,17 +33,23 @@
             android:id="@+id/tv_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
             android:fontFamily="@font/variable"
             android:gravity="center"
             android:background="@color/white"
             android:text="@string/edit"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/ios_blue"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/tv_cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_delete"
+            android:background="@color/black"/>
 
         <TextView
             android:id="@+id/tv_delete"

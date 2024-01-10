@@ -105,7 +105,7 @@
                                     circleImage="@{vm.post.profileUrl}"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/ic_user"
+                                    android:src="@drawable/ic_default_user"
                                     android:contentDescription="@string/todo" />
 
                             </androidx.cardview.widget.CardView>
@@ -123,7 +123,7 @@
                                 app:layout_constraintBottom_toTopOf="@id/tv_name"
                                 app:layout_constraintStart_toEndOf="@+id/profile_frame"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="1학년" />
+                                tools:text="0학년" />
 
                             <TextView
                                 android:id="@+id/room"
@@ -137,7 +137,7 @@
                                 app:layout_constraintBottom_toTopOf="@id/tv_name"
                                 app:layout_constraintStart_toEndOf="@+id/grade"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="2반" />
+                                tools:text="0반" />
 
                             <TextView
                                 android:id="@+id/number"
@@ -151,7 +151,7 @@
                                 app:layout_constraintBottom_toTopOf="@id/tv_name"
                                 app:layout_constraintStart_toEndOf="@+id/room"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="10번" />
+                                tools:text="0번" />
 
                             <TextView
                                 android:id="@+id/tv_name"

@@ -11,10 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-
         <item name="colorAccent">@color/blue</item>
         <item name="colorControlNormal">@color/gray</item>
 
@@ -27,8 +25,8 @@
     </style>
 
     <style name="AnimationPopupStyle">
-        <item name="android:windowEnterAnimation">@anim/slide_up</item>
-        <item name="android:windowExitAnimation">@anim/slide_down</item>
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
 
 </resources>

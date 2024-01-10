@@ -20,7 +20,7 @@ class CommentAdapter(private val callback: CommentAdapterCallback) :
         val bottomSheetBinding =
             CommentSettingFragmentBinding.inflate(LayoutInflater.from(binding.root.context))
         val bottomSheetDialog = BottomSheetDialog(binding.root.context)
-
+        bottomSheetDialog.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
         binding.btnMore.setOnClickListener {
