@@ -13,7 +13,7 @@ class DetailViewModel @Inject constructor(
     private val getMyInfoUseCase: GetMyInfoUseCase
 ) : BaseViewModel() {
     val itemList = MutableLiveData<List<Comment>>()
-    val userId = MutableLiveData<Int>()
+    val myUserId = MutableLiveData<Int>()
     val author = MutableLiveData<Int>()
 
     val tag = MutableLiveData<String>()
@@ -29,6 +29,7 @@ class DetailViewModel @Inject constructor(
         getMyInfoUseCase.invoke().safeApiCall(
             null,
             {
+                myUserId.value = it?.userId
                 profileImage.value = it?.profileImage
             },
             {

@@ -28,6 +28,7 @@
                 android:layout_height="50dp"
                 android:backgroundTint="#00FFFFFF"
                 android:contentDescription="@string/todo"
+                android:visibility="gone"
                 android:src="@drawable/ic_more"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

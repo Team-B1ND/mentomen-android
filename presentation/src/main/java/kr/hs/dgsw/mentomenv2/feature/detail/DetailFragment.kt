@@ -24,30 +24,32 @@ import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
     CommentAdapterCallback {
     private val commentViewModel: CommentViewModel by viewModels()
-    override val detailViewModel: DetailViewModel by viewModels()
+    override val viewModel: DetailViewModel by viewModels()
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val commentAdapter =
-        CommentAdapter(this)
+    private val commentAdapter = CommentAdapter(this)
 
     override fun setupViews() {
         collectState()
         (activity as MainActivity).hasBottomBar(false)
-        mBinding.detailViewModel = detailViewModel
+        mBinding.detailViewModel = viewModel
         mBinding.commentViewModel = commentViewModel
-        detailViewModel.getUserInfo()
-        detailViewModel.userName.value = args.item.userName
-        detailViewModel.content.value = args.item.content
-        detailViewModel.createDateTime.value = args.item.createDateTime
-        detailViewModel.stdInfo.value = args.item.stdInfo
+        mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
+        mBinding.rvComment.adapter = commentAdapter
+
+        viewModel.getUserInfo()
+        viewModel.userName.value = args.item.userName
+        viewModel.content.value = args.item.content
+        viewModel.createDateTime.value = args.item.createDateTime
+        viewModel.stdInfo.value = args.item.stdInfo
         commentViewModel.postId.value = args.item.postId
         commentViewModel.getComment()
 
-        detailViewModel.profileImage.observe(this) {
-            if (it.isNotEmpty()) {
+        viewModel.profileImage.observe(this) { profileImage ->
+            if (profileImage.isNotBlank()) {
                 Glide.with(requireContext())
-                    .load(it)
+                    .load(profileImage)
                     .into(mBinding.ivCommentProfile)
             } else {
                 Glide.with(requireContext())
@@ -56,11 +58,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
             }
         }
 
+        viewModel.myUserId.observe(this) {
+            commentAdapter.setMyUserId(it)
+        }
+
         mBinding.datetime.text = args.item.createDateTime
-        mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
-        mBinding.rvComment.adapter = commentAdapter
-
-
 
         if (args.item.profileUrl.isNotEmpty()) {
             Glide.with(requireContext())

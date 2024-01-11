@@ -14,7 +14,7 @@ import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
-    override val detailViewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModel by viewModels()
     private val adapter =
         HomeAdapter {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
@@ -33,10 +33,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
         mBinding.logo.setOnClickListener {
-            detailViewModel.getAllPost()
+            viewModel.getAllPost()
         }
         lifecycleScope.launch {
-            detailViewModel.errorFlow.collect { text ->
+            viewModel.errorFlow.collect { text ->
                 Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
             }
         }
@@ -44,7 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private fun collectPostStates() {
         lifecycleScope.launch {
-            detailViewModel.postState.collect { state ->
+            viewModel.postState.collect { state ->
                 if ((state.postList?: emptyList()).isNotEmpty()) {
                     adapter.submitList(state.postList)
                 }

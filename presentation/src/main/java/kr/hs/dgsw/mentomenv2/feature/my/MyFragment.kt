@@ -12,7 +12,7 @@ import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 
 @AndroidEntryPoint
 class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
-    override val detailViewModel: MyViewModel by viewModels()
+    override val viewModel: MyViewModel by viewModels()
     private lateinit var adapter: HomeAdapter
 
     private fun initHomeAdapter() {
@@ -23,7 +23,7 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
         mBinding.rvMyPage.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvMyPage.adapter = adapter
         mBinding.btnLogout.setOnClickListener {
-            detailViewModel.logout()
+            viewModel.logout()
             val intent = Intent(requireContext(), IntroActivity::class.java)
             startActivity(intent)
         }
@@ -35,7 +35,7 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
     }
 
     private fun observeViewModel() =
-        with(detailViewModel) {
+        with(viewModel) {
             post.observe(viewLifecycleOwner) { adapter.submitList(listOf(it)) }
         }
 }
