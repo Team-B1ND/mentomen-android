@@ -73,10 +73,14 @@ class CommentViewModel @Inject constructor(
             .safeApiCall(
                 null,
                 {
-                    commentState.value = CommentState(
-                        error = "댓글 삭제 성공"
-                    )
-                    getComment()
+                    commentState.value.commentList?.let { list ->
+                        commentState.value = CommentState(
+                            commentList = list.filter { comment ->
+                                comment.commentId.toInt() != commentId
+                            },
+                            error = "댓글 삭제 성공"
+                        )
+                    }
                 },
                 {
                     commentState.value = CommentState(

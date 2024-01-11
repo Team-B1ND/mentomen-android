@@ -22,7 +22,6 @@ class CommentAdapter(
 
     fun setMyUserId(userId: Int) {
         this.myUserId = userId
-        notifyDataSetChanged()
     }
 
     override fun action(item: Comment, binding: ItemCommentBinding) {

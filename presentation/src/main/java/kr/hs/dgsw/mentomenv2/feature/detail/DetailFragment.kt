@@ -59,6 +59,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
         }
 
         viewModel.myUserId.observe(this) {
+            if (args.item.author == it) {
+                mBinding.btnMore.visibility = View.VISIBLE
+            } else {
+                mBinding.btnMore.visibility = View.GONE
+            }
             commentAdapter.setMyUserId(it)
         }
 
@@ -94,9 +99,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
         mBinding.ivSend.setOnClickListener {
             commentViewModel.postComment()
         }
-
-        // nav arg로 받는 게 아니라 post Id를 받아와서 호출하는 방식으로 바꿔야함, 실시간성 때문에
-        // 처음에는 nav arg로 받되 새로고침 시 post Id를 받아와서 호출하는 방식으로 바꿔야함
     }
 
     private fun collectState() {

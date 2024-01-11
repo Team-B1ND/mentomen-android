@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="detailViewModel"
             type="kr.hs.dgsw.mentomenv2.feature.detail.DetailViewModel" />
+
         <variable
             name="commentViewModel"
             type="kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel" />
@@ -96,6 +98,7 @@
                                     android:backgroundTint="#00FFFFFF"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_more"
+                                    android:visibility="gone"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="TooDeepLayout" />
@@ -258,7 +261,7 @@
                                 android:id="@+id/rv_comment"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                tools:listitem="@layout/item_comment"/>
+                                tools:listitem="@layout/item_comment" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -331,9 +334,9 @@
                     android:contentDescription="@string/todo"
                     android:src="@drawable/ic_send"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/et_comment" />
+                    app:layout_constraintStart_toEndOf="@id/et_comment"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
