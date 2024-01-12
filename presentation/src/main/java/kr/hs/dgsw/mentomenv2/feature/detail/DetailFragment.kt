@@ -106,6 +106,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
             commentViewModel.commentState.collect { state ->
                 Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
                 commentAdapter.submitList(state.commentList)
+                if(state.error == "finish") {
+                    getActivity()?.getSupportFragmentManager()?.beginTransaction()?.remove(requireParentFragment())?.commit();
+                }
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }

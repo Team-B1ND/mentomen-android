@@ -45,11 +45,26 @@ class CommentAdapter(
             bottomSheetDialog.dismiss()
         }
 
+        bottomSheetBinding.tvEdit.setOnClickListener {
+            binding.ivEdit.visibility = View.VISIBLE
+            binding.etEditComment.visibility = View.VISIBLE
+            binding.content.visibility = View.GONE
+            binding.etEditComment.requestFocus()
+            binding.etEditComment.setSelection(binding.etEditComment.text.length)
+            bottomSheetDialog.dismiss()
+        }
+
         binding.btnMore.visibility = if (item.userId == myUserId) View.VISIBLE else View.GONE
 
-//        bottomSheetBinding.tvEdit.setOnClickListener {
-//            callback.editComment(item.commentId.toInt())
-//            bottomSheetDialog.dismiss()
-//        }
+        binding.btnMore.setOnClickListener {
+            bottomSheetDialog.show()
+        }
+
+        binding.ivEdit.setOnClickListener {
+            binding.ivEdit.visibility = View.GONE
+            binding.etEditComment.visibility = View.GONE
+            binding.content.visibility = View.VISIBLE
+            callback.updateComment(item.commentId.toInt(), binding.etEditComment.text.toString())
+        }
     }
 }

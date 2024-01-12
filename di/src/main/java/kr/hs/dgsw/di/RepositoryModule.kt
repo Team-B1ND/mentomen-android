@@ -43,7 +43,7 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsTokenRepository(tokenRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository
+    fun bindsDataStoreRepository(dataStoreRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository
 
     @Binds
     @Singleton

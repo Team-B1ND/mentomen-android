@@ -62,7 +62,7 @@ class CommentViewModel @Inject constructor(
                 },
                 {
                     commentState.value = CommentState(
-                        error = it.toString(),
+                        error = "finish",
                     )
                 }
             )

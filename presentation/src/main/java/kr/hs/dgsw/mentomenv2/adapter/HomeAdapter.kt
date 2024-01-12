@@ -48,17 +48,6 @@ class HomeAdapter(
         } else {
             binding.ivPreview.visibility = View.GONE
         }
-        if (item.profileUrl.isNotEmpty()) {
-            Glide.with(binding.ivProfile.context)
-                .load(item.profileUrl)
-                .transform(CircleCrop())
-                .into(binding.ivProfile)
-        } else {
-            Glide.with(binding.ivProfile.context)
-                .load(R.drawable.ic_default_user)
-                .transform(CircleCrop())
-                .into(binding.ivProfile)
-        }
 
         binding.root.setOnClickListener { itemClick(item) }
 

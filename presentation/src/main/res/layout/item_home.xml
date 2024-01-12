@@ -17,8 +17,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="5dp"
             app:cardCornerRadius="10dp"
@@ -33,42 +33,34 @@
                     android:id="@+id/iv_major"
                     android:layout_width="28dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="12dp"
                     android:src="@drawable/ic_android"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_profile"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_user"
-                    app:layout_constraintStart_toStartOf="@id/tv_preview"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="3dp"
                     android:fontFamily="@font/variable"
                     android:text="@{item.userName}"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/iv_profile"
-                    app:layout_constraintTop_toTopOf="@id/iv_profile"
+                    app:layout_constraintStart_toEndOf="@id/iv_major"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="도현욱" />
 
                 <TextView
                     android:id="@+id/tv_student_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
                     android:fontFamily="@font/variable"
                     android:text='@{item.stdInfo.grade + "학년 " + item.stdInfo.room + "반 " + item.stdInfo.number + "번"}'
                     android:textColor="@color/gray"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/iv_profile"
+                    app:layout_constraintStart_toStartOf="@id/tv_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_name"
                     tools:text="2학년4반6번" />
 
@@ -77,25 +69,26 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/variable"
-                    android:text="@{item.content}"
+                    android:text="@{item.content.strip()}"
+                    android:textColor="@color/gray"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_profile"
+                    app:layout_constraintTop_toBottomOf="@id/iv_major"
                     tools:text="제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?" />
 
                 <TextView
                     android:id="@+id/btn_show_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/show_more"
                     android:fontFamily="@font/variable"
+                    android:text="@string/show_more"
                     android:textColor="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_preview"
-                    app:layout_constraintStart_toStartOf="@id/tv_preview" />
+                    app:layout_constraintStart_toStartOf="@id/tv_preview"
+                    app:layout_constraintTop_toBottomOf="@id/tv_preview" />
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -107,7 +100,7 @@
                     android:fontFamily="@font/variable"
                     android:textColor="@color/gray"
                     android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@id/iv_major"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="4시간 전" />
 
@@ -127,8 +120,8 @@
                         android:id="@+id/iv_preview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_user"
                         android:adjustViewBounds="true"
+                        android:src="@drawable/ic_user"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
