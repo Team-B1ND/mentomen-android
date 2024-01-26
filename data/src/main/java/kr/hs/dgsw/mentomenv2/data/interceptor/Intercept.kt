@@ -2,6 +2,7 @@ package kr.hs.dgsw.mentomenv2.data.interceptor
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.Token
@@ -52,7 +53,7 @@ constructor(
         }
         response = this.proceedWithToken(this.request())
 
-        if (response.code == TOKEN_ERROR) {
+        if (response.code == TOKEN_ERROR || response.code == 403 || response.code == 400 || response.code == 500) {
             // 만약 토큰 오류 발생 시 로그인
             try {
                 response.close()
@@ -70,8 +71,9 @@ constructor(
         // request에 토큰을 붙여서 새로운 request 생성 -> 진행
         response = this.proceedWithToken(this.request())
 
-        return if (response.code == TOKEN_ERROR) {
+        return if (response.code == TOKEN_ERROR || response.code == 403 || response.code == 400 || response.code == 500) {
             Log.d("TokenTest", "Here is Login")
+            clearDataStore()
             Response.Builder()
                 .request(this.request())
                 .protocol(Protocol.HTTP_1_1)
@@ -93,6 +95,26 @@ constructor(
 
                     is Result.Error -> Token("", "")
                     is Result.Loading -> Token("", "")
+                }
+            }
+        }
+    }
+
+    private fun clearDataStore() = runBlocking(Dispatchers.IO) {
+        dataStoreRepositoryImpl.clearData().let {
+            it.collect {
+                when (it) {
+                    is Result.Success -> {
+                        Log.d("clearDataStore", "성공")
+                    }
+
+                    is Result.Error -> {
+                        Log.d("clearDataStore", "실패")
+                    }
+
+                    is Result.Loading -> {
+                        Log.d("clearDataStore", "로딩")
+                    }
                 }
             }
         }

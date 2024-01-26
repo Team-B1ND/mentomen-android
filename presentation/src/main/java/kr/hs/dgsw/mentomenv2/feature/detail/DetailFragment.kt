@@ -69,7 +69,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
 
         mBinding.datetime.text = args.item.createDateTime
 
-        if (args.item.profileUrl.isNotEmpty()) {
+        if (!args.item.profileUrl.isNullOrBlank()) {
             Glide.with(requireContext())
                 .load(args.item.profileUrl)
                 .into(mBinding.ivProfile)

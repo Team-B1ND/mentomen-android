@@ -7,34 +7,43 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
+import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import java.io.IOException
+import javax.inject.Inject
 
 abstract class BaseRepositoryImpl {
     protected fun <R> execute(action: suspend () -> Flow<R>): Flow<Result<R>> =
         flow {
             try {
-                Log.d("BaseReppsitory", "call Loading")
+                Log.d("BaseRepository", "call Loading")
                 emit(Result.Loading())
                 action().onEach { data ->
-                    Log.d("BaseReppsitory", "call action.onEach Success")
+                    Log.d("BaseRepository", "call action.onEach Success")
                     emit(Result.Success(data))
                 }.catch { e ->
-                    Log.d("BaseReppsitory", "action name: ${javaClass.simpleName} : e.name: $e message: ${e.message}")
+                    Log.d(
+                        "BaseRepository",
+                        "action name: ${javaClass.simpleName} : e.name: $e message: ${e.message}"
+                    )
                     when (e) {
                         is retrofit2.HttpException -> {
-                            if (e.code() == 401) emit(Result.Error(Utils.TOKEN_EXCEPTION))
-                            else emit(Result.Error(Utils.convertErrorBody(e)))
+                            if (e.code() == 401 || e.code() == 400 || e.code() == 403) {
+                                emit(Result.Error(Utils.TOKEN_EXCEPTION))
+                            } else emit(Result.Error(Utils.convertErrorBody(e)))
                         }
-                        is MenToMenException -> emit(Result.Error(e.message))
+
+                        is MenToMenException -> {
+                            emit(Result.Error(e.message))
+                        }
+
                         is IOException -> emit(Result.Error(Utils.NETWORK_ERROR_MESSAGE))
                         else -> emit(Result.Error(Utils.EXCEPTION))
                     }
                 }.collect()
             } catch (e: Exception) {
-                Log.d("BaseReppsitory", "FlowError : $e")
-                emit(Result.Error(Utils.EXCEPTION))
+                Log.d("BaseRepository", "FlowError : $e")
             }
         }
 }

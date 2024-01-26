@@ -36,7 +36,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
             if (it == Utils.TOKEN_EXCEPTION) {
                 Toast.makeText(requireContext(), "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(requireContext(), IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
         }

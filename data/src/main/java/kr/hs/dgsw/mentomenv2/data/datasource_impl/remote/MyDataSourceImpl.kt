@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.data.datasource.MyDataSource
 import kr.hs.dgsw.mentomenv2.data.service.MyService
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.model.User
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class MyDataSourceImpl @Inject constructor(
@@ -16,11 +18,23 @@ class MyDataSourceImpl @Inject constructor(
     override fun getMyInfo(): Flow<User> =
         flow {
             val response = myApi.getUserInfo().execute()
-
             if (response.isSuccessful) {
-                emit(response.body()?.data ?: User())
+                if (response.body()?.data?.profileImage == null) {
+                    emit(
+                        User(
+                            email = response.body()?.data?.email ?: "",
+                            name = response.body()?.data?.name ?: "",
+                            profileImage = "",
+                            roles = response.body()?.data?.roles ?: "",
+                            stdInfo = response.body()?.data?.stdInfo ?: StdInfo(0, 0, 0),
+                            userId = response.body()?.data?.userId ?: 0
+                        )
+                    )
+                } else {
+                    emit(response.body()?.data ?: User())
+                }
             } else {
-                emit(User())
+                throw HttpException(response)
             }
         }.flowOn(Dispatchers.IO)
 
@@ -31,7 +45,7 @@ class MyDataSourceImpl @Inject constructor(
             if (response.isSuccessful) {
                 emit(response.body()?.data ?: emptyList())
             } else {
-                emit(emptyList())
+                throw HttpException(response)
             }
         }.flowOn(Dispatchers.IO)
 }
