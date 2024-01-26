@@ -11,6 +11,7 @@ import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Token
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
+import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,11 +20,34 @@ class SingInViewModel
     constructor(
         private val dataStoreRepository: DataStoreRepository,
         private val authRepository: AuthRepository,
+        private val getMyInfoUseCase: GetMyInfoUseCase,
     ) : BaseViewModel() {
         val tokenState = MutableStateFlow<Token>(Token("", ""))
         private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+        val event = MutableSharedFlow<String>()
 
-        val event = MutableSharedFlow<Unit>()
+        fun checkToken() {
+            getMyInfoUseCase.invoke().safeApiCall(
+                null,
+                {
+                    viewModelScope.launch {
+                        event.emit("Start")
+                        dataStoreRepository.saveData("profile_image", it?.profileImage ?: "")
+                        dataStoreRepository.saveData("name", it?.name ?: "")
+                        dataStoreRepository.saveData("email", it?.email ?: "")
+                        dataStoreRepository.saveData("grade", (it?.stdInfo?.grade ?: 0).toString())
+                        dataStoreRepository.saveData("room", (it?.stdInfo?.room ?: 0).toString())
+                        dataStoreRepository.saveData("number", (it?.stdInfo?.number ?: 0).toString())
+                    }
+                },
+                {
+                    viewModelScope.launch {
+                        Log.d("checkToken: ", "토큰 검사(내 정보 불러오기) 실패 ㅠㅠ")
+                        event.emit("Login")
+                    }
+                },
+            )
+        }
 
         fun getToken() {
             dataStoreRepository.getToken().safeApiCall(
@@ -34,9 +58,13 @@ class SingInViewModel
                         "singInViewModel getToken: StartSuccess",
                         "token: ${it?.accessToken ?: ""} + ${it?.refreshToken ?: ""}",
                     )
+                    checkToken()
                 },
                 errorAction = {
                     tokenState.value = Token("", "")
+                    viewModelScope.launch {
+                        event.emit("Login")
+                    }
                     Log.d(
                         "singInViewModel getToken: StartError",
                         "token: ${tokenState.value.accessToken} + ${tokenState.value.refreshToken}",
@@ -90,16 +118,19 @@ class SingInViewModel
                         setAccessToken(it?.accessToken ?: "")
                         setRefreshToken(it?.refreshToken ?: "")
                         Log.d("getTokenUseCode: ", "getTokenUseCode: event emit 호출됨")
-                        event.emit(Unit)
+                        if (!it?.accessToken.isNullOrBlank() && !it?.refreshToken.isNullOrBlank()) {
+                            event.emit("Start")
+                        }
                     }
                 },
                 errorAction = {
+                    viewModelScope.launch {
+                        setAccessToken("")
+                        setRefreshToken("")
+                        event.emit("Login")
+                    }
                     Log.d("getTokenUseCode: error", "error: $it")
                 },
             )
-        }
-
-        init {
-            getToken()
         }
     }

@@ -17,6 +17,9 @@ class ImageAdapter : ListAdapter<Uri?, ImageAdapter.ImageViewHolder>(ImageDiffUt
             Glide.with(binding.cardView.context)
                 .load(item)
                 .into(binding.image)
+            binding.btnCancel.setOnClickListener {
+                submitList(currentList.filter { it != item })
+            }
         }
     }
 

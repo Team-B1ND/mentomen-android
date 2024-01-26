@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
@@ -75,17 +74,5 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
         builder.setCanceledOnTouchOutside(false)
         builder.show()
-    }
-
-    override fun onBackPressed() {
-        Log.d("Debug", "onBackPressed() called")
-        if (mBackPressed + timeInterval > System.currentTimeMillis()) {
-            super.onBackPressed()
-            return
-        } else {
-            Toast.makeText(baseContext, "한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
-        }
-
-        mBackPressed = System.currentTimeMillis()
     }
 }

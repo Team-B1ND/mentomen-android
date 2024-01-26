@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.callback.PostDiffUtilCallback
 import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
@@ -47,17 +46,6 @@ class HomeAdapter(
                 .into(binding.ivPreview)
         } else {
             binding.ivPreview.visibility = View.GONE
-        }
-        if (item.profileUrl.isNotEmpty()) {
-            Glide.with(binding.ivProfile.context)
-                .load(item.profileUrl)
-                .transform(CircleCrop())
-                .into(binding.ivProfile)
-        } else {
-            Glide.with(binding.ivProfile.context)
-                .load(R.drawable.ic_default_user)
-                .transform(CircleCrop())
-                .into(binding.ivProfile)
         }
 
         binding.root.setOnClickListener { itemClick(item) }

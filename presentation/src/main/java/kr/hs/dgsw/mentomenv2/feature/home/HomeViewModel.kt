@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostsByTagUseCase
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
@@ -19,6 +20,7 @@ class HomeViewModel
     constructor(
         private val getAllPostUseCase: GetAllPostUseCase,
         private val getPostsByTagUseCase: GetPostsByTagUseCase,
+        private val getMyInfoUseCase: GetMyInfoUseCase,
     ) : BaseViewModel() {
         val postState = MutableStateFlow<PostState>(PostState())
         private val _errorFlow = MutableSharedFlow<String?>()
@@ -27,7 +29,20 @@ class HomeViewModel
         var allPosts: List<Post>? = null
 
         init {
+//        getMyInfo()
             getAllPost()
+        }
+
+        fun getMyInfo() {
+            getMyInfoUseCase.invoke().safeApiCall(
+                isLoading,
+                successAction = {
+                    getAllPost()
+                },
+                errorAction = {
+                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
+                },
+            )
         }
 
         fun getAllPost() {

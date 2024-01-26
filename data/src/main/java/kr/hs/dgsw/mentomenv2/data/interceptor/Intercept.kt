@@ -2,9 +2,10 @@ package kr.hs.dgsw.mentomenv2.data.interceptor
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
+import kr.hs.dgsw.mentomenv2.domain.model.Token
+import kr.hs.dgsw.mentomenv2.domain.usecase.auth.GetAccessTokenUseCase
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import okhttp3.Interceptor
 import okhttp3.Protocol
@@ -12,71 +13,44 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONException
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class Intercept
     @Inject
     constructor(
-        private val tokenRepositoryImpl: DataStoreRepositoryImpl,
+        private val dataStoreRepositoryImpl: DataStoreRepositoryImpl,
+        private val getAccessTokenUseCase: GetAccessTokenUseCase,
     ) : Interceptor {
-        private var token: String = ""
+        private val tokenHeader = "Authorization"
+
+        private lateinit var token: Token
         private lateinit var response: Response
 
         @Synchronized
         override fun intercept(chain: Interceptor.Chain): Response {
-            Log.d("intercept: ", "token : $token")
-            runBlocking(Dispatchers.IO) {
-                tokenRepositoryImpl.getToken().let {
-                    it.collect {
-                        token =
-                            when (it) {
-                                is Result.Success -> it.data?.accessToken ?: ""
-                                is Result.Error -> "Error"
-                                is Result.Loading -> "Loading"
-                            }
-                    }
-                }
-            }
+            setToken()
             response = chain.proceedWithToken(chain.request())
-            if (response.code == 401 || response.code == 500) { // 가끔식 토큰 만료에서 500이 뜨기도함.... 서버이슈
-                runBlocking { tokenRepositoryImpl.clearData() }
+
+            if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
                 response.close()
-                Log.d("intercept:", "Here is 401 || 500  1")
                 chain.makeTokenRefreshCall()
-//            throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
             }
+
             return response
         }
 
         private fun Interceptor.Chain.makeTokenRefreshCall() {
-            Log.d("intercept:", "here is makeTokenRefreshCall")
-            runBlocking {
-                tokenRepositoryImpl.getToken().let {
-                    it.collect {
-                        token =
-                            when (it) {
-                                is Result.Success -> it.data?.refreshToken ?: ""
-                                is Result.Error -> "Error"
-                                is Result.Loading -> "Loading"
-                            }
-                    }
-                }
-            }
+            fetchToken()
             response = this.proceedWithToken(this.request())
 
-            if (response.code == 401) {
+            if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
+                // 만약 토큰 오류 발생 시 로그인
                 try {
-                    runBlocking { tokenRepositoryImpl.clearData() }
-                    Log.d("intercept:", "Here is 401 || 500  2")
                     response.close()
                     response = login()
                 } catch (e: JSONException) {
                     e.printStackTrace()
-                    throw HttpException(retrofit2.Response.error<Any>(401, response.body!!))
                 }
-
-//
             }
         }
 
@@ -87,9 +61,9 @@ class Intercept
             // request에 토큰을 붙여서 새로운 request 생성 -> 진행
             response = this.proceedWithToken(this.request())
 
-            return if (response.code == 401) {
+            return if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
                 Log.d("TokenTest", "Here is Login")
-                runBlocking { tokenRepositoryImpl.clearData() }
+                clearDataStore()
                 Response.Builder()
                     .request(this.request())
                     .protocol(Protocol.HTTP_1_1)
@@ -102,9 +76,55 @@ class Intercept
             }
         }
 
+        private fun setToken() =
+            runBlocking(Dispatchers.IO) {
+                dataStoreRepositoryImpl.getToken().let {
+                    it.collect {
+                        token =
+                            when (it) {
+                                is Result.Success ->
+                                    Token(
+                                        it.data?.accessToken ?: "",
+                                        it.data?.refreshToken ?: "",
+                                    )
+
+                                is Result.Error -> Token("", "")
+                                is Result.Loading -> Token("", "")
+                            }
+                    }
+                }
+            }
+
+        private fun clearDataStore() =
+            runBlocking(Dispatchers.IO) {
+                dataStoreRepositoryImpl.clearData().let { }
+            }
+
+        private fun fetchToken() =
+            runBlocking(Dispatchers.IO) {
+                getAccessTokenUseCase.invoke().let {
+                    it.collect {
+                        when (it) {
+                            is Result.Success -> {
+                                dataStoreRepositoryImpl.saveData("refresh_token", it.data ?: "")
+                                token = Token(it.data ?: "", token.refreshToken)
+                            }
+
+                            is Result.Error -> {
+                                token = Token("", "")
+                            }
+
+                            is Result.Loading -> {
+                                token = Token("", "")
+                            }
+                        }
+                    }
+                }
+            }
+
         private fun Interceptor.Chain.proceedWithToken(req: Request): Response =
             req.newBuilder()
-                .addHeader("Authorization", "Bearer $token")
+                .addHeader(tokenHeader, "Bearer ${token.accessToken}")
                 .build()
                 .let(::proceed)
     }

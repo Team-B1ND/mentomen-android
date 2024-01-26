@@ -34,8 +34,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
             if (it == Utils.TOKEN_EXCEPTION) {
                 Toast.makeText(this, "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+                finish()
             }
         }
     }

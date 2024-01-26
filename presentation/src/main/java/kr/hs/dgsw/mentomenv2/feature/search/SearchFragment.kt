@@ -16,4 +16,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
             findNavController().navigateUp()
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as MainActivity).hasBottomBar(true)
+    }
 }

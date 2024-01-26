@@ -30,6 +30,15 @@
                 tools:src="@drawable/ic_logo"
                 android:contentDescription="@string/todo" />
 
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="top|end"
+                android:src="@drawable/ic_cancel"
+                android:background="@color/white"
+                android:contentDescription="@string/todo" />
+
         </FrameLayout>
     </androidx.cardview.widget.CardView>
 </layout>

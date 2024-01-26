@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="vm"
+            name="detailViewModel"
             type="kr.hs.dgsw.mentomenv2.feature.detail.DetailViewModel" />
+
+        <variable
+            name="commentViewModel"
+            type="kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel" />
     </data>
 
     <FrameLayout
@@ -93,6 +98,7 @@
                                     android:backgroundTint="#00FFFFFF"
                                     android:contentDescription="@string/todo"
                                     android:src="@drawable/ic_more"
+                                    android:visibility="gone"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="TooDeepLayout" />
@@ -110,7 +116,7 @@
 
                                     <ImageView
                                         android:id="@+id/iv_profile"
-                                        circleImage="@{vm.profileUrl}"
+                                        circleImage="@{detailViewModel.profileUrl}"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
                                         android:contentDescription="@string/todo"
@@ -125,7 +131,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginTop="15dp"
                                     android:fontFamily="@font/variable"
-                                    android:text="@{vm.userName}"
+                                    android:text="@{detailViewModel.userName}"
                                     android:textColor="@color/black"
                                     android:textSize="14sp"
                                     app:layout_constraintStart_toEndOf="@+id/cv_profile"
@@ -134,7 +140,7 @@
 
                                 <TextView
                                     android:id="@+id/grade"
-                                    grade="@{vm.stdInfo.grade}"
+                                    grade="@{detailViewModel.stdInfo.grade}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
@@ -148,7 +154,7 @@
 
                                 <TextView
                                     android:id="@+id/room"
-                                    room="@{vm.stdInfo.room}"
+                                    room="@{detailViewModel.stdInfo.room}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/variable"
@@ -161,7 +167,7 @@
 
                                 <TextView
                                     android:id="@+id/number"
-                                    number="@{vm.stdInfo.number}"
+                                    number="@{detailViewModel.stdInfo.number}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/variable"
@@ -178,7 +184,7 @@
                                     android:layout_marginHorizontal="15dp"
                                     android:layout_marginVertical="10dp"
                                     android:fontFamily="@font/variable"
-                                    android:text="@{vm.content}"
+                                    android:text="@{detailViewModel.content}"
                                     android:textColor="@color/black"
                                     android:textSize="16sp"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -219,7 +225,7 @@
 
                                 <TextView
                                     android:id="@+id/datetime"
-                                    date="@{vm.createDateTime}"
+                                    date="@{detailViewModel.createDateTime.toString()}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="15dp"
@@ -255,7 +261,7 @@
                                 android:id="@+id/rv_comment"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                                tools:listitem="@layout/item_comment" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -289,12 +295,13 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        image="@{vm.profileImage}"
+                        android:id="@+id/iv_comment_profile"
+                        image="@{detailViewModel.profileUrl}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/todo"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_user" />
+                        android:src="@drawable/ic_default_user" />
                 </androidx.cardview.widget.CardView>
 
                 <EditText
@@ -310,7 +317,7 @@
                     android:maxLines="1"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="8dp"
-                    android:text="@={vm.commentContent}"
+                    android:text="@={commentViewModel.commentContent}"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/iv_send"
@@ -320,16 +327,16 @@
                 <ImageButton
                     android:id="@+id/iv_send"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="7dp"
                     android:background="#00FFFFFF"
                     android:contentDescription="@string/todo"
-                    android:onClick="@{() -> vm.postComment()}"
                     android:src="@drawable/ic_send"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/et_comment" />
+                    app:layout_constraintStart_toEndOf="@id/et_comment"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
