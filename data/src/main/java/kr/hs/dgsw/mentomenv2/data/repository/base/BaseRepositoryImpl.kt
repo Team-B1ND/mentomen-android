@@ -7,11 +7,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
-import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import java.io.IOException
-import javax.inject.Inject
 
 abstract class BaseRepositoryImpl {
     protected fun <R> execute(action: suspend () -> Flow<R>): Flow<Result<R>> =
@@ -25,13 +23,15 @@ abstract class BaseRepositoryImpl {
                 }.catch { e ->
                     Log.d(
                         "BaseRepository",
-                        "action name: ${javaClass.simpleName} : e.name: $e message: ${e.message}"
+                        "action name: ${javaClass.simpleName} : e.name: $e message: ${e.message}",
                     )
                     when (e) {
                         is retrofit2.HttpException -> {
                             if (e.code() == 401 || e.code() == 400 || e.code() == 403) {
                                 emit(Result.Error(Utils.TOKEN_EXCEPTION))
-                            } else emit(Result.Error(Utils.convertErrorBody(e)))
+                            } else {
+                                emit(Result.Error(Utils.convertErrorBody(e)))
+                            }
                         }
 
                         is MenToMenException -> {

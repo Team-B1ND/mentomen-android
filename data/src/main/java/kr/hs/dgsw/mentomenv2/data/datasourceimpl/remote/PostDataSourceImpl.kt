@@ -1,4 +1,4 @@
-package kr.hs.dgsw.mentomenv2.data.datasource_impl.remote
+package kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

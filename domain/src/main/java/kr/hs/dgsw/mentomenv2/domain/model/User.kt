@@ -6,5 +6,5 @@ data class User(
     val profileImage: String? = "",
     val roles: String = "STUDENT",
     val stdInfo: StdInfo = StdInfo(0, 0, 0),
-    val userId: Int = 0
+    val userId: Int = 0,
 )

@@ -18,14 +18,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kr.hs.dgsw.mentomenv2.data.interceptor.Intercept
-import kr.hs.dgsw.mentomenv2.data.repository.AuthRepositoryImpl
-import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.CommentService
 import kr.hs.dgsw.mentomenv2.data.service.FileService
 import kr.hs.dgsw.mentomenv2.data.service.MyService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
-import kr.hs.dgsw.mentomenv2.domain.usecase.auth.GetAccessTokenUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -36,7 +33,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Singleton
     @Provides
     fun provideOkHttpClient(
@@ -58,7 +54,7 @@ object NetworkModule {
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
-        //http://localhost:8080/
+        // http://localhost:8080/
         return Retrofit.Builder()
             .baseUrl("https://mentomen.team-alt.com/")
             .client(okHttpClient)

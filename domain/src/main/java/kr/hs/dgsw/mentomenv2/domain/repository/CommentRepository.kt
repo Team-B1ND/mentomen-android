@@ -8,7 +8,10 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 
 interface CommentRepository {
     fun submitComment(commentSubmitParam: CommentSubmitParam): Flow<Result<Unit>>
+
     fun updateComment(commentUpdateParam: CommentUpdateParam): Flow<Result<Unit>>
+
     fun deleteComment(commentId: Int): Flow<Result<Unit>>
+
     fun getCommentList(postId: Int): Flow<Result<List<Comment>>>
 }

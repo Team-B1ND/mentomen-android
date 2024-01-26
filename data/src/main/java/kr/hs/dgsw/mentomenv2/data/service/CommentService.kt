@@ -15,21 +15,21 @@ import retrofit2.http.Path
 interface CommentService {
     @GET("comment/read/{postId}")
     fun getCommentList(
-        @Path("postId") postId: Int
+        @Path("postId") postId: Int,
     ): Call<BaseResponse<List<Comment>>>
 
     @POST("comment/submit")
     fun submitComment(
-        @Body commentSubmitDto: CommentSubmitRequest
+        @Body commentSubmitDto: CommentSubmitRequest,
     ): Call<BaseResponse<Unit>>
 
     @DELETE("comment/delete/{id}")
     fun deleteComment(
-        @Path("id") id: Int
+        @Path("id") id: Int,
     ): Call<BaseResponse<Unit>>
 
     @PATCH("comment/update")
     fun updateComment(
-        @Body commentUpdateDto: CommentUpdateRequest
+        @Body commentUpdateDto: CommentUpdateRequest,
     ): Call<BaseResponse<Unit>>
 }

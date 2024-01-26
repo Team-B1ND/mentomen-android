@@ -6,8 +6,10 @@ import kr.hs.dgsw.mentomenv2.domain.repository.MyRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class GetMyInfoUseCase @Inject constructor(
-    private val myRepository: MyRepository
-) {
-    operator fun invoke():Flow<Result<User>> = myRepository.getMyInfo()
-}
+class GetMyInfoUseCase
+    @Inject
+    constructor(
+        private val myRepository: MyRepository,
+    ) {
+        operator fun invoke(): Flow<Result<User>> = myRepository.getMyInfo()
+    }

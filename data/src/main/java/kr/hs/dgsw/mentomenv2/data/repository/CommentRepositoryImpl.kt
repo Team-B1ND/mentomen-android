@@ -13,38 +13,37 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
 class CommentRepositoryImpl
-@Inject
-constructor(
-    private val commentDataSource: CommentDataSource,
-) : BaseRepositoryImpl(), CommentRepository {
-    override fun submitComment(commentSubmitParam: CommentSubmitParam): Flow<Result<Unit>> =
-        execute {
-            commentDataSource.submitComment(
-                CommentSubmitRequest(
-                    commentSubmitParam.content,
-                    commentSubmitParam.postId
+    @Inject
+    constructor(
+        private val commentDataSource: CommentDataSource,
+    ) : BaseRepositoryImpl(), CommentRepository {
+        override fun submitComment(commentSubmitParam: CommentSubmitParam): Flow<Result<Unit>> =
+            execute {
+                commentDataSource.submitComment(
+                    CommentSubmitRequest(
+                        commentSubmitParam.content,
+                        commentSubmitParam.postId,
+                    ),
                 )
-            )
-        }
+            }
 
-    override fun updateComment(commentUpdateParam: CommentUpdateParam): Flow<Result<Unit>> =
-        execute {
-            commentDataSource.updateComment(
-                CommentUpdateRequest(
-                    commentUpdateParam.commentId,
-                    commentUpdateParam.content
+        override fun updateComment(commentUpdateParam: CommentUpdateParam): Flow<Result<Unit>> =
+            execute {
+                commentDataSource.updateComment(
+                    CommentUpdateRequest(
+                        commentUpdateParam.commentId,
+                        commentUpdateParam.content,
+                    ),
                 )
-            )
-        }
+            }
 
-    override fun deleteComment(commentId: Int): Flow<Result<Unit>> =
-        execute {
-            commentDataSource.deleteComment(commentId)
-        }
+        override fun deleteComment(commentId: Int): Flow<Result<Unit>> =
+            execute {
+                commentDataSource.deleteComment(commentId)
+            }
 
-    override fun getCommentList(postId: Int): Flow<Result<List<Comment>>> =
-        execute {
-            commentDataSource.getCommentList(postId)
-        }
-
-}
+        override fun getCommentList(postId: Int): Flow<Result<List<Comment>>> =
+            execute {
+                commentDataSource.getCommentList(postId)
+            }
+    }

@@ -6,5 +6,6 @@ import kr.hs.dgsw.mentomenv2.domain.model.User
 
 interface MyDataSource {
     fun getMyInfo(): Flow<User>
+
     fun getMyPost(): Flow<List<Post>>
 }

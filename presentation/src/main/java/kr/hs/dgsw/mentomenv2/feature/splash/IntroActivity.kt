@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
-import kr.hs.dgsw.mentomenv2.feature.signin.SignInActivity
 import java.lang.Thread.sleep
 
 class IntroActivity : AppCompatActivity() {

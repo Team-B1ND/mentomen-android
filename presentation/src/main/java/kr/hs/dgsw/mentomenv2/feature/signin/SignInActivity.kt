@@ -8,14 +8,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
-import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getCode
-import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getRefreshToken
-import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getUserInfo
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.settingDAuth
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
@@ -32,7 +28,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 Client.REDIRECT_URL,
             )
             viewModel.getToken()
-
         }
     }
 

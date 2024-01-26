@@ -104,7 +104,10 @@ fun comment(
 }
 
 @BindingAdapter("date")
-fun translateDate(tvTime: TextView, dateTime: String?) {
+fun translateDate(
+    tvTime: TextView,
+    dateTime: String?,
+) {
     if (dateTime == null) {
         // dateTime이 null인 경우 처리
         return

@@ -21,7 +21,8 @@ import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
+class DetailFragment :
+    BaseFragment<FragmentDetailBinding, DetailViewModel>(),
     CommentAdapterCallback {
     private val commentViewModel: CommentViewModel by viewModels()
     override val viewModel: DetailViewModel by viewModels()
@@ -38,7 +39,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvComment.adapter = commentAdapter
 
-        //viewModel.getUserInfo()
+        // viewModel.getUserInfo()
         viewModel.userName.value = args.item.userName
         viewModel.content.value = args.item.content
         viewModel.createDateTime.value = args.item.createDateTime
@@ -106,8 +107,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
             commentViewModel.commentState.collect { state ->
                 Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
                 commentAdapter.submitList(state.commentList)
-                if(state.error == "finish") {
-                    getActivity()?.getSupportFragmentManager()?.beginTransaction()?.remove(requireParentFragment())?.commit();
+                if (state.error == "finish") {
+                    getActivity()?.getSupportFragmentManager()?.beginTransaction()?.remove(requireParentFragment())?.commit()
                 }
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
@@ -125,7 +126,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
         commentViewModel.deleteComment(commentId)
     }
 
-    override fun updateComment(commentId: Int, content: String) {
+    override fun updateComment(
+        commentId: Int,
+        content: String,
+    ) {
         commentViewModel.updateComment(commentId, content)
     }
 }

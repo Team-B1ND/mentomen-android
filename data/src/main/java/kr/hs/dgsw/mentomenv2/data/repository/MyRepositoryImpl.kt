@@ -9,16 +9,18 @@ import kr.hs.dgsw.mentomenv2.domain.repository.MyRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class MyRepositoryImpl @Inject constructor(
-    private val myDataSource: MyDataSource
-) : BaseRepositoryImpl(), MyRepository {
-    override fun getMyInfo(): Flow<Result<User>> =
-        execute {
-            myDataSource.getMyInfo()
-        }
+class MyRepositoryImpl
+    @Inject
+    constructor(
+        private val myDataSource: MyDataSource,
+    ) : BaseRepositoryImpl(), MyRepository {
+        override fun getMyInfo(): Flow<Result<User>> =
+            execute {
+                myDataSource.getMyInfo()
+            }
 
-    override fun getMyPost(): Flow<Result<List<Post>>> =
-        execute {
-            myDataSource.getMyPost()
-        }
-}
+        override fun getMyPost(): Flow<Result<List<Post>>> =
+            execute {
+                myDataSource.getMyPost()
+            }
+    }

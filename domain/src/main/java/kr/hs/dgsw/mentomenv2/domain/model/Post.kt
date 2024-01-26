@@ -18,7 +18,10 @@ data class Post(
     var isExpended: Boolean = false,
 ) : Parcelable {
     // Parcelable 구현 코드
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
+    override fun writeToParcel(
+        parcel: Parcel,
+        flags: Int,
+    ) {
         parcel.writeInt(author)
         parcel.writeString(content)
         parcel.writeList(imgUrls)
@@ -36,9 +39,10 @@ data class Post(
     private constructor(parcel: Parcel) : this(
         author = parcel.readInt(),
         content = parcel.readString() ?: "",
-        imgUrls = mutableListOf<String>().apply {
-            parcel.readList(this, String::class.java.classLoader)
-        },
+        imgUrls =
+            mutableListOf<String>().apply {
+                parcel.readList(this, String::class.java.classLoader)
+            },
         createDateTime = parcel.readString() ?: "",
         postId = parcel.readInt(),
         profileUrl = parcel.readString() ?: "",
