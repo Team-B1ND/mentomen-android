@@ -38,7 +38,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(),
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvComment.adapter = commentAdapter
 
-        viewModel.getUserInfo()
+        //viewModel.getUserInfo()
         viewModel.userName.value = args.item.userName
         viewModel.content.value = args.item.content
         viewModel.createDateTime.value = args.item.createDateTime

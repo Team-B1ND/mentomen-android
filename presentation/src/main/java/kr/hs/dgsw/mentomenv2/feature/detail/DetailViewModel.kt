@@ -30,10 +30,10 @@ class DetailViewModel @Inject constructor(
             null,
             {
                 myUserId.value = it?.userId
-                profileImage.value = it?.profileImage
+                profileImage.value = it?.profileImage ?: ""
             },
             {
-                //401이라면? 로그인 되어 있지 않다는 상태 저장 후 댓글 작성 editText 클릭 시 로그인창 띄우기
+
             }
         )
     }

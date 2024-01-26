@@ -29,7 +29,8 @@ constructor(
     var allPosts: List<Post>? = null
 
     init {
-        getMyInfo()
+//        getMyInfo()
+        getAllPost()
     }
 
     fun getMyInfo() {

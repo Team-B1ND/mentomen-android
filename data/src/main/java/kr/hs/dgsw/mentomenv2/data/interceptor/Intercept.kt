@@ -24,7 +24,6 @@ constructor(
     private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : Interceptor {
 
-    private val TOKEN_ERROR = 401
     private val TOKEN_HEADER = "Authorization"
 
     private lateinit var token: Token
@@ -35,7 +34,7 @@ constructor(
         setToken()
         response = chain.proceedWithToken(chain.request())
 
-        if (response.code == TOKEN_ERROR) {
+        if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
             response.close()
             chain.makeTokenRefreshCall()
         }
@@ -44,16 +43,10 @@ constructor(
     }
 
     private fun Interceptor.Chain.makeTokenRefreshCall() {
-        try {
-            // Refresh Token으로 새로운 AccessToken 적립
-            fetchToken()
-        } catch (e: HttpException) {
-            // 어떤 이유로 오류 발생 시
-//            getTokenToLogin()
-        }
+        fetchToken()
         response = this.proceedWithToken(this.request())
 
-        if (response.code == TOKEN_ERROR || response.code == 403 || response.code == 400 || response.code == 500) {
+        if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
             // 만약 토큰 오류 발생 시 로그인
             try {
                 response.close()
@@ -71,13 +64,13 @@ constructor(
         // request에 토큰을 붙여서 새로운 request 생성 -> 진행
         response = this.proceedWithToken(this.request())
 
-        return if (response.code == TOKEN_ERROR || response.code == 403 || response.code == 400 || response.code == 500) {
+        return if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
             Log.d("TokenTest", "Here is Login")
             clearDataStore()
             Response.Builder()
                 .request(this.request())
                 .protocol(Protocol.HTTP_1_1)
-                .code(TOKEN_ERROR)
+                .code(401)
                 .message("세션이 만료되었습니다.")
                 .body("세션이 만료되었습니다.".toResponseBody(null))
                 .build()
@@ -101,23 +94,7 @@ constructor(
     }
 
     private fun clearDataStore() = runBlocking(Dispatchers.IO) {
-        dataStoreRepositoryImpl.clearData().let {
-            it.collect {
-                when (it) {
-                    is Result.Success -> {
-                        Log.d("clearDataStore", "성공")
-                    }
-
-                    is Result.Error -> {
-                        Log.d("clearDataStore", "실패")
-                    }
-
-                    is Result.Loading -> {
-                        Log.d("clearDataStore", "로딩")
-                    }
-                }
-            }
-        }
+        dataStoreRepositoryImpl.clearData().let { }
     }
 
     private fun fetchToken() = runBlocking(Dispatchers.IO) {

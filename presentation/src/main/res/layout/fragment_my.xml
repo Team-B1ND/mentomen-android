@@ -159,7 +159,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
                                 android:fontFamily="@font/semibold"
-                                android:text="@{vm.post.userName}"
+                                android:text="@{vm.userName}"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
                                 app:layout_constraintStart_toEndOf="@+id/profile_frame"
