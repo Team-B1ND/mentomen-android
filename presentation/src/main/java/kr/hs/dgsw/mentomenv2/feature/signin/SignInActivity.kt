@@ -73,19 +73,13 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     viewModel.getTokenUseCode(it)
                 },
                 {
-                    Log.d("autoLogin: ", "로그인 실패1")
-                    getCode(
-                        this@SignInActivity,
-                        {
-                            Log.d("autoLogin: ", "로그인 성공2")
-                            viewModel.getTokenUseCode(it)
-                        },
-                        {
-                            Log.d("autoLogin: ", "로그인 실패2 정상적인 방법으로 도달 불가능")
-                        },
-                    )
+                    setUpDAuth()
                 },
             )
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

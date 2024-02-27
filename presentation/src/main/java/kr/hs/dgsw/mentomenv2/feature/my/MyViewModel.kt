@@ -19,6 +19,7 @@ class MyViewModel
     ) : BaseViewModel() {
         val stdInfo: MutableLiveData<StdInfo> = MutableLiveData(StdInfo(0, 0, 0))
         val userName: MutableLiveData<String> = MutableLiveData("")
+        val userProfileUrl: MutableLiveData<String> = MutableLiveData("")
         val post = MutableLiveData<List<Post>>()
 
         private fun getMyInfo() {
