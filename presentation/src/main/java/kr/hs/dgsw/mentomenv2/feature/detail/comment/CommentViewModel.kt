@@ -22,6 +22,7 @@ class CommentViewModel
         val commentState = MutableStateFlow<CommentState>(CommentState())
         val postId = MutableLiveData<Int>()
         val commentContent = MutableLiveData<String>()
+        val isLoading = MutableLiveData<Boolean>(false)
 
         fun postComment() {
             viewModelScope.launch(Dispatchers.IO) {
@@ -38,7 +39,7 @@ class CommentViewModel
                             content = commentContent.value ?: "",
                         ),
                     ).safeApiCall(
-                        null,
+                        isLoading,
                         {
                             commentContent.value = ""
                             getComment()
@@ -58,7 +59,7 @@ class CommentViewModel
         fun getComment() {
             commentRepository.getCommentList(postId.value ?: 0)
                 .safeApiCall(
-                    null,
+                    isLoading,
                     { comments ->
                         Log.d("getComment: ", "getComment: $comments")
                         commentState.value =
@@ -78,7 +79,7 @@ class CommentViewModel
         fun deleteComment(commentId: Int) {
             commentRepository.deleteComment(commentId)
                 .safeApiCall(
-                    null,
+                    isLoading,
                     {
                         commentState.value.commentList?.let { list ->
                             commentState.value =
