@@ -16,7 +16,7 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
         CoroutineScope(Dispatchers.Main).launch {
-            val intent = Intent(this@IntroActivity, SignInActivity::class.java)
+            val intent = Intent(this@IntroActivity, MainActivity::class.java)
             sleep(2000)
             finish()
             startActivity(intent)

@@ -54,7 +54,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     "collectTokenState: ",
                     "Token 수집 성공 " + "token : " + tokenState.accessToken + tokenState.refreshToken,
                 )
-                if (!tokenState.accessToken.isNullOrBlank() && !tokenState.refreshToken.isNullOrBlank()) {
+                if (tokenState.accessToken.isNotBlank() && tokenState.refreshToken.isNotBlank()) {
                     viewModel.event.emit("Start")
                 } else {
                     Log.d("123", "collectTokenState: 로그인 필요")
