@@ -31,7 +31,7 @@ open class BaseViewModel
         fun <T> Flow<Result<T>>.safeApiCall(
             isLoading: MutableLiveData<Boolean>? = null,
             successAction: (T?) -> Unit,
-            errorAction: (String?) -> Unit,
+            errorAction: (String?) -> Unit = {},
         ) = onEach { resource ->
 
             when (resource) {

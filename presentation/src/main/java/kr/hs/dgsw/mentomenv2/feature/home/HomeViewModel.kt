@@ -21,8 +21,6 @@ class HomeViewModel @Inject constructor(
     private val getMyInfoUseCase: GetMyInfoUseCase,
 ) : BaseViewModel() {
     val postState = MutableStateFlow<PostState>(PostState())
-    private val _errorFlow = MutableSharedFlow<String?>()
-    val errorFlow = _errorFlow.asSharedFlow()
     private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
@@ -35,10 +33,7 @@ class HomeViewModel @Inject constructor(
             isLoading,
             successAction = {
                 getAllPost()
-            },
-            errorAction = {
-                _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-            },
+            }
         )
     }
 
@@ -51,10 +46,7 @@ class HomeViewModel @Inject constructor(
                         postList = it,
                         tag = "ALL",
                     )
-            },
-            errorAction = {
-                _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-            },
+            }
         )
     }
 
@@ -70,10 +62,7 @@ class HomeViewModel @Inject constructor(
                             postList = it,
                             tag = "DESIGN",
                         )
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
+                }
             )
         }
     }
@@ -90,10 +79,7 @@ class HomeViewModel @Inject constructor(
                             postList = it,
                             tag = "WEB",
                         )
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
+                }
             )
         }
     }
@@ -110,10 +96,7 @@ class HomeViewModel @Inject constructor(
                             postList = it,
                             tag = "ANDROID",
                         )
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
+                }
             )
         }
     }
@@ -130,10 +113,7 @@ class HomeViewModel @Inject constructor(
                             postList = it,
                             tag = "SERVER",
                         )
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
+                }
             )
         }
     }
@@ -150,10 +130,7 @@ class HomeViewModel @Inject constructor(
                             postList = it,
                             tag = "IOS",
                         )
-                },
-                errorAction = {
-                    _errorFlow.tryEmit(Utils.NETWORK_ERROR_MESSAGE)
-                },
+                }
             )
         }
     }

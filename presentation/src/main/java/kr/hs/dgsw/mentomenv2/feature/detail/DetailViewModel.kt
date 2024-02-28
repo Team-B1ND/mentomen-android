@@ -2,10 +2,13 @@ package kr.hs.dgsw.mentomenv2.feature.detail
 
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
-import kr.hs.dgsw.mentomenv2.domain.model.Comment
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
+import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostByIdUseCase
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import javax.inject.Inject
 
 @HiltViewModel
@@ -13,19 +16,19 @@ class DetailViewModel
 @Inject
 constructor(
     private val getMyInfoUseCase: GetMyInfoUseCase,
+    private val getPostByIdUseCase: GetPostByIdUseCase
 ) : BaseViewModel() {
-    val itemList = MutableLiveData<List<Comment>>()
     val myUserId = MutableLiveData<Int>()
-    val author = MutableLiveData<Int>()
+    val myProfileImg = MutableLiveData<String?>()
 
+    val author = MutableLiveData<Int>()
     val tag = MutableLiveData<String>()
     val content = MutableLiveData<String>()
-    val imgUrl = MutableLiveData<List<String?>>()
+    val imgUrls = MutableLiveData<List<String?>>()
     val createDateTime = MutableLiveData<String>("2023-11-06T14:28:51.528245")
     val stdInfo = MutableLiveData<StdInfo>(StdInfo(2, 4, 6))
-    val profileUrl = MutableLiveData<String>()
+    val profileImg = MutableLiveData<String?>()
     val userName = MutableLiveData<String>()
-    val profileImage = MutableLiveData<String>()
     val postId = MutableLiveData<Int>()
 
     fun getUserInfo() {
@@ -33,14 +36,24 @@ constructor(
             null,
             {
                 myUserId.value = it?.userId
-                profileImage.value = it?.profileImage ?: ""
-            },
-            {
+                myProfileImg.value = it?.profileImage ?: ""
             },
         )
     }
 
     fun getPostInfo() {
-
+        getPostByIdUseCase.invoke(postId.value ?: 0).safeApiCall(
+            null,
+            { post ->
+                author.value = post?.author
+                tag.value = post?.tag
+                content.value = post?.content
+                imgUrls.value = post?.imgUrls?: emptyList()
+                createDateTime.value = post?.createDateTime
+                stdInfo.value = post?.stdInfo
+                profileImg.value = post?.profileUrl
+                userName.value = post?.userName
+            }
+        )
     }
 }

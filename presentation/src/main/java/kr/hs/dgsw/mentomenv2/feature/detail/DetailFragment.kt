@@ -40,30 +40,6 @@ class DetailFragment :
         (activity as MainActivity).hasBottomBar(false)
         // viewModel.getUserInfo()
 
-        mBinding.datetime.text = args.item.createDateTime
-
-        if (!args.item.profileUrl.isNullOrBlank()) {
-            Glide.with(requireContext())
-                .load(args.item.profileUrl)
-                .into(mBinding.ivProfile)
-        } else {
-            Glide.with(requireContext())
-                .load(R.drawable.ic_default_user)
-                .into(mBinding.ivProfile)
-        }
-
-        if (!args.item.imgUrls.isNullOrEmpty()) {
-            mBinding.viewpagerFrame.visibility = View.VISIBLE
-            val imageAdapter = DetailImageAdapter(args.item.imgUrls ?: emptyList()) {}
-            mBinding.viewpager.adapter = imageAdapter
-            mBinding.wormDotsIndicator.attachTo(mBinding.viewpager)
-
-            mBinding.wormDotsIndicator.visibility = View.VISIBLE
-        } else {
-            mBinding.viewpagerFrame.visibility = View.GONE
-            mBinding.wormDotsIndicator.visibility = View.GONE
-        }
-
         mBinding.backButton.setOnClickListener {
             (activity as MainActivity).hasBottomBar(true)
             findNavController().navigateUp()
@@ -97,11 +73,14 @@ class DetailFragment :
         mBinding.commentViewModel = commentViewModel
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvComment.adapter = commentAdapter
+        viewModel.author.value = args.item.author
+        viewModel.imgUrls.value = args.item.imgUrls
         viewModel.userName.value = args.item.userName
         viewModel.content.value = args.item.content
         viewModel.createDateTime.value = args.item.createDateTime
         viewModel.stdInfo.value = args.item.stdInfo
         viewModel.postId.value = args.item.postId
+        viewModel.profileImg.value = args.item.profileUrl
         commentViewModel.postId.value = args.item.postId
         commentViewModel.getComment()
     }
@@ -114,8 +93,9 @@ class DetailFragment :
     }
 
     private fun observeViewModel() {
-        viewModel.profileImage.observe(this) { profileImage ->
-            if (profileImage.isNotBlank()) {
+
+        viewModel.myProfileImg.observe(this) { profileImage ->
+            if (!profileImage.isNullOrBlank()) {
                 Glide.with(requireContext())
                     .load(profileImage)
                     .into(mBinding.ivCommentProfile)
@@ -133,6 +113,36 @@ class DetailFragment :
                 mBinding.btnMore.visibility = View.GONE
             }
             commentAdapter.setMyUserId(it)
+        }
+
+        viewModel.profileImg.observe(this) {
+            if (!it.isNullOrBlank()) {
+                Glide.with(requireContext())
+                    .load(it)
+                    .into(mBinding.ivProfile)
+            } else {
+                Glide.with(requireContext())
+                    .load(R.drawable.ic_default_user)
+                    .into(mBinding.ivProfile)
+            }
+        }
+
+        viewModel.imgUrls.observe(this) {
+            if (!it.isNullOrEmpty()) {
+                mBinding.viewpagerFrame.visibility = View.VISIBLE
+                val imageAdapter = DetailImageAdapter(it) {}
+                mBinding.viewpager.adapter = imageAdapter
+                mBinding.wormDotsIndicator.attachTo(mBinding.viewpager)
+
+                mBinding.wormDotsIndicator.visibility = View.VISIBLE
+            } else {
+                mBinding.viewpagerFrame.visibility = View.GONE
+                mBinding.wormDotsIndicator.visibility = View.GONE
+            }
+        }
+
+        viewModel.createDateTime.observe(this) {
+            mBinding.datetime.text = it
         }
     }
 

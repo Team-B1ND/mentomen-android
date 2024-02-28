@@ -11,4 +11,5 @@ interface PostRepository {
     fun getPostByTag(tag: String): Flow<Result<List<Post>>>
 
     fun submitPost(postSubmitParam: PostSubmitParam): Flow<Result<Unit>>
+    fun getPostById(id: Int): Flow<Result<Post>>
 }

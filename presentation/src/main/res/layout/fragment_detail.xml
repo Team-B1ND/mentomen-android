@@ -137,7 +137,7 @@
 
                                         <ImageView
                                             android:id="@+id/iv_profile"
-                                            circleImage="@{detailViewModel.profileUrl}"
+                                            circleImage="@{detailViewModel.profileImg}"
                                             android:layout_width="35dp"
                                             android:layout_height="35dp"
                                             android:contentDescription="@string/todo"
@@ -319,7 +319,7 @@
 
                     <ImageView
                         android:id="@+id/iv_comment_profile"
-                        image="@{detailViewModel.profileUrl}"
+                        image="@{detailViewModel.myProfileImg}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/todo"

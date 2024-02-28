@@ -10,4 +10,5 @@ interface PostDataSource {
     fun getPostByTag(tag: String): Flow<List<Post>>
 
     fun submitPost(postSubmitParam: PostSubmitParam): Flow<Unit>
+    fun getPostById(id: Int): Flow<Post>
 }

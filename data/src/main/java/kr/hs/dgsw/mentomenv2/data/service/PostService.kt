@@ -21,4 +21,9 @@ interface PostService {
     suspend fun submitPost(
         @Body postSubmitParam: PostSubmitParam,
     ): BaseResponse<Unit>
+
+    @GET("post/read-one/{id}")
+    suspend fun getPostById(
+        @Path("id") id: Int,
+    ): BaseResponse<Post>
 }
