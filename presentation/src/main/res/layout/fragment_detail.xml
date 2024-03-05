@@ -50,7 +50,7 @@
                     android:id="@+id/nestedScrollView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                    app:layout_constraintBottom_toTopOf="@+id/cl_comment_input"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -270,7 +270,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="16dp"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
+                                android:layout_marginBottom="100dp"
                                 android:translationZ="2dp"
                                 app:cardCornerRadius="10dp"
                                 app:cardElevation="1dp"
@@ -292,77 +292,77 @@
                 </androidx.core.widget.NestedScrollView>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@color/white"
-                android:elevation="3dp"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="10dp"
-                    app:cardCornerRadius="100dp"
-                    app:cardElevation="0dp"
-                    app:layout_constraintEnd_toStartOf="@id/et_comment"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/iv_comment_profile"
-                        image="@{detailViewModel.myProfileImg}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/todo"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_default_user" />
-                </androidx.cardview.widget.CardView>
-
-                <EditText
-                    android:id="@+id/et_comment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_btn_rounded"
-                    android:backgroundTint="@color/background"
-                    android:fontFamily="@font/variable"
-                    android:hint="@string/comment"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp"
-                    android:text="@={commentViewModel.commentContent}"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_send"
-                    app:layout_constraintStart_toEndOf="@+id/cardView2"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageButton
-                    android:id="@+id/iv_send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="#00FFFFFF"
-                    android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_send"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/et_comment"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_comment_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:elevation="3dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toStartOf="@id/et_comment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_comment_profile"
+                    image="@{detailViewModel.myProfileImg}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_default_user" />
+            </androidx.cardview.widget.CardView>
+
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_rounded"
+                android:backgroundTint="@color/background"
+                android:fontFamily="@font/variable"
+                android:hint="@string/comment"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:text="@={commentViewModel.commentContent}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_send"
+                app:layout_constraintStart_toEndOf="@+id/cardView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/iv_send"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="7dp"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/et_comment"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

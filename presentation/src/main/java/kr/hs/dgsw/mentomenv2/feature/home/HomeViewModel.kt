@@ -2,15 +2,11 @@ package kr.hs.dgsw.mentomenv2.feature.home
 
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
-import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostsByTagUseCase
-import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.state.PostState
 import javax.inject.Inject
 
@@ -21,8 +17,8 @@ class HomeViewModel @Inject constructor(
     private val getMyInfoUseCase: GetMyInfoUseCase,
 ) : BaseViewModel() {
     val postState = MutableStateFlow<PostState>(PostState())
-    private val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading = _isLoading
     init {
 //        getMyInfo()
         getAllPost()
@@ -30,7 +26,7 @@ class HomeViewModel @Inject constructor(
 
     fun getMyInfo() {
         getMyInfoUseCase.invoke().safeApiCall(
-            isLoading,
+            _isLoading,
             successAction = {
                 getAllPost()
             }
@@ -39,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     fun getAllPost() {
         getAllPostUseCase.invoke().safeApiCall(
-            isLoading,
+            _isLoading,
             successAction = {
                 postState.value =
                     PostState(
@@ -55,7 +51,7 @@ class HomeViewModel @Inject constructor(
             getAllPost()
         } else {
             getPostsByTagUseCase("DESIGN").safeApiCall(
-                isLoading,
+                _isLoading,
                 successAction = {
                     postState.value =
                         PostState(
@@ -72,7 +68,7 @@ class HomeViewModel @Inject constructor(
             getAllPost()
         } else {
             getPostsByTagUseCase("WEB").safeApiCall(
-                isLoading,
+                _isLoading,
                 successAction = {
                     postState.value =
                         PostState(
@@ -89,7 +85,7 @@ class HomeViewModel @Inject constructor(
             getAllPost()
         } else {
             getPostsByTagUseCase("ANDROID").safeApiCall(
-                isLoading,
+                _isLoading,
                 successAction = {
                     postState.value =
                         PostState(
@@ -106,7 +102,7 @@ class HomeViewModel @Inject constructor(
             getAllPost()
         } else {
             getPostsByTagUseCase("SERVER").safeApiCall(
-                isLoading,
+                _isLoading,
                 successAction = {
                     postState.value =
                         PostState(
@@ -123,7 +119,7 @@ class HomeViewModel @Inject constructor(
             getAllPost()
         } else {
             getPostsByTagUseCase("IOS").safeApiCall(
-                isLoading,
+                _isLoading,
                 successAction = {
                     postState.value =
                         PostState(

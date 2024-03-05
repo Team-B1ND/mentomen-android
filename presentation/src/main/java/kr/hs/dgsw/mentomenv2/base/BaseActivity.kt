@@ -7,6 +7,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
@@ -29,14 +31,15 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
                 action.invoke(event)
             }
         }
-
-        viewModel.error.observe(this) {
-            if (it == Utils.TOKEN_EXCEPTION) {
-                Toast.makeText(this, "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
+        lifecycleScope.launch {
+            viewModel.error.collect {
+                if (it == Utils.TOKEN_EXCEPTION) {
+                    Toast.makeText(this@BaseActivity, "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@BaseActivity, IntroActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
     }

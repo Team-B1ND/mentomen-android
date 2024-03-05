@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
@@ -14,7 +13,6 @@ class HomeAdapter(
     private val itemClick: (Post) -> Unit,
 ) :
     BaseListAdapter<Post, ItemHomeBinding>(R.layout.item_home, PostDiffUtilCallback) {
-    @SuppressLint("SetTextI18n")
     override fun action(
         item: Post,
         binding: ItemHomeBinding,
@@ -41,10 +39,12 @@ class HomeAdapter(
         }
         if (!item.imgUrls.isNullOrEmpty()) {
             binding.ivPreview.visibility = View.VISIBLE
+            binding.cvPreview.visibility = View.VISIBLE
             Glide.with(binding.ivPreview.context)
                 .load(item.imgUrls?.first())
                 .into(binding.ivPreview)
         } else {
+            binding.cvPreview.visibility = View.GONE
             binding.ivPreview.visibility = View.GONE
         }
 

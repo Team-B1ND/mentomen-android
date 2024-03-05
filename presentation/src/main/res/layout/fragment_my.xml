@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="kr.hs.dgsw.mentomenv2.feature.my.MyViewModel" />
@@ -29,31 +30,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/logo"
-                    android:layout_width="110dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:background="#00FFFFFF"
-                    android:scaleType="centerInside"
                     android:src="@drawable/ic_logo_with_mentomen"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/todo" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
                     android:id="@+id/btn_notification"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/white"
-                    android:paddingHorizontal="10dp"
+                    android:background="@color/transparent"
+                    android:contentDescription="@string/todo"
                     android:src="@drawable/ic_notification"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/todo" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -66,6 +62,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
                 <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/abl_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#00F2F2F2"
@@ -77,9 +74,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginVertical="15dp"
+                        android:translationZ="2dp"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="1dp"
-                        android:translationZ="2dp"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         app:layout_scrollFlags="scroll|enterAlways">
 
@@ -105,8 +102,8 @@
                                     circleImage="@{vm.userProfileUrl}"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/ic_default_user"
-                                    android:contentDescription="@string/todo" />
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_default_user" />
 
                             </androidx.cardview.widget.CardView>
 
@@ -167,7 +164,7 @@
                                 tools:text="@string/example_name" />
 
                             <TextView
-                                android:id="@+id/textView"
+                                android:id="@+id/tv_hello"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/semibold"
@@ -181,13 +178,13 @@
                                 android:id="@+id/btn_logout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/variable"
                                 android:background="@color/transparent"
+                                android:fontFamily="@font/variable"
+                                android:gravity="start|center"
+                                android:paddingStart="30dp"
                                 android:text="@string/logout"
                                 android:textColor="#FA4848"
                                 android:textSize="14sp"
-                                android:gravity="start|center"
-                                android:paddingStart="30dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 tools:ignore="RtlSymmetry" />
@@ -202,10 +199,9 @@
                     android:id="@+id/rv_my_page"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:orientation="vertical"
-                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

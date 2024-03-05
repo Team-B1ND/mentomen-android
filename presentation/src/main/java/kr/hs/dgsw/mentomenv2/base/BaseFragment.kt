@@ -10,6 +10,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
@@ -49,19 +52,19 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         super.onViewCreated(view, savedInstanceState)
         this.savedInstanceState = savedInstanceState
         initialize()
-
-        viewModel.error.observe(viewLifecycleOwner) {
-            if (it == Utils.TOKEN_EXCEPTION) {
-                Toast.makeText(requireContext(), "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(requireContext(), IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                this.requireActivity().finishAffinity()
-            } else {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            viewModel.error.collect {
+                if (it == Utils.TOKEN_EXCEPTION) {
+                    Toast.makeText(requireContext(), "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), IntroActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this@BaseFragment.requireActivity().finishAffinity()
+                } else {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
             }
         }
-
         setupViews()
     }
 

@@ -29,7 +29,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(false)
         mBinding.backButton.setOnClickListener {
-            (activity as MainActivity).hasBottomBar(true)
             findNavController().navigateUp()
         }
         mBinding.cancelButton.setOnClickListener {
@@ -37,10 +36,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         }
         mBinding.searchPage.setOnClickListener {
             hideKeyboard()
-            viewModel.getAllPost()
         }
         mBinding.swipeRefreshLayout.setOnClickListener {
-          hideKeyboard()
+            hideKeyboard()
         }
         mBinding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.getAllPost()
@@ -61,8 +59,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     private fun updateFilterPostList(postList: List<Post>) {
-        val filteredList = postList.filter { post ->
+        var filteredList = postList.filter { post ->
             post.content.contains(viewModel.keyWord.value.toString(), ignoreCase = true)
+        }
+        if (viewModel.keyWord.value.isNullOrBlank()) {
+            filteredList = emptyList()
         }
         adapter.submitList(filteredList)
     }
@@ -70,11 +71,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     private fun collectPostStates() {
         lifecycleScope.launch {
             viewModel.postState.collect { state ->
-                if (viewModel.keyWord.value.isNullOrBlank()) {
-                    adapter.submitList(state.postList)
-                } else {
-                    updateFilterPostList(state.postList ?: emptyList())
-                }
+                updateFilterPostList(state.postList ?: emptyList())
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
@@ -88,10 +85,5 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
                 updateFilterPostList(postList)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (activity as MainActivity).hasBottomBar(true)
     }
 }

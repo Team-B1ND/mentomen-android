@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentMyBinding
+import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 
 @AndroidEntryPoint
@@ -17,25 +18,35 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
 
     private fun initHomeAdapter() {
         adapter =
-            HomeAdapter {
-                findNavController().navigate(MyFragmentDirections.actionUserFragmentToDetailFragment(it))
+            HomeAdapter { post ->
+                findNavController().navigate(
+                    MyFragmentDirections.actionUserFragmentToDetailFragment(
+                        post
+                    )
+                )
             }
         mBinding.rvMyPage.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvMyPage.adapter = adapter
         mBinding.btnLogout.setOnClickListener {
-            viewModel.logout()
+            viewModel.clearDataStore()
             val intent = Intent(requireContext(), IntroActivity::class.java)
             startActivity(intent)
         }
     }
 
     override fun setupViews() {
+        (activity as MainActivity).hasBottomBar(true)
         initHomeAdapter()
         observeViewModel()
+        viewModel.getMyInfo()
+        viewModel.getMyPost()
     }
 
     private fun observeViewModel() =
         with(viewModel) {
             post.observe(viewLifecycleOwner) { adapter.submitList(it) }
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
+                if (isLoading) {}
+            }
         }
 }

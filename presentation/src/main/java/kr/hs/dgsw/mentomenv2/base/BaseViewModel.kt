@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.smartschool.dodamdodam.widget.Event
@@ -17,8 +20,8 @@ import javax.inject.Inject
 open class BaseViewModel
     @Inject
     constructor() : ViewModel() {
-        private val _error = MutableLiveData<String>()
-        val error: LiveData<String> = _error
+        private val _error = MutableSharedFlow<String>()
+        val error = _error.asSharedFlow()
 
         private val _viewEvent = MutableLiveData<Event<Any>>()
         val viewEvent: LiveData<Event<Any>>
@@ -45,7 +48,9 @@ open class BaseViewModel
                 is Result.Error -> {
                     isLoading?.value = false
                     if (resource.message == Utils.TOKEN_EXCEPTION) {
-                        _error.value = resource.message ?: "세션이 만료되었습니다."
+                        viewModelScope.launch {
+                            _error.emit(resource.message ?: "세션이 만료되었습니다.")
+                        }
                     } else {
                         errorAction.invoke(resource.message)
                     }

@@ -38,10 +38,9 @@ class DetailFragment :
         observeViewModel()
         settingDefaultValue()
         (activity as MainActivity).hasBottomBar(false)
-        // viewModel.getUserInfo()
+        viewModel.getUserInfo()
 
         mBinding.backButton.setOnClickListener {
-            (activity as MainActivity).hasBottomBar(true)
             findNavController().navigateUp()
         }
 
@@ -133,7 +132,6 @@ class DetailFragment :
                 val imageAdapter = DetailImageAdapter(it) {}
                 mBinding.viewpager.adapter = imageAdapter
                 mBinding.wormDotsIndicator.attachTo(mBinding.viewpager)
-
                 mBinding.wormDotsIndicator.visibility = View.VISIBLE
             } else {
                 mBinding.viewpagerFrame.visibility = View.GONE
@@ -152,18 +150,14 @@ class DetailFragment :
                 Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
                 commentAdapter.submitList(state.commentList)
                 if (state.error == "finish") {
-                    getActivity()?.getSupportFragmentManager()?.beginTransaction()?.remove(requireParentFragment())?.commit()
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.remove(requireParentFragment())?.commit()
                 }
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (activity as MainActivity).hasBottomBar(true)
     }
 
     override fun deleteComment(commentId: Int) {

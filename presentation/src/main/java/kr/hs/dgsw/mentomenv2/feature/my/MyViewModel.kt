@@ -21,10 +21,11 @@ constructor(
     val userName: MutableLiveData<String> = MutableLiveData("")
     val userProfileUrl: MutableLiveData<String> = MutableLiveData("")
     val post = MutableLiveData<List<Post>>()
-
-    private fun getMyInfo() {
+    private val _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading:MutableLiveData<Boolean> = _isLoading
+    fun getMyInfo() {
         myRepository.getMyInfo().safeApiCall(
-            null,
+            _isLoading,
             {
                 userName.value = it?.name ?: ""
                 stdInfo.value = it?.stdInfo ?: StdInfo(0, 0, 0)
@@ -32,18 +33,18 @@ constructor(
         )
     }
 
-    private fun getMyPost() {
+    fun getMyPost() {
         myRepository.getMyPost().safeApiCall(
-            null,
+            _isLoading,
             {
                 post.value = it
             },
         )
     }
 
-    fun logout() {
+    fun clearDataStore() {
         dataStoreRepository.clearData().safeApiCall(
-            null,
+            _isLoading,
             {
                 Log.d("logout: ", "dataStore 비우기 성공")
             },

@@ -35,87 +35,70 @@
                     android:layout_width="28dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="12dp"
-                    android:src="@drawable/ic_android"
+                    android:background="@color/shimmer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="15.5dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="@font/variable"
-                    android:text="@{item.userName}"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:background="@drawable/bg_shimmer_text"
                     app:layout_constraintStart_toEndOf="@id/iv_major"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="도현욱" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_student_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/variable"
-                    android:text='@{item.stdInfo.grade + "학년 " + item.stdInfo.room + "반 " + item.stdInfo.number + "번"}'
-                    android:textColor="@color/gray"
-                    android:textSize="12sp"
+                    android:layout_width="70dp"
+                    android:layout_height="15.5dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/shimmer"
                     app:layout_constraintStart_toStartOf="@id/tv_name"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name"
-                    tools:text="2학년4반6번" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
                 <TextView
                     android:id="@+id/tv_preview"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="31dp"
                     android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="10dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/variable"
-                    android:text="@{item.content.strip()}"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp"
+                    android:background="@color/shimmer"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_major"
-                    tools:text="제가 서버를 취미로 하고 있는 디자인 담당인데 이 디자인 한 번 평가해주실 수 있을까요?" />
+                    app:layout_constraintTop_toBottomOf="@id/iv_major" />
 
                 <TextView
                     android:id="@+id/btn_show_more"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/variable"
-                    android:text="@string/show_more"
-                    android:textColor="@color/gray"
+                    android:background="@color/shimmer"
+                    android:layout_marginTop="3dp"
                     app:layout_constraintStart_toStartOf="@id/tv_preview"
                     app:layout_constraintTop_toBottomOf="@id/tv_preview" />
 
                 <TextView
                     android:id="@+id/tv_time"
-                    date="@{item.createDateTime}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="45dp"
+                    android:layout_height="15.5dp"
                     android:layout_margin="7dp"
                     android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/variable"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp"
+                    android:background="@color/shimmer"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="4시간 전" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_preview"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="0dp"
-                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_preview"
                     app:layout_constraintTop_toBottomOf="@id/btn_show_more">
@@ -124,8 +107,7 @@
                         android:id="@+id/iv_preview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_android" />
+                        android:background="@color/shimmer" />
                 </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

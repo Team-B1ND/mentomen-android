@@ -57,7 +57,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     fun hasBottomBar(hasBottomBar: Boolean = true) {
-        Log.d("hasBottomBar: ", "hasBottomBar : $hasBottomBar")
         mBinding.bottomNav.visibility = if (hasBottomBar) View.VISIBLE else View.GONE
         mBinding.bottomAppBar.visibility = if (hasBottomBar) View.VISIBLE else View.GONE
         mBinding.btnAdd.visibility = if (hasBottomBar) View.VISIBLE else View.GONE
