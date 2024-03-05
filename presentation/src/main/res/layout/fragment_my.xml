@@ -17,6 +17,7 @@
         tools:context="view.fragment.UserFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/csl_my"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background">
@@ -33,7 +34,7 @@
                 <ImageView
                     android:id="@+id/logo"
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_logo_with_mentomen"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +54,21 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/sfl_my"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <include layout="@layout/fragment_my_shimmer" />
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/cl_my"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"

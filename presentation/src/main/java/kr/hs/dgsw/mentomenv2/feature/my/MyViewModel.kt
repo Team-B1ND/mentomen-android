@@ -3,6 +3,7 @@ package kr.hs.dgsw.mentomenv2.feature.my
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
@@ -29,6 +30,7 @@ constructor(
             {
                 userName.value = it?.name ?: ""
                 stdInfo.value = it?.stdInfo ?: StdInfo(0, 0, 0)
+                userProfileUrl.value = it?.profileImage ?: R.drawable.ic_default_user.toString()
             }
         )
     }

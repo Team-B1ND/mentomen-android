@@ -46,7 +46,15 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
         with(viewModel) {
             post.observe(viewLifecycleOwner) { adapter.submitList(it) }
             isLoading.observe(viewLifecycleOwner) { isLoading ->
-                if (isLoading) {}
+                if (isLoading) {
+                    mBinding.sflMy.startShimmer()
+                    mBinding.clMy.visibility = android.view.View.GONE
+                    mBinding.sflMy.visibility = android.view.View.VISIBLE
+                } else {
+                    mBinding.sflMy.stopShimmer()
+                    mBinding.clMy.visibility = android.view.View.VISIBLE
+                    mBinding.sflMy.visibility = android.view.View.GONE
+                }
             }
         }
 }

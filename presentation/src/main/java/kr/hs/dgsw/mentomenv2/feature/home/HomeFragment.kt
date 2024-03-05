@@ -30,7 +30,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         mBinding.rvHome.adapter = adapter
         collectPostStates()
         observeViewModel()
-        mBinding.sflHome.startShimmer()
+
 
         mBinding.ivNotification.setOnClickListener {
             Toast.makeText(requireContext(), "알림", Toast.LENGTH_SHORT).show()
