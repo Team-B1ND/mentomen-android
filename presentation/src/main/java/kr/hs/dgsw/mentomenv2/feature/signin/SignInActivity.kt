@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getCode
@@ -21,6 +23,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override fun start() {
         lifecycleScope.launch {
             collectTokenState()
+            collectError()
             collectEvent()
             settingDAuth(
                 Client.CLIENT_ID,
@@ -30,7 +33,15 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
             viewModel.getToken()
         }
     }
-
+    private fun collectError() {
+        lifecycleScope.launch {
+            viewModel.error.collect { error ->
+                if (error.isNotBlank()) {
+                    viewModel.event.emit("Login")
+                }
+            }
+        }
+    }
     private fun collectEvent() {
         lifecycleScope.launch {
             viewModel.event.collect { event ->
