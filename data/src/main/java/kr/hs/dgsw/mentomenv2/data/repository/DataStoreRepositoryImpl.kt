@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.data.datasource.DataStoreDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.base.BaseRepositoryImpl
@@ -36,11 +37,13 @@ class DataStoreRepositoryImpl
 
         override fun removeData(key: String): Flow<Result<Unit>> =
             execute {
+                Log.d("removeData: in RepositoryImpl", "key: $key")
                 dataStoreDataSource.removeData(key)
             }
 
         override fun clearData(): Flow<Result<Unit>> =
             execute {
+                Log.d("clearData: in RepositoryImpl", "clearData: ")
                 dataStoreDataSource.clearData()
             }
     }

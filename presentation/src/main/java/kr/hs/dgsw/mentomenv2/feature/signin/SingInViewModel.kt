@@ -63,6 +63,7 @@ class SingInViewModel
                 errorAction = {
                     tokenState.value = Token("", "")
                     viewModelScope.launch {
+
                         event.emit("Login")
                     }
                     Log.d(
