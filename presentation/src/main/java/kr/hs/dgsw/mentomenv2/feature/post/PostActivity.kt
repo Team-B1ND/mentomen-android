@@ -33,7 +33,7 @@ import java.io.File
 @AndroidEntryPoint
 class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     override val viewModel: PostViewModel by viewModels()
-
+    private val isEdit = intent.getBooleanExtra("isEdit", false)
     private var imageAdapter: ImageAdapter? = null
     private val imageList = MutableLiveData<ArrayList<Uri?>>(arrayListOf())
     private var permissionName = ""

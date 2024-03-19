@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.detail
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,6 +38,7 @@ constructor(
         getMyInfoUseCase.invoke().safeApiCall(
             null,
             {
+                Log.d("observegetUserInfo: ", it?.userId.toString())
                 myUserId.value = it?.userId
                 myProfileImg.value = it?.profileImage ?: ""
             },
@@ -44,7 +46,7 @@ constructor(
     }
 
     fun getPostInfo() {
-        getPostByIdUseCase.invoke(postId.value ?: 0).safeApiCall(
+        getPostByIdUseCase.invoke(id = postId.value ?: 0).safeApiCall(
             null,
             { post ->
                 author.value = post?.author
@@ -60,6 +62,15 @@ constructor(
     }
 
     fun deletePost() {
-        deletePostByIdUseCase.invoke(id = postId.value ?: 0)
+        deletePostByIdUseCase.invoke(id = postId.value ?: 0).safeApiCall(
+            null,
+            {
+                viewEvent(DELETE_POST)
+            }
+        )
+    }
+
+    companion object {
+        const val DELETE_POST = 1
     }
 }

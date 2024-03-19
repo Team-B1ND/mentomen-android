@@ -1,8 +1,8 @@
 package kr.hs.dgsw.mentomenv2.feature.detail
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
@@ -28,6 +28,8 @@ import kr.hs.dgsw.mentomenv2.databinding.CommentSettingFragmentBinding
 import kr.hs.dgsw.mentomenv2.databinding.FragmentDetailBinding
 import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
+import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
+import java.lang.Error
 
 
 @AndroidEntryPoint
@@ -39,12 +41,10 @@ class DetailFragment :
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val commentAdapter = CommentAdapter(this)
     private var isEdit: MutableLiveData<Boolean> = MutableLiveData(false)
     private var commentId: MutableLiveData<Int> = MutableLiveData(0)
 
     override fun setupViews() {
-        collectState()
         observeEvent()
         observeViewModel()
         settingDefaultValue()
@@ -112,7 +112,19 @@ class DetailFragment :
         }
 
         bottomSheetBinding.tvEdit.setOnClickListener {
+            val intent = Intent(requireContext(), PostActivity::class.java)
+            intent.putExtra("isEdit", true)
+            startActivity(intent)
             bottomSheetDialog.dismiss()
+        }
+
+        bindingViewEvent { event ->
+            when (event) {
+                DetailViewModel.DELETE_POST -> {
+                    Toast.makeText(context, "게시글 삭제에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
+            }
         }
     }
 
@@ -120,7 +132,6 @@ class DetailFragment :
         mBinding.detailViewModel = viewModel
         mBinding.commentViewModel = commentViewModel
         mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
-        mBinding.rvComment.adapter = commentAdapter
         viewModel.author.value = args.item.author
         viewModel.imgUrls.value = args.item.imgUrls
         viewModel.userName.value = args.item.userName
@@ -164,12 +175,15 @@ class DetailFragment :
         }
 
         viewModel.myUserId.observe(this) {
+            Log.d("observeViewModel: ", it.toString())
             if (args.item.author == it) {
                 mBinding.btnMore.visibility = View.VISIBLE
             } else {
                 mBinding.btnMore.visibility = View.GONE
             }
-            commentAdapter.setMyUserId(it)
+            val commentAdapter = CommentAdapter(this, viewModel.myUserId.value?: 0)
+            mBinding.rvComment.adapter = commentAdapter
+            collectState(commentAdapter)
         }
 
         viewModel.profileImg.observe(this) {
@@ -208,7 +222,7 @@ class DetailFragment :
         }
     }
 
-    private fun collectState() {
+    private fun collectState(commentAdapter: CommentAdapter) {
         lifecycleScope.launch {
             commentViewModel.commentState.collect { state ->
                 Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
@@ -217,8 +231,9 @@ class DetailFragment :
         }
     }
 
-    private fun observeEvent() {
+    fun observeEvent() {
         bindingViewEvent {
+            Log.d("observeEvent: ", it.toString())
             when (it) {
                 CommentViewModel.UPDATE_COMMENT -> {
                     hideKeyboard()
@@ -226,6 +241,7 @@ class DetailFragment :
                 }
 
                 CommentViewModel.DELETE_COMMENT -> {
+                    hideKeyboard()
                     Toast.makeText(requireContext(), "댓글 삭제에 성공했습니다.", Toast.LENGTH_SHORT).show()
                 }
 

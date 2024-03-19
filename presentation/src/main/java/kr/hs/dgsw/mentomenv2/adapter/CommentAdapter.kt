@@ -1,7 +1,9 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
@@ -13,12 +15,9 @@ import kr.hs.dgsw.mentomenv2.domain.model.Comment
 
 class CommentAdapter(
     private val callback: CommentAdapterCallback,
+    private val userId: Int
 ) :
     BaseListAdapter<Comment, ItemCommentBinding>(R.layout.item_comment, CommentDiffUtil) {
-    private var myUserId = 0
-    fun setMyUserId(userId: Int) {
-        this.myUserId = userId
-    }
 
     override fun action(
         item: Comment,
@@ -30,6 +29,8 @@ class CommentAdapter(
         val bottomSheetDialog = BottomSheetDialog(binding.root.context)
         bottomSheetDialog.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
+
+        binding.btnMore.visibility = if (userId == item.userId) View.VISIBLE else View.GONE
 
         binding.btnMore.setOnClickListener {
             bottomSheetDialog.show()
@@ -50,8 +51,6 @@ class CommentAdapter(
             bottomSheetDialog.dismiss()
             callback.updateIsEdit(true, item.commentId.toInt(), item.content)
         }
-
-        binding.btnMore.visibility = if (item.userId == myUserId) View.VISIBLE else View.GONE
 
         binding.btnMore.setOnClickListener {
             bottomSheetDialog.show()
