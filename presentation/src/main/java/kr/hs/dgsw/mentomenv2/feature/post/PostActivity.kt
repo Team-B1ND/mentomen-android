@@ -120,13 +120,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 PostViewModel.ON_CLICK_SUBMIT -> {
                     submitPost()
                 }
-
-                PostViewModel.submitMessage -> {
-                    Toast.makeText(this, PostViewModel.submitMessage, Toast.LENGTH_SHORT).show()
-                    if (PostViewModel.submitMessage == "게시글 등록에 성공했습니다.") {
-                        finish()
-                    }
-                }
             }
         }
     }
@@ -147,6 +140,12 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 }
             } else {
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.bg_btn_disable)
+            }
+        }
+        viewModel.submitMessage.observe(this) { message ->
+            if (message.isNotBlank()) Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (message == "게시글 등록에 성공했습니다.") {
+                finish()
             }
         }
     }

@@ -86,8 +86,8 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_logout"
-                        android:layout_width="80dp"
-                        android:layout_height="45dp"
+                        android:layout_width="60dp"
+                        android:layout_height="19dp"
                         android:layout_margin="5dp"
                         android:background="@drawable/bg_shimmer_text"
                         app:layout_constraintBottom_toBottomOf="parent"

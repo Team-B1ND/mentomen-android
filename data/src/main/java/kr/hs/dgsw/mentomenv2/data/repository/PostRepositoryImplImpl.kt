@@ -25,4 +25,7 @@ constructor(
 
     override fun getPostById(id: Int): Flow<Result<Post>> =
         execute { remote.getPostById(id) }
+
+    override fun deletePostById(id: Int): Flow<Result<Unit>> =
+        execute { remote.deletePostById(id) }
 }

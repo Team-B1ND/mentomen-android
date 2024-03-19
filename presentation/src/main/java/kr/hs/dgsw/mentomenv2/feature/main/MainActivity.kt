@@ -22,6 +22,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         mBinding.bottomNav.background = null
         mBinding.bottomNav.menu.getItem(1).isEnabled = false
 
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        mBinding.bottomNav.setupWithNavController(navController)
+
         mBinding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_home -> {

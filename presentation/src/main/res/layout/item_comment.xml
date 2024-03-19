@@ -139,31 +139,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/name"
                     tools:text="너무 못생겼어요 나가주세요!" />
 
-                <EditText
-                    android:id="@+id/et_edit_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/variable"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:visibility="gone"
-                    android:text="@{item.content}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/name"
-                    />
-
-                <ImageView
-                    android:id="@+id/iv_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:src="@drawable/ic_edit"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_goneMarginBottom="3dp"/>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

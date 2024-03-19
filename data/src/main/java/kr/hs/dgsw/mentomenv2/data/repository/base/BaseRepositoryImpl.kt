@@ -15,16 +15,10 @@ abstract class BaseRepositoryImpl {
     protected fun <R> execute(action: suspend () -> Flow<R>): Flow<Result<R>> =
         flow {
             try {
-                Log.d("BaseRepository", "call Loading")
                 emit(Result.Loading())
                 action().onEach { data ->
-                    Log.d("BaseRepository", "call action.onEach Success")
                     emit(Result.Success(data))
                 }.catch { e ->
-                    Log.d(
-                        "BaseRepository",
-                        "action name: ${javaClass.simpleName} : e.name: $e message: ${e.message}",
-                    )
                     when (e) {
                         is retrofit2.HttpException -> {
                             if (e.code() == 401 || e.code() == 400 || e.code() == 403) {
@@ -43,7 +37,7 @@ abstract class BaseRepositoryImpl {
                     }
                 }.collect()
             } catch (e: Exception) {
-                Log.d("BaseRepository", "FlowError : $e")
+                Log.e("BaseRepository", "FlowError : $e")
             }
         }
 }

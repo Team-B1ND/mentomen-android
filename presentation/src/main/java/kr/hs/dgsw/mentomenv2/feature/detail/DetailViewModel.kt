@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
+import kr.hs.dgsw.mentomenv2.domain.usecase.post.DeletePostByIdUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostByIdUseCase
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import javax.inject.Inject
@@ -16,7 +17,8 @@ class DetailViewModel
 @Inject
 constructor(
     private val getMyInfoUseCase: GetMyInfoUseCase,
-    private val getPostByIdUseCase: GetPostByIdUseCase
+    private val getPostByIdUseCase: GetPostByIdUseCase,
+    private val deletePostByIdUseCase: DeletePostByIdUseCase,
 ) : BaseViewModel() {
     val myUserId = MutableLiveData<Int>()
     val myProfileImg = MutableLiveData<String?>()
@@ -48,12 +50,16 @@ constructor(
                 author.value = post?.author
                 tag.value = post?.tag
                 content.value = post?.content
-                imgUrls.value = post?.imgUrls?: emptyList()
+                imgUrls.value = post?.imgUrls ?: emptyList()
                 createDateTime.value = post?.createDateTime
                 stdInfo.value = post?.stdInfo
                 profileImg.value = post?.profileUrl
                 userName.value = post?.userName
             }
         )
+    }
+
+    fun deletePost() {
+        deletePostByIdUseCase.invoke(id = postId.value ?: 0)
     }
 }

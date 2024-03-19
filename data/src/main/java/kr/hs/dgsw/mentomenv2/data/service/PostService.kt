@@ -3,7 +3,9 @@ package kr.hs.dgsw.mentomenv2.data.service
 import kr.hs.dgsw.mentomenv2.data.response.base.BaseResponse
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
+import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -26,4 +28,9 @@ interface PostService {
     suspend fun getPostById(
         @Path("id") id: Int,
     ): BaseResponse<Post>
+
+    @DELETE("post/delete/{postId}")
+    fun deletePostById(
+        @Path("postId") postId: Int
+    ): BaseResponse<Unit>
 }

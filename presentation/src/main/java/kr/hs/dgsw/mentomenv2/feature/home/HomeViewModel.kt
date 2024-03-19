@@ -20,8 +20,7 @@ class HomeViewModel @Inject constructor(
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading = _isLoading
     init {
-//        getMyInfo()
-        getAllPost()
+        getMyInfo()
     }
 
     fun getMyInfo() {

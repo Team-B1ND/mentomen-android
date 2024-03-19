@@ -17,56 +17,60 @@ class HomeAdapter(
         item: Post,
         binding: ItemHomeBinding,
     ) {
+        val isDummy =
+            !item.isExpended && item.content == "" && item.userName == "" && item.author == 0 && item.tag == ""
         binding.item = item
-        Log.d("action: ", "${item.isExpended} + ${item.content}")
-        if (item.isExpended) {
-            binding.tvPreview.maxLines = Int.MAX_VALUE
-            binding.btnShowMore.visibility = View.GONE
-        } else {
-            binding.tvPreview.maxLines = 3
-            binding.tvPreview.post {
-                val layout = binding.tvPreview.layout
+        if (!isDummy) {
+            if (item.isExpended) {
+                binding.tvPreview.maxLines = Int.MAX_VALUE
+                binding.btnShowMore.visibility = View.GONE
+            } else {
+                binding.tvPreview.maxLines = 3
+                binding.tvPreview.post {
+                    val layout = binding.tvPreview.layout
 
-                // 마지막 줄이 완전히 보이지 않는 경우에는 "..."이 있는 것으로 판단
-                val lastLineVisible = layout.getEllipsisCount(layout.lineCount - 1) == 0
+                    // 마지막 줄이 완전히 보이지 않는 경우에는 "..."이 있는 것으로 판단
+                    val lastLineVisible = layout.getEllipsisCount(layout.lineCount - 1) == 0
 
-                if (!lastLineVisible) {
-                    binding.btnShowMore.visibility = View.VISIBLE
-                } else {
-                    binding.btnShowMore.visibility = View.GONE
+                    if (!lastLineVisible) {
+                        binding.btnShowMore.visibility = View.VISIBLE
+                    } else {
+                        binding.btnShowMore.visibility = View.GONE
+                    }
                 }
             }
-        }
-        if (!item.imgUrls.isNullOrEmpty()) {
-            binding.ivPreview.visibility = View.VISIBLE
-            binding.cvPreview.visibility = View.VISIBLE
-            Glide.with(binding.ivPreview.context)
-                .load(item.imgUrls?.first())
-                .into(binding.ivPreview)
-        } else {
-            binding.cvPreview.visibility = View.GONE
-            binding.ivPreview.visibility = View.GONE
-        }
 
-        binding.root.setOnClickListener { itemClick(item) }
-
-        binding.btnShowMore.setOnClickListener {
-            item.isExpended = true
-            binding.tvPreview.maxLines = Int.MAX_VALUE
-            binding.btnShowMore.visibility = View.GONE
-        }
-
-        val majorImage =
-            when (item.tag) {
-                "ANDROID" -> R.drawable.ic_android
-                "IOS" -> R.drawable.ic_ios
-                "WEB" -> R.drawable.ic_web
-                "SERVER" -> R.drawable.ic_server
-                "DESIGN" -> R.drawable.ic_design
-                else -> R.drawable.ic_android
+            if (!item.imgUrls.isNullOrEmpty()) {
+                binding.ivPreview.visibility = View.VISIBLE
+                binding.cvPreview.visibility = View.VISIBLE
+                Glide.with(binding.ivPreview.context)
+                    .load(item.imgUrls?.first())
+                    .into(binding.ivPreview)
+            } else {
+                binding.cvPreview.visibility = View.GONE
+                binding.ivPreview.visibility = View.GONE
             }
-        Glide.with(binding.ivMajor.context)
-            .load(majorImage)
-            .into(binding.ivMajor)
+            binding.root.setOnClickListener { itemClick(item) }
+
+            binding.btnShowMore.setOnClickListener {
+                item.isExpended = true
+                binding.tvPreview.maxLines = Int.MAX_VALUE
+                binding.btnShowMore.visibility = View.GONE
+            }
+            val majorImage =
+                when (item.tag) {
+                    "ANDROID" -> R.drawable.ic_android
+                    "IOS" -> R.drawable.ic_ios
+                    "WEB" -> R.drawable.ic_web
+                    "SERVER" -> R.drawable.ic_server
+                    "DESIGN" -> R.drawable.ic_design
+                    else -> R.drawable.ic_android
+                }
+            Glide.with(binding.ivMajor.context)
+                .load(majorImage)
+                .into(binding.ivMajor)
+        } else {
+            binding.clComment.visibility = View.INVISIBLE
+        }
     }
 }

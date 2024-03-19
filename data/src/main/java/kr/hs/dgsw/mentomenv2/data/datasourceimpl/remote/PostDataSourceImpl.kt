@@ -36,4 +36,10 @@ constructor(
             emit(api.getPostById(id).data)
         }
     }
+
+    override fun deletePostById(id: Int): Flow<Unit> {
+        return flow {
+            emit(api.deletePostById(id).data)
+        }
+    }
 }

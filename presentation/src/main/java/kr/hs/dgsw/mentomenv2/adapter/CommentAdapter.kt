@@ -16,7 +16,6 @@ class CommentAdapter(
 ) :
     BaseListAdapter<Comment, ItemCommentBinding>(R.layout.item_comment, CommentDiffUtil) {
     private var myUserId = 0
-
     fun setMyUserId(userId: Int) {
         this.myUserId = userId
     }
@@ -38,33 +37,24 @@ class CommentAdapter(
 
         bottomSheetBinding.tvCancel.setOnClickListener {
             bottomSheetDialog.dismiss()
+            callback.updateIsEdit()
         }
 
         bottomSheetBinding.tvDelete.setOnClickListener {
             callback.deleteComment(item.commentId.toInt())
+            callback.updateIsEdit()
             bottomSheetDialog.dismiss()
         }
 
         bottomSheetBinding.tvEdit.setOnClickListener {
-            binding.ivEdit.visibility = View.VISIBLE
-            binding.etEditComment.visibility = View.VISIBLE
-            binding.content.visibility = View.GONE
-            binding.etEditComment.requestFocus()
-            binding.etEditComment.setSelection(binding.etEditComment.text.length)
             bottomSheetDialog.dismiss()
+            callback.updateIsEdit(true, item.commentId.toInt(), item.content)
         }
 
         binding.btnMore.visibility = if (item.userId == myUserId) View.VISIBLE else View.GONE
 
         binding.btnMore.setOnClickListener {
             bottomSheetDialog.show()
-        }
-
-        binding.ivEdit.setOnClickListener {
-            binding.ivEdit.visibility = View.GONE
-            binding.etEditComment.visibility = View.GONE
-            binding.content.visibility = View.VISIBLE
-            callback.updateComment(item.commentId.toInt(), binding.etEditComment.text.toString())
         }
     }
 }

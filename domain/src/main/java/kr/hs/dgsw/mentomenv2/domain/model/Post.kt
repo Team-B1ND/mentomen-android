@@ -4,17 +4,17 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Post(
-    val author: Int,
-    val content: String,
+    val author: Int = 0,
+    val content: String = "",
     val imgUrls: List<String>? = emptyList(),
-    val createDateTime: String,
-    val postId: Int,
-    val profileUrl: String?,
-    val stdInfo: StdInfo,
-    val tag: String,
-    val updateDateTime: String,
-    val updateStatus: String,
-    val userName: String,
+    val createDateTime: String = "2024-03-11T01:28:36.93154",
+    val postId: Int = 0,
+    val profileUrl: String? = null,
+    val stdInfo: StdInfo = StdInfo(),
+    val tag: String = "",
+    val updateDateTime: String = "2024-03-11T11:14:27.13239",
+    val updateStatus: String = "",
+    val userName: String = "",
     var isExpended: Boolean = false,
 ) : Parcelable {
     // Parcelable 구현 코드

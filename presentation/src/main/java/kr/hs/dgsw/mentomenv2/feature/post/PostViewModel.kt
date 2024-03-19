@@ -21,6 +21,7 @@ class PostViewModel @Inject constructor(
     val imgFile = MutableLiveData<ArrayList<MultipartBody.Part>>(arrayListOf())
     val imgUrl = MutableLiveData<List<ImgUrl?>>(emptyList())
     val isPostLoading = MutableLiveData<Boolean>(false)
+    var submitMessage = MutableLiveData<String>("")
 
     fun onClickDesignBtn() {
         tagState.value = "DESIGN"
@@ -84,7 +85,7 @@ class PostViewModel @Inject constructor(
     }
 
     private fun applyEvent(message: String) {
-        submitMessage = message
+        submitMessage.value = message
         viewEvent(submitMessage)
     }
 
@@ -117,6 +118,5 @@ class PostViewModel @Inject constructor(
     companion object {
         const val ON_CLICK_IMAGE = 0
         const val ON_CLICK_SUBMIT = 1
-        var submitMessage = ""
     }
 }
