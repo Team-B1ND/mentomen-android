@@ -2,6 +2,7 @@ package kr.hs.dgsw.mentomenv2.base
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,13 +55,15 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         initialize()
         lifecycleScope.launch {
             viewModel.error.collect {
-                if (it == Utils.TOKEN_EXCEPTION) {
-                    Toast.makeText(requireContext(), "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
+                if (it == Utils.TOKEN_EXCEPTION || it == Utils.NETWORK_ERROR_MESSAGE) {
+                    Log.e("baseFragment", "token, network error")
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), IntroActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     this@BaseFragment.requireActivity().finishAffinity()
                 } else {
+                    Log.e("baseFragment", "else error")
                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 }
             }

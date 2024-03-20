@@ -2,12 +2,16 @@ package kr.hs.dgsw.mentomenv2.base
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
@@ -19,7 +23,7 @@ import java.util.Objects
 
 abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
     protected lateinit var mBinding: VB
-    protected lateinit var mViewModel: VM
+    private lateinit var mViewModel: VM
 
     protected abstract val viewModel: VM
 
@@ -29,17 +33,6 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         viewModel.viewEvent.observe(this) {
             it.getContentIfNotHandled()?.let { event ->
                 action.invoke(event)
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.error.collect {
-                if (it == Utils.TOKEN_EXCEPTION) {
-                    Toast.makeText(this@BaseActivity, "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@BaseActivity, IntroActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    finish()
-                }
             }
         }
     }
@@ -55,7 +48,27 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         performDataBinding()
+        collectViewModel()
         start()
+    }
+
+    private fun collectViewModel() {
+        viewModel.viewModelScope.launch {
+            Log.d("bindingViewEvent: ", "BaseActivity")
+            viewModel.error.collect {
+                if (it == Utils.TOKEN_EXCEPTION || it == Utils.NETWORK_ERROR_MESSAGE) {
+                    Log.e("baseActivity", "token, network error")
+                    Toast.makeText(this@BaseActivity, it, Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@BaseActivity, IntroActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Log.e("baseActivity", "else error")
+                    Toast.makeText(this@BaseActivity, it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -4,7 +4,7 @@ import org.json.JSONObject
 import retrofit2.HttpException
 
 object Utils {
-    const val TOKEN_EXCEPTION = "만료된 토큰"
+    const val TOKEN_EXCEPTION = "세션이 만료되었습니다."
 
     const val NETWORK_ERROR_MESSAGE = "서버에 도달할 수 없습니다. 네트워크 상태를 확인해 주세요."
 

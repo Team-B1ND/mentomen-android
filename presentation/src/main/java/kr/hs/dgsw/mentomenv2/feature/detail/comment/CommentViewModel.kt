@@ -24,11 +24,11 @@ constructor(
     val postId = MutableLiveData<Int>()
     val commentContent = MutableLiveData<String>()
     val isLoading = MutableLiveData<Boolean>(false)
-    var errorMessage = MutableLiveData<String>("")
+    var toastMessage = MutableLiveData<String>("")
     fun postComment() {
         viewModelScope.launch(Dispatchers.IO) {
             if (commentContent.value.isNullOrBlank()) {
-                errorMessage.value = "댓글을 입력해주세요."
+                toastMessage.value = "댓글을 입력해주세요."
             } else {
                 commentRepository.submitComment(
                     CommentSubmitParam(
@@ -38,13 +38,13 @@ constructor(
                 ).safeApiCall(
                     isLoading,
                     {
+                        toastMessage.value = "댓글 작성에 성공했습니다."
                         Log.d( "postComment: ", "댓글 작성 성공")
-                        viewEvent(UPLOAD_COMMENT)
                         commentContent.value = ""
                         getComment()
                     },
                     {
-                        errorMessage.value = "댓글 작성에 실패했습니다."
+                        toastMessage.value = "댓글 작성에 실패했습니다."
                     }
                 )
             }
@@ -62,7 +62,7 @@ constructor(
                         )
                 },
                 {
-                    errorMessage.value = "댓글 불러오기에 실패했습니다."
+                    toastMessage.value = "댓글 불러오기에 실패했습니다."
                 }
             )
     }
@@ -72,7 +72,7 @@ constructor(
             .safeApiCall(
                 isLoading,
                 {
-                    viewEvent(DELETE_COMMENT)
+                    toastMessage.value = "댓글 삭제에 성공했습니다."
                     commentState.value.commentList?.let { list ->
                         commentState.value =
                             CommentState(
@@ -84,7 +84,7 @@ constructor(
                     }
                 },
                 {
-                    errorMessage.value = "댓글 삭제에 실패했습니다."
+                    toastMessage.value = "댓글 삭제에 실패했습니다."
                 }
             )
     }
@@ -96,17 +96,13 @@ constructor(
         commentRepository.updateComment(CommentUpdateParam(commentId, content)).safeApiCall(
             isLoading,
             {
-                viewEvent(UPDATE_COMMENT)
+                getComment()
+                toastMessage.value = "댓글 수정에 성공했습니다."
             },
             {
-                errorMessage.value = "댓글 삭제에 실패했습니다."
+                getComment()
+                toastMessage.value = "댓글 수정에 실패했습니다."
             }
         )
-    }
-
-    companion object Event {
-        const val DELETE_COMMENT = 1
-        const val UPDATE_COMMENT = 2
-        const val UPLOAD_COMMENT = 3
     }
 }

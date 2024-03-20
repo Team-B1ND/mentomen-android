@@ -70,7 +70,7 @@ constructor(
         )
     }
 
-    companion object {
+    companion object Event{
         const val DELETE_POST = 1
     }
 }

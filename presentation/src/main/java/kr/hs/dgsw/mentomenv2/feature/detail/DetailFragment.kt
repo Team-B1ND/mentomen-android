@@ -29,7 +29,6 @@ import kr.hs.dgsw.mentomenv2.databinding.FragmentDetailBinding
 import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
-import java.lang.Error
 
 
 @AndroidEntryPoint
@@ -117,15 +116,6 @@ class DetailFragment :
             startActivity(intent)
             bottomSheetDialog.dismiss()
         }
-
-        bindingViewEvent { event ->
-            when (event) {
-                DetailViewModel.DELETE_POST -> {
-                    Toast.makeText(context, "게시글 삭제에 성공했습니다.", Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
-                }
-            }
-        }
     }
 
     private fun settingDefaultValue() {
@@ -181,7 +171,7 @@ class DetailFragment :
             } else {
                 mBinding.btnMore.visibility = View.GONE
             }
-            val commentAdapter = CommentAdapter(this, viewModel.myUserId.value?: 0)
+            val commentAdapter = CommentAdapter(this, viewModel.myUserId.value ?: 0)
             mBinding.rvComment.adapter = commentAdapter
             collectState(commentAdapter)
         }
@@ -215,9 +205,10 @@ class DetailFragment :
             mBinding.datetime.text = it
         }
 
-        commentViewModel.errorMessage.observe(this) {
+        commentViewModel.toastMessage.observe(this) {
             if (it.isNotBlank()) {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                hideKeyboard()
             }
         }
     }
@@ -231,23 +222,12 @@ class DetailFragment :
         }
     }
 
-    fun observeEvent() {
+    private fun observeEvent() {
         bindingViewEvent {
-            Log.d("observeEvent: ", it.toString())
             when (it) {
-                CommentViewModel.UPDATE_COMMENT -> {
-                    hideKeyboard()
-                    Toast.makeText(requireContext(), "댓글 수정에 성공했습니다.", Toast.LENGTH_SHORT).show()
-                }
-
-                CommentViewModel.DELETE_COMMENT -> {
-                    hideKeyboard()
-                    Toast.makeText(requireContext(), "댓글 삭제에 성공했습니다.", Toast.LENGTH_SHORT).show()
-                }
-
-                CommentViewModel.UPLOAD_COMMENT -> {
-                    hideKeyboard()
-                    Toast.makeText(requireContext(), "댓글 작성에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                DetailViewModel.DELETE_POST -> {
+                    Toast.makeText(context, "게시글 삭제에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
                 }
             }
         }
@@ -259,7 +239,7 @@ class DetailFragment :
 
     override fun updateIsEdit(isEdit: Boolean, commentId: Int, value: String) {
         mBinding.etComment.setText(value)
-        showKeyboard()
+        if (isEdit) showKeyboard()
         this.isEdit.value = isEdit
         this.commentId.value = commentId
     }
