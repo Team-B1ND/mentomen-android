@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.params.CommentSubmitParam
@@ -23,7 +24,8 @@ constructor(
     val commentState = MutableStateFlow<CommentState>(CommentState())
     val postId = MutableLiveData<Int>()
     val commentContent = MutableLiveData<String>()
-    val isLoading = MutableLiveData<Boolean>(false)
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
     var toastMessage = MutableLiveData<String>("")
     fun postComment() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -36,7 +38,7 @@ constructor(
                         content = commentContent.value ?: "",
                     ),
                 ).safeApiCall(
-                    isLoading,
+                    _isLoading,
                     {
                         toastMessage.value = "댓글 작성에 성공했습니다."
                         Log.d( "postComment: ", "댓글 작성 성공")
@@ -54,7 +56,7 @@ constructor(
     fun getComment() {
         commentRepository.getCommentList(postId.value ?: 0)
             .safeApiCall(
-                isLoading,
+                _isLoading,
                 { comments ->
                     commentState.value =
                         CommentState(
@@ -70,7 +72,7 @@ constructor(
     fun deleteComment(commentId: Int) {
         commentRepository.deleteComment(commentId)
             .safeApiCall(
-                isLoading,
+                _isLoading,
                 {
                     toastMessage.value = "댓글 삭제에 성공했습니다."
                     commentState.value.commentList?.let { list ->
@@ -94,7 +96,7 @@ constructor(
         content: String,
     ) {
         commentRepository.updateComment(CommentUpdateParam(commentId, content)).safeApiCall(
-            isLoading,
+            _isLoading,
             {
                 getComment()
                 toastMessage.value = "댓글 수정에 성공했습니다."

@@ -1,26 +1,25 @@
 package kr.hs.dgsw.mentomenv2.feature.home
 
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
-import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
-    private val adapter: HomeAdapter = HomeAdapter {
+    private val adapter: HomeAdapter = HomeAdapter { post ->
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToDetailFragment(
-                it
+                post
             )
         )
     }
@@ -54,15 +53,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     private fun observeViewModel() {
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                mBinding.sflHome.startShimmer()
-                mBinding.rvHome.visibility = android.view.View.GONE
-                mBinding.sflHome.visibility = android.view.View.VISIBLE
-            } else {
-                mBinding.sflHome.stopShimmer()
-                mBinding.rvHome.visibility = android.view.View.VISIBLE
-                mBinding.sflHome.visibility = android.view.View.GONE
+        lifecycleScope.launch {
+            viewModel.isLoading.collect { isLoading ->
+                if (isLoading) {
+                    mBinding.sflHome.startShimmer()
+                    mBinding.rvHome.visibility = android.view.View.GONE
+                    mBinding.sflHome.visibility = android.view.View.VISIBLE
+                } else {
+                    mBinding.sflHome.stopShimmer()
+                    mBinding.rvHome.visibility = android.view.View.VISIBLE
+                    mBinding.sflHome.visibility = android.view.View.GONE
+                }
             }
         }
     }

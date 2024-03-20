@@ -209,6 +209,8 @@ class DetailFragment :
             if (it.isNotBlank()) {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 hideKeyboard()
+                isEdit.value = false
+                mBinding.etComment.text.clear()
             }
         }
     }
@@ -218,6 +220,19 @@ class DetailFragment :
             commentViewModel.commentState.collect { state ->
                 Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
                 commentAdapter.submitList(state.commentList)
+            }
+        }
+        lifecycleScope.launch {
+            commentViewModel.isLoading.collect { isLoading ->
+                if (isLoading) {
+                    mBinding.sflComment.startShimmer()
+                    mBinding.rvComment.visibility = View.GONE
+                    mBinding.sflComment.visibility = View.VISIBLE
+                } else {
+                    mBinding.sflComment.stopShimmer()
+                    mBinding.rvComment.visibility = View.VISIBLE
+                    mBinding.sflComment.visibility = View.GONE
+                }
             }
         }
     }

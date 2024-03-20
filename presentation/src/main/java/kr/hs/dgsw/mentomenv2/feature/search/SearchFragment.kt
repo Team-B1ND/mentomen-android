@@ -80,7 +80,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     private fun observeKeyWord() {
-        viewModel.keyWord.observe(this) { keyword ->
+        viewModel.keyWord.observe(this) { _ ->
             viewModel.postState.value.postList?.let { postList ->
                 updateFilterPostList(postList)
             }

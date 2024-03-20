@@ -3,6 +3,8 @@ package kr.hs.dgsw.mentomenv2.feature.post
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.ImgUrl
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
@@ -20,7 +22,8 @@ class PostViewModel @Inject constructor(
     val tagState = MutableLiveData<String>("ALL")
     val imgFile = MutableLiveData<ArrayList<MultipartBody.Part>>(arrayListOf())
     val imgUrl = MutableLiveData<List<ImgUrl?>>(emptyList())
-    val isPostLoading = MutableLiveData<Boolean>(false)
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
     var submitMessage = MutableLiveData<String>("")
 
     fun onClickDesignBtn() {
@@ -55,7 +58,7 @@ class PostViewModel @Inject constructor(
         applyEvent("이미지 업로드 중입니다.")
         Log.d("loadImage: ", "imgFile : ${imgFile.value}")
         postFileUseCase(imgFile.value!!).safeApiCall(
-            isPostLoading,
+            _isLoading,
             successAction = {
                 Log.d("loadImage: success", "result : $it")
                 imgUrl.value = it
@@ -67,7 +70,7 @@ class PostViewModel @Inject constructor(
                         tagState.value!!,
                     ),
                 ).safeApiCall(
-                    isPostLoading,
+                    _isLoading,
                     successAction = {
                         applyEvent("게시글 등록에 성공했습니다.")
                     },
@@ -104,7 +107,7 @@ class PostViewModel @Inject constructor(
                     tagState.value!!,
                 ),
             ).safeApiCall(
-                isPostLoading,
+                _isLoading,
                 successAction = {
                     applyEvent("게시글 등록에 성공했습니다.")
                 },

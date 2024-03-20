@@ -23,7 +23,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     override fun start() {
         lifecycleScope.launch {
             collectTokenState()
-            collectError()
             collectEvent()
             settingDAuth(
                 Client.CLIENT_ID,
@@ -33,26 +32,21 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
             viewModel.getToken()
         }
     }
-    private fun collectError() {
-        lifecycleScope.launch {
-            viewModel.error.collect { error ->
-                if (error.isNotBlank()) {
-                    viewModel.event.emit("Login")
-                }
-            }
-        }
-    }
+
     private fun collectEvent() {
         lifecycleScope.launch {
-            viewModel.event.collect { event ->
-                if (event == "Start") {
-                    Log.d("collectEvent: ", "$event collect viewModels event")
-                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else if (event == "Login") {
-                    Log.d("collectEvent: ", "$event collect viewModels event")
-                    setUpDAuth()
+            bindingViewEvent { event ->
+                when (event) {
+                    SingInViewModel.START -> {
+                        Log.d("collectEvent: ", "$event collect viewModels event")
+                        val intent = Intent(this@SignInActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    SingInViewModel.LOGIN -> {
+                        Log.d("collectEvent: ", "$event collect viewModels event")
+                        setUpDAuth()
+                    }
                 }
             }
         }
@@ -66,10 +60,10 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     "Token 수집 성공 " + "token : " + tokenState.accessToken + tokenState.refreshToken,
                 )
                 if (tokenState.accessToken.isNotBlank() && tokenState.refreshToken.isNotBlank()) {
-                    viewModel.event.emit("Start")
+                    viewModel.viewEvent(SingInViewModel.START)
                 } else {
                     Log.d("123", "collectTokenState: 로그인 필요")
-                    viewModel.event.emit("Login")
+                    viewModel.viewEvent(SingInViewModel.LOGIN)
                 }
             }
         }
@@ -88,9 +82,5 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 },
             )
         }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 }

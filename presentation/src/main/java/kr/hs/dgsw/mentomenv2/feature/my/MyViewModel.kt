@@ -3,6 +3,8 @@ package kr.hs.dgsw.mentomenv2.feature.my
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
@@ -22,8 +24,8 @@ constructor(
     val userName: MutableLiveData<String> = MutableLiveData("")
     val userProfileUrl: MutableLiveData<String> = MutableLiveData("")
     val post = MutableLiveData<List<Post>>()
-    private val _isLoading = MutableLiveData<Boolean>(false)
-    val isLoading:MutableLiveData<Boolean> = _isLoading
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
     fun getMyInfo() {
         myRepository.getMyInfo().safeApiCall(
             _isLoading,

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
@@ -34,9 +35,11 @@ constructor(
     val userName = MutableLiveData<String>()
     val postId = MutableLiveData<Int>()
 
+    val isLoading = MutableStateFlow<Boolean>(false)
+
     fun getUserInfo() {
         getMyInfoUseCase.invoke().safeApiCall(
-            null,
+            isLoading = isLoading,
             {
                 Log.d("observegetUserInfo: ", it?.userId.toString())
                 myUserId.value = it?.userId
@@ -47,7 +50,7 @@ constructor(
 
     fun getPostInfo() {
         getPostByIdUseCase.invoke(id = postId.value ?: 0).safeApiCall(
-            null,
+            isLoading = isLoading,
             { post ->
                 author.value = post?.author
                 tag.value = post?.tag
@@ -63,7 +66,7 @@ constructor(
 
     fun deletePost() {
         deletePostByIdUseCase.invoke(id = postId.value ?: 0).safeApiCall(
-            null,
+            isLoading = isLoading,
             {
                 viewEvent(DELETE_POST)
             }

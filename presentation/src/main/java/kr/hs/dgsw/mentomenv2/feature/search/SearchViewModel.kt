@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
@@ -16,12 +17,13 @@ class SearchViewModel @Inject constructor(
     private val getAllPostUseCase: GetAllPostUseCase
 ) : BaseViewModel() {
     val keyWord = MutableLiveData<String>("")
-    val isLoading = MutableLiveData<Boolean>(false)
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
     val postState = MutableStateFlow<PostState>(PostState())
 
     fun getAllPost() {
         getAllPostUseCase.invoke().safeApiCall(
-            isLoading,
+            _isLoading,
             successAction = {
                 postState.value =
                     PostState(

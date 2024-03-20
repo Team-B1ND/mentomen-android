@@ -117,6 +117,9 @@ dependencies {
 
     // skeleton
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // photoview
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
 }
 
 kapt {

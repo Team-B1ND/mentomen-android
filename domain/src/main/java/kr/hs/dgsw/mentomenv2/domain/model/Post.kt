@@ -33,7 +33,7 @@ data class Post(
         parcel.writeString(updateDateTime)
         parcel.writeString(updateStatus)
         parcel.writeString(userName)
-        parcel.writeByte(if (isExpended) 1 else 0)
+        parcel.writeInt(if (isExpended) 1 else 0)
     }
 
     private constructor(parcel: Parcel) : this(
@@ -51,7 +51,7 @@ data class Post(
         updateDateTime = parcel.readString() ?: "",
         updateStatus = parcel.readString() ?: "",
         userName = parcel.readString() ?: "",
-        isExpended = parcel.readByte() != 0.toByte(),
+        isExpended = parcel.readInt() == 1,
     )
 
     override fun hashCode(): Int {

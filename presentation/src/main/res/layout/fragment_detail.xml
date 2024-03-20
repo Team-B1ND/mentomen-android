@@ -283,7 +283,43 @@
                                     android:id="@+id/rv_comment"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:paddingBottom="10dp"
                                     tools:listitem="@layout/item_comment" />
+
+                                <com.facebook.shimmer.ShimmerFrameLayout
+                                    android:id="@+id/sfl_comment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="100dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical">
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+
+                                        <include layout="@layout/item_comment_shimmer" />
+                                    </LinearLayout>
+                                </com.facebook.shimmer.ShimmerFrameLayout>
 
                             </androidx.cardview.widget.CardView>
 

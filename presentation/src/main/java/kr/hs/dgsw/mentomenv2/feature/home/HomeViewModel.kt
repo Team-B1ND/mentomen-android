@@ -3,6 +3,7 @@ package kr.hs.dgsw.mentomenv2.feature.home
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
@@ -17,8 +18,8 @@ class HomeViewModel @Inject constructor(
     private val getMyInfoUseCase: GetMyInfoUseCase,
 ) : BaseViewModel() {
     val postState = MutableStateFlow<PostState>(PostState())
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoading = _isLoading
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
     init {
         getMyInfo()
     }
