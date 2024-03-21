@@ -120,6 +120,9 @@ dependencies {
 
     // photoview
     implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+
+    // picasso
+    implementation ("com.squareup.picasso:picasso:2.8")
 }
 
 kapt {

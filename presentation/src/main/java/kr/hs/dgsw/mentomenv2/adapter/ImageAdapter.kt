@@ -1,6 +1,7 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -21,10 +22,6 @@ class ImageAdapter : ListAdapter<Uri?, ImageAdapter.ImageViewHolder>(ImageDiffUt
                 .into(binding.image)
             binding.btnCancel.setOnClickListener {
                 submitList(currentList.filter { it != item })
-            }
-            binding.image.setOnClickListener {
-                val dialog = ImageDialog(binding.root.context, item)
-                dialog.show()
             }
         }
     }

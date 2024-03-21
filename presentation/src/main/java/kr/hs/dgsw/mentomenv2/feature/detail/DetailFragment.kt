@@ -2,6 +2,7 @@ package kr.hs.dgsw.mentomenv2.feature.detail
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -188,10 +189,10 @@ class DetailFragment :
             }
         }
 
-        viewModel.imgUrls.observe(this) {
-            if (!it.isNullOrEmpty()) {
+        viewModel.imgUrls.observe(this) { urls ->
+            if (!urls.isNullOrEmpty()) {
                 mBinding.viewpagerFrame.visibility = View.VISIBLE
-                val imageAdapter = DetailImageAdapter(it) {}
+                val imageAdapter = DetailImageAdapter(urls)
                 mBinding.viewpager.adapter = imageAdapter
                 mBinding.wormDotsIndicator.attachTo(mBinding.viewpager)
                 mBinding.wormDotsIndicator.visibility = View.VISIBLE
