@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,12 +36,18 @@ class CommentAdapter(
 
         binding.btnMore.visibility = if (userId == item.userId) View.VISIBLE else View.GONE
 
-        binding.root.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        val width = binding.root.measuredWidth
-
-        binding.content.maxWidth = width
-
-        Log.d("action: ", "width: ${width}")
+        binding.root.post {
+            binding.tvTime.post {
+                binding.ivProfile.post {
+                    binding.content.maxWidth =
+                        binding.root.width - (binding.tvTime.width + binding.ivProfile.width + dpToPx(
+                            binding.root.context,
+                            80.0f
+                        ).roundToInt())
+                    Log.d("action: ", "width: ${binding.root.width}")
+                }
+            }
+        }
 
         binding.btnMore.setOnClickListener {
             bottomSheetDialog.show()
@@ -66,4 +73,9 @@ class CommentAdapter(
             bottomSheetDialog.show()
         }
     }
+}
+
+fun dpToPx(context: Context, dp: Float): Int {
+    val density = context.resources.displayMetrics.density
+    return (dp * density).roundToInt()
 }

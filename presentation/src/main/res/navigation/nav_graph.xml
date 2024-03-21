@@ -29,12 +29,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/user_fragment"
+        android:id="@+id/my_fragment"
         android:name="kr.hs.dgsw.mentomenv2.feature.my.MyFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_my">
         <action
-            android:id="@+id/action_user_fragment_to_detailFragment"
+            android:id="@+id/action_my_fragment_to_detailFragment"
             app:destination="@id/detailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"

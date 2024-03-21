@@ -4,7 +4,6 @@ import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
@@ -29,16 +28,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         mBinding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_home -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.nav_host_fragment, HomeFragment())
-                        .commit()
+                    navController.navigate(R.id.home_fragment)
                     true
                 }
 
                 R.id.action_my -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.nav_host_fragment, MyFragment())
-                        .commit()
+                    navController.navigate(R.id.my_fragment)
                     true
                 }
 
