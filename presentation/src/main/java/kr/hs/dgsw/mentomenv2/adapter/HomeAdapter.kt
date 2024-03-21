@@ -27,14 +27,12 @@ class HomeAdapter(
             } else {
                 binding.tvPreview.maxLines = 3
                 binding.tvPreview.post {
-                    val layout = binding.tvPreview.layout
-
-                    // 마지막 줄이 완전히 보이지 않는 경우에는 "..."이 있는 것으로 판단
-                    val lastLineVisible = layout.getEllipsisCount(layout.lineCount - 1) == 0
-
-                    if (!lastLineVisible) {
+                    val showMore = item.content.count { it == '\n' } + 1 >= 3
+                    if (showMore) {
+                        item.isExpended = true
                         binding.btnShowMore.visibility = View.VISIBLE
                     } else {
+                        item.isExpended = false
                         binding.btnShowMore.visibility = View.GONE
                     }
                 }

@@ -1,12 +1,8 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentDiffUtil
@@ -36,16 +32,13 @@ class CommentAdapter(
 
         binding.btnMore.visibility = if (userId == item.userId) View.VISIBLE else View.GONE
 
-        binding.root.post {
+        binding.cvComment.post {
             binding.tvTime.post {
-                binding.ivProfile.post {
-                    binding.content.maxWidth =
-                        binding.root.width - (binding.tvTime.width + binding.ivProfile.width + dpToPx(
-                            binding.root.context,
-                            80.0f
-                        ).roundToInt())
-                    Log.d("action: ", "width: ${binding.root.width}")
-                }
+                binding.content.maxWidth =
+                    binding.cvComment.width - (binding.tvTime.width + binding.ivProfile.width + dpToPx(
+                        binding.content.context,
+                        80.0f
+                    ).roundToInt())
             }
         }
 
@@ -73,9 +66,4 @@ class CommentAdapter(
             bottomSheetDialog.show()
         }
     }
-}
-
-fun dpToPx(context: Context, dp: Float): Int {
-    val density = context.resources.displayMetrics.density
-    return (dp * density).roundToInt()
 }

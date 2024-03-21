@@ -48,8 +48,8 @@
                 <ImageView
                     android:id="@+id/iv_profile"
                     image="@{item.profileUrl}"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/todo"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_default_user" />
@@ -61,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/bg_comment"
                 android:backgroundTint="@color/background"
@@ -81,7 +80,7 @@
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="조상영" />
+                    tools:text="도현욱" />
 
                 <TextView
                     android:id="@+id/grade"
@@ -96,7 +95,7 @@
                     app:layout_constraintEnd_toStartOf="@id/room"
                     app:layout_constraintStart_toEndOf="@id/name"
                     app:layout_constraintTop_toTopOf="@id/name"
-                    tools:text="1학년" />
+                    tools:text="3학년" />
 
                 <TextView
                     android:id="@+id/room"
@@ -110,7 +109,7 @@
                     app:layout_constraintEnd_toStartOf="@id/number"
                     app:layout_constraintStart_toEndOf="@+id/grade"
                     app:layout_constraintTop_toTopOf="@id/name"
-                    tools:text="2반" />
+                    tools:text="4반" />
 
                 <TextView
                     android:id="@+id/number"
@@ -123,7 +122,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/name"
                     app:layout_constraintStart_toEndOf="@+id/room"
                     app:layout_constraintTop_toTopOf="@id/name"
-                    tools:text="15번" />
+                    tools:text="6번" />
 
                 <TextView
                     android:id="@+id/content"
