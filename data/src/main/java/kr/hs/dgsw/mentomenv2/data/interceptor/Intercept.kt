@@ -19,7 +19,6 @@ class Intercept
 @Inject
 constructor(
     private val dataStoreRepositoryImpl: DataStoreRepositoryImpl,
-    private val getTokenUseCase: GetTokenUseCase,
 ) : Interceptor {
     private val tokenHeader = "Authorization"
 
@@ -122,13 +121,13 @@ constructor(
 
     private fun fetchToken() =
         runBlocking(Dispatchers.IO) {
-            getTokenUseCase.invoke().let { token ->
+            dataStoreRepositoryImpl.getToken().let { token ->
                 token.collect {
                     when (it) {
                         is Result.Success -> {
-                            dataStoreRepositoryImpl.saveData("refresh_token", it.data ?: "")
+                            dataStoreRepositoryImpl.saveData("refresh_token", it.data?.refreshToken ?: "")
                             this@Intercept.token =
-                                Token(it.data ?: "", this@Intercept.token.refreshToken)
+                                Token(it.data?.refreshToken ?: "", this@Intercept.token.refreshToken)
                         }
 
                         is Result.Error -> {

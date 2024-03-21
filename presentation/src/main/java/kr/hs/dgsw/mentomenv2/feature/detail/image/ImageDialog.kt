@@ -23,12 +23,10 @@ class ImageDialog(context: Context, image: String?) : Dialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("ImageDialog", "res: $imageRes")
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding: DialogImageDetailBinding = DataBindingUtil.inflate(layoutInflater, R.layout.dialog_image_detail, null, false)
         setContentView(binding.root)
         Picasso.get().load(imageRes).into(binding.photoView)
         binding.photoView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        binding.photoView.minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
     }
 }

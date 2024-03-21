@@ -5,6 +5,7 @@
     <color name="background">#FFF2F2F2</color>
     <color name="gray">#FF858585</color>
     <color name="shimmer">#FFEFEFEF</color>
+    <color name="black_transparent_50">#80000000</color>
     <color name="design">#FFEC6B77</color>
     <color name="web">#FFF19F62</color>
     <color name="android">#FF5AAC73</color>
