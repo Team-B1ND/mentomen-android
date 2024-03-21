@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gun0912.tedpermission.coroutine.TedPermission
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.hs.dgsw.mentomenv2.R
@@ -33,10 +34,11 @@ import java.io.File
 @AndroidEntryPoint
 class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     override val viewModel: PostViewModel by viewModels()
-    private val isEdit = intent.getBooleanExtra("isEdit", false)
+    private val isEdit = MutableStateFlow<Boolean>(false)
     private var imageAdapter: ImageAdapter? = null
     private val imageList = MutableLiveData<ArrayList<Uri?>>(arrayListOf())
     private var permissionName = ""
+
     private var launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -77,6 +79,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         }
 
     override fun start() {
+        isEdit.value = intent?.getBooleanExtra("isEdit", false) ?: false
         collectStates()
         observerViewModel()
         imageAdapter = ImageAdapter()

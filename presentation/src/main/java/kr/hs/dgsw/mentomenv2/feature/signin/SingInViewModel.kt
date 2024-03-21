@@ -18,7 +18,6 @@ class SingInViewModel
 constructor(
     private val dataStoreRepository: DataStoreRepository,
     private val authRepository: AuthRepository,
-    private val getMyInfoUseCase: GetMyInfoUseCase,
 ) : BaseViewModel() {
     val tokenState = MutableStateFlow<Token>(Token("", ""))
     private val _isLoading = MutableStateFlow<Boolean>(false)

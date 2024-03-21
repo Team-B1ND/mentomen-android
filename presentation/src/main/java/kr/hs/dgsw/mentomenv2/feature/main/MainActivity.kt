@@ -44,6 +44,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         mBinding.btnAdd.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
+            intent.putExtra("isEdit", true)
             startActivity(intent)
         }
     }
