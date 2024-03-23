@@ -16,13 +16,14 @@ import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
-    private val adapter: HomeAdapter = HomeAdapter { post ->
-        findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToDetailFragment(
-                post
+    private val adapter: HomeAdapter =
+        HomeAdapter { post ->
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                    post,
+                ),
             )
-        )
-    }
+        }
 
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(true)
@@ -30,7 +31,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         mBinding.rvHome.adapter = adapter
         collectPostStates()
         observeViewModel()
-
 
         mBinding.ivNotification.setOnClickListener {
             Toast.makeText(requireContext(), "알림", Toast.LENGTH_SHORT).show()

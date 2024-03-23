@@ -10,7 +10,6 @@ import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.model.User
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class MyDataSourceImpl

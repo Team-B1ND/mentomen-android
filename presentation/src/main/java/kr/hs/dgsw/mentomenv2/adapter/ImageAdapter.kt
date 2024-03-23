@@ -1,10 +1,8 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +10,6 @@ import com.bumptech.glide.Glide
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.callback.ImageDiffUtil
 import kr.hs.dgsw.mentomenv2.databinding.ItemImageBinding
-import kr.hs.dgsw.mentomenv2.feature.detail.image.ImageDialog
 
 class ImageAdapter : ListAdapter<Uri?, ImageAdapter.ImageViewHolder>(ImageDiffUtil) {
     inner class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {

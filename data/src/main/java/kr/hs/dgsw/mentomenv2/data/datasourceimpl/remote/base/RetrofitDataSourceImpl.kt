@@ -20,7 +20,7 @@ abstract class RetrofitDataSourceImpl<SV>(
     private val retrofit: Retrofit =
         Retrofit.Builder()
             .client(client)
-            .baseUrl("https://mentomen.team-alt.com/")
+            .baseUrl("http://43.201.193.60/")
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create(),

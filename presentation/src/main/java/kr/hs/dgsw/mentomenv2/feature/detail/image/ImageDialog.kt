@@ -2,17 +2,13 @@ package kr.hs.dgsw.mentomenv2.feature.detail.image
 
 import android.app.Dialog
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import com.squareup.picasso.Picasso
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.databinding.DialogImageDetailBinding
-import retrofit2.http.Url
 
 class ImageDialog(context: Context, image: String?) : Dialog(context) {
     private val imageRes: String?

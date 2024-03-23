@@ -9,8 +9,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityMainBinding
-import kr.hs.dgsw.mentomenv2.feature.home.HomeFragment
-import kr.hs.dgsw.mentomenv2.feature.my.MyFragment
 import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
 
 @AndroidEntryPoint
@@ -40,7 +38,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 else -> false
             }
         }
-
 
         mBinding.btnAdd.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)

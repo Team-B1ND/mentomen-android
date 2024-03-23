@@ -18,13 +18,14 @@ import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     override val viewModel: SearchViewModel by viewModels()
-    private val adapter = HomeAdapter {
-        findNavController().navigate(
-            SearchFragmentDirections.actionSearchFragmentToDetailFragment(
-                it
+    private val adapter =
+        HomeAdapter {
+            findNavController().navigate(
+                SearchFragmentDirections.actionSearchFragmentToDetailFragment(
+                    it,
+                ),
             )
-        )
-    }
+        }
 
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(false)
@@ -59,9 +60,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     private fun updateFilterPostList(postList: List<Post>) {
-        var filteredList = postList.filter { post ->
-            post.content.contains(viewModel.keyWord.value.toString(), ignoreCase = true)
-        }
+        var filteredList =
+            postList.filter { post ->
+                post.content.contains(viewModel.keyWord.value.toString(), ignoreCase = true)
+            }
         if (viewModel.keyWord.value.isNullOrBlank()) {
             filteredList = emptyList()
         }

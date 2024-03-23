@@ -1,11 +1,11 @@
 package kr.hs.dgsw.mentomenv2.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.data.datasource.DataStoreDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.base.BaseRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.Token
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 

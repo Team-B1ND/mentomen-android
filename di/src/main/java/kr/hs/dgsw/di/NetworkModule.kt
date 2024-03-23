@@ -54,9 +54,8 @@ object NetworkModule {
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
-        // http://localhost:8080/
         return Retrofit.Builder()
-            .baseUrl("https://mentomen.team-alt.com/")
+            .baseUrl("http://43.201.193.60/")
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()

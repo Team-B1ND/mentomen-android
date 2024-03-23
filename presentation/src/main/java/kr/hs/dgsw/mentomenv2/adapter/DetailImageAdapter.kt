@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.databinding.ItemDetailImageBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.detail.image.ImageDialog
 
 class DetailImageAdapter(

@@ -2,8 +2,6 @@ package kr.hs.dgsw.mentomenv2.feature.detail
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
@@ -27,10 +25,10 @@ import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.CommentSettingFragmentBinding
 import kr.hs.dgsw.mentomenv2.databinding.FragmentDetailBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
-
 
 @AndroidEntryPoint
 class DetailFragment :
@@ -89,7 +87,7 @@ class DetailFragment :
             } else {
                 commentViewModel.updateComment(
                     commentId = commentId.value ?: 0,
-                    mBinding.etComment.text.toString()
+                    mBinding.etComment.text.toString(),
                 )
             }
         }
@@ -253,7 +251,11 @@ class DetailFragment :
         commentViewModel.deleteComment(commentId)
     }
 
-    override fun updateIsEdit(isEdit: Boolean, commentId: Int, value: String) {
+    override fun updateIsEdit(
+        isEdit: Boolean,
+        commentId: Int,
+        value: String,
+    ) {
         mBinding.etComment.setText(value)
         if (isEdit) showKeyboard()
         this.isEdit.value = isEdit

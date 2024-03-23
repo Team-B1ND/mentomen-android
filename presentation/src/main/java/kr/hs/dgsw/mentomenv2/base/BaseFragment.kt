@@ -2,7 +2,6 @@ package kr.hs.dgsw.mentomenv2.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType

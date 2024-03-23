@@ -1,20 +1,15 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
 import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentMyBinding
-import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 
@@ -25,8 +20,8 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
         HomeAdapter { post ->
             findNavController().navigate(
                 MyFragmentDirections.actionMyFragmentToDetailFragment(
-                    post
-                )
+                    post,
+                ),
             )
         }
 

@@ -1,7 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.signin
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,7 +8,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
-import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getCode
@@ -29,7 +28,6 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 Client.CLIENT_SECRET,
                 Client.REDIRECT_URL,
             )
-            viewModel.getToken()
         }
     }
 

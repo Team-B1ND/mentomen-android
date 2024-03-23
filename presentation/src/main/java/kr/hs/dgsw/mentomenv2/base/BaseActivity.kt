@@ -2,19 +2,17 @@ package kr.hs.dgsw.mentomenv2.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType

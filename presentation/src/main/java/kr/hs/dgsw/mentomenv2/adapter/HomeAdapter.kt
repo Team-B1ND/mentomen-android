@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
-import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import kr.hs.dgsw.mentomenv2.R

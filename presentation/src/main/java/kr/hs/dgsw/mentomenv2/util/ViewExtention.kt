@@ -21,7 +21,10 @@ fun View.dpToPx(dp: Float): Float {
     return dp * density
 }
 
-fun dpToPx(context: Context, dp: Float): Float {
+fun dpToPx(
+    context: Context,
+    dp: Float,
+): Float {
     val density = context.resources.displayMetrics.density
     return dp * density
 }

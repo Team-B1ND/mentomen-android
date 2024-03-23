@@ -1,12 +1,12 @@
 package kr.hs.dgsw.mentomenv2.data.repository.base
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import java.io.IOException
@@ -29,7 +29,7 @@ abstract class BaseRepositoryImpl {
                             }
                         }
 
-                        is UnknownHostException ->  {
+                        is UnknownHostException -> {
                             Log.e("execute: ", "unKnownHostException")
                             emit(Result.Error(Utils.NETWORK_ERROR_MESSAGE))
                         }

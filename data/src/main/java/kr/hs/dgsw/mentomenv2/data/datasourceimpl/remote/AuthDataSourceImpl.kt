@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -24,7 +23,6 @@ class AuthDataSourceImpl
             get() = createApi(AuthService::class.java)
 
         override fun signIn(code: String): Flow<Token> {
-            Log.d("AuthDataSourceImpl", "signIn out return flow: $code")
             return flow {
                 emit(api.signIn(DAuthClientRequest(code)).data)
             }
