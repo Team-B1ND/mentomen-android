@@ -7,7 +7,7 @@ import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentDiffUtil
 import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
-import kr.hs.dgsw.mentomenv2.databinding.CommentSettingFragmentBinding
+import kr.hs.dgsw.mentomenv2.databinding.DialogCommentBinding
 import kr.hs.dgsw.mentomenv2.databinding.ItemCommentBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Comment
 import kr.hs.dgsw.mentomenv2.util.dpToPx
@@ -24,7 +24,7 @@ class CommentAdapter(
     ) {
         binding.item = item
         val bottomSheetBinding =
-            CommentSettingFragmentBinding.inflate(LayoutInflater.from(binding.root.context))
+            DialogCommentBinding.inflate(LayoutInflater.from(binding.root.context))
         val bottomSheetDialog = BottomSheetDialog(binding.root.context)
         bottomSheetDialog.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
         bottomSheetDialog.setContentView(bottomSheetBinding.root)

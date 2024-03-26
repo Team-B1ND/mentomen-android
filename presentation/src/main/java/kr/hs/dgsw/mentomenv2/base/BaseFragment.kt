@@ -30,9 +30,11 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     protected var savedInstanceState: Bundle? = null
 
     protected fun bindingViewEvent(action: (event: Any) -> Unit) {
-        viewModel.viewEvent.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let { event ->
-                action.invoke(event)
+        lifecycleScope.launch {
+            viewModel.viewEvent.collect {
+                it.getContentIfNotHandled()?.let { event ->
+                    action.invoke(event)
+                }
             }
         }
     }

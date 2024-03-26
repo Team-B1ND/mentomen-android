@@ -36,7 +36,7 @@ class IntroViewModel
                 },
                 errorAction = {
                     tokenState.value = Token("", "")
-                    viewEvent(IntroViewModel.LOGIN)
+                    viewEvent(LOGIN)
                     Log.e(
                         "singInViewModel getToken: StartError",
                         "token: ${tokenState.value.accessToken} + ${tokenState.value.refreshToken}",

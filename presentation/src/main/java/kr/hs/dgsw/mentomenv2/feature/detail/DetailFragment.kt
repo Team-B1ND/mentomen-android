@@ -23,7 +23,7 @@ import kr.hs.dgsw.mentomenv2.adapter.CommentAdapter
 import kr.hs.dgsw.mentomenv2.adapter.DetailImageAdapter
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
-import kr.hs.dgsw.mentomenv2.databinding.CommentSettingFragmentBinding
+import kr.hs.dgsw.mentomenv2.databinding.DialogCommentBinding
 import kr.hs.dgsw.mentomenv2.databinding.FragmentDetailBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
@@ -40,7 +40,7 @@ class DetailFragment :
     private val args: DetailFragmentArgs by navArgs()
 
     private var isEdit: MutableLiveData<Boolean> = MutableLiveData(false)
-    private var commentId: MutableLiveData<Int> = MutableLiveData(0)
+    private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
 
     override fun setupViews() {
         observeEvent()
@@ -86,13 +86,13 @@ class DetailFragment :
                 commentViewModel.postComment()
             } else {
                 commentViewModel.updateComment(
-                    commentId = commentId.value ?: 0,
+                    commentId = editCommentId.value ?: 0,
                     mBinding.etComment.text.toString(),
                 )
             }
         }
 
-        val bottomSheetBinding = CommentSettingFragmentBinding.inflate(layoutInflater)
+        val bottomSheetBinding = DialogCommentBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
@@ -112,6 +112,7 @@ class DetailFragment :
         bottomSheetBinding.tvEdit.setOnClickListener {
             val intent = Intent(requireContext(), PostActivity::class.java)
             intent.putExtra("isEdit", true)
+            intent.putExtra("postId", viewModel.postId.value)
             startActivity(intent)
             bottomSheetDialog.dismiss()
         }
@@ -217,8 +218,12 @@ class DetailFragment :
     private fun collectState(commentAdapter: CommentAdapter) {
         lifecycleScope.launch {
             commentViewModel.commentState.collect { state ->
-                Log.d("collectCommentState: ", "collectCommentState: ${state.commentList}")
-                commentAdapter.submitList(state.commentList)
+                if ((state.commentList ?: emptyList()).isNotEmpty()) {
+                    mBinding.rvComment.visibility = View.VISIBLE
+                    mBinding.cvComment.visibility = View.VISIBLE
+//                    mBinding.llCommentEmpty.visibility = View.GONE
+                    commentAdapter.submitList(state.commentList)
+                }
             }
         }
         lifecycleScope.launch {
@@ -231,6 +236,12 @@ class DetailFragment :
                     mBinding.sflComment.stopShimmer()
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.sflComment.visibility = View.GONE
+                    if ((commentViewModel.commentState.value.commentList
+                            ?: emptyList()).isEmpty()
+                    ) {
+                        mBinding.cvComment.visibility = View.GONE
+//                        mBinding.llCommentEmpty.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -259,6 +270,6 @@ class DetailFragment :
         mBinding.etComment.setText(value)
         if (isEdit) showKeyboard()
         this.isEdit.value = isEdit
-        this.commentId.value = commentId
+        this.editCommentId.value = commentId
     }
 }

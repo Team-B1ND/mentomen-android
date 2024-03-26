@@ -1,7 +1,5 @@
 package kr.hs.dgsw.mentomenv2.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,12 +23,13 @@ open class BaseViewModel
         private val _error = MutableSharedFlow<String>()
         val error = _error.asSharedFlow()
 
-        private val _viewEvent = MutableLiveData<Event<Any>>()
-        val viewEvent: LiveData<Event<Any>>
-            get() = _viewEvent
+        private val _viewEvent = MutableSharedFlow<Event<Any>>()
+        val viewEvent = _viewEvent.asSharedFlow()
 
         fun viewEvent(content: Any) {
-            _viewEvent.value = Event(content)
+            viewModelScope.launch {
+                _viewEvent.emit(Event(content))
+            }
         }
 
         fun <T> Flow<Result<T>>.safeApiCall(

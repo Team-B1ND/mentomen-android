@@ -20,7 +20,8 @@ class ImageDialog(context: Context, image: String?) : Dialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val binding: DialogImageDetailBinding = DataBindingUtil.inflate(layoutInflater, R.layout.dialog_image_detail, null, false)
+        val binding: DialogImageDetailBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.dialog_image_detail, null, false)
         setContentView(binding.root)
         Picasso.get().load(imageRes).into(binding.photoView)
         binding.photoView.scaleType = ImageView.ScaleType.CENTER_INSIDE

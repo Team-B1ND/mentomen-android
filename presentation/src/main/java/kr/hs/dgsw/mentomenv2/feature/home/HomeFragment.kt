@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
+import kr.hs.dgsw.mentomenv2.feature.post.PostViewModel
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -27,10 +29,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(true)
+        Log.d("HomeFragment", "onCreate")
         mBinding.rvHome.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvHome.adapter = adapter
         collectPostStates()
         observeViewModel()
+        observePostSuccess(activity as MainActivity)
 
         mBinding.ivNotification.setOnClickListener {
             Toast.makeText(requireContext(), "알림", Toast.LENGTH_SHORT).show()
@@ -68,10 +72,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }
     }
 
+    private fun observePostSuccess(mainActivity: MainActivity) {
+        lifecycleScope.launch {
+            mainActivity.isPostSuccess.collect{ isSuccess ->
+                if (isSuccess) {
+                    viewModel.getAllPost()
+                    mainActivity.isPostSuccess.value = false
+                }
+            }
+        }
+    }
+
     private fun collectPostStates() {
         lifecycleScope.launch {
             viewModel.postState.collect { state ->
-                adapter.submitList(state.postList)
+                adapter.submitList(state.postList){
+                    mBinding.rvHome.scrollToPosition(0)
+                }
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }

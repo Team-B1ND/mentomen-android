@@ -74,6 +74,28 @@ data class Post(
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Post
+
+        if (author != other.author) return false
+        if (content != other.content) return false
+        if (imgUrls != other.imgUrls) return false
+        if (createDateTime != other.createDateTime) return false
+        if (postId != other.postId) return false
+        if (profileUrl != other.profileUrl) return false
+        if (stdInfo != other.stdInfo) return false
+        if (tag != other.tag) return false
+        if (updateDateTime != other.updateDateTime) return false
+        if (updateStatus != other.updateStatus) return false
+        if (userName != other.userName) return false
+        if (isExpended != other.isExpended) return false
+
+        return true
+    }
+
     companion object CREATOR : Parcelable.Creator<Post> {
         override fun createFromParcel(parcel: Parcel): Post {
             return Post(parcel)

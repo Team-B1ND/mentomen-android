@@ -7,6 +7,7 @@ import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostsByTagUseCase
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.state.PostState
 import javax.inject.Inject
 
@@ -26,7 +27,12 @@ class HomeViewModel
             getMyInfo()
         }
 
-        fun getMyInfo() {
+    override fun onCleared() {
+        Log.d("HomeViewModel", "onCleared")
+        super.onCleared()
+    }
+
+        private fun getMyInfo() {
             getMyInfoUseCase.invoke().safeApiCall(
                 _isLoading,
                 successAction = {

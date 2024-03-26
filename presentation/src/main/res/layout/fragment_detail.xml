@@ -41,7 +41,7 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/srl_post"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -49,7 +49,7 @@
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/nestedScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="match_parent"
                     app:layout_constraintBottom_toTopOf="@+id/cl_comment_input"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,273 +57,296 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@color/background">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/post_upload_toolbar"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/background">
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:elevation="3dp">
 
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/back_button"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/ic_back"
+                                android:gravity="center_vertical" />
 
-                            <androidx.appcompat.widget.Toolbar
-                                android:id="@+id/post_upload_toolbar"
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                android:elevation="3dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/semibold"
+                                android:text="@string/mento"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
 
-                                <androidx.appcompat.widget.AppCompatButton
-                                    android:id="@+id/back_button"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:background="@drawable/ic_back"
-                                    android:gravity="center_vertical" />
 
-                                <TextView
+                        </androidx.appcompat.widget.Toolbar>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="10dp"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:backgroundTint="@color/white"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="3dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageButton
+                                    android:id="@+id/btn_more"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:fontFamily="@font/semibold"
-                                    android:text="@string/mento"
-                                    android:textColor="@color/black"
-                                    android:textSize="16sp" />
+                                    android:layout_height="50dp"
+                                    android:backgroundTint="#00FFFFFF"
+                                    android:contentDescription="@string/todo"
+                                    android:src="@drawable/ic_more"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="TooDeepLayout" />
 
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cv_profile"
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:layout_marginStart="15dp"
+                                    android:layout_marginTop="15dp"
+                                    app:cardCornerRadius="100dp"
+                                    app:cardElevation="0dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                            </androidx.appcompat.widget.Toolbar>
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/main"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="16dp"
-                                android:layout_marginVertical="10dp"
-                                android:backgroundTint="@color/white"
-                                app:cardCornerRadius="10dp"
-                                app:cardElevation="3dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/post_upload_toolbar">
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <ImageButton
-                                        android:id="@+id/btn_more"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="50dp"
-                                        android:backgroundTint="#00FFFFFF"
-                                        android:contentDescription="@string/todo"
-                                        android:src="@drawable/ic_more"
-                                        android:visibility="gone"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:ignore="TooDeepLayout" />
-
-                                    <androidx.cardview.widget.CardView
-                                        android:id="@+id/cv_profile"
+                                    <ImageView
+                                        android:id="@+id/iv_profile"
+                                        circleImage="@{detailViewModel.profileImg}"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:layout_marginStart="15dp"
-                                        android:layout_marginTop="15dp"
-                                        app:cardCornerRadius="100dp"
-                                        app:cardElevation="0dp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
+                                        android:contentDescription="@string/todo"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/ic_user" />
+                                </androidx.cardview.widget.CardView>
 
-                                        <ImageView
-                                            android:id="@+id/iv_profile"
-                                            circleImage="@{detailViewModel.profileImg}"
-                                            android:layout_width="35dp"
-                                            android:layout_height="35dp"
-                                            android:contentDescription="@string/todo"
-                                            android:scaleType="centerCrop"
-                                            android:src="@drawable/ic_user" />
-                                    </androidx.cardview.widget.CardView>
+                                <TextView
+                                    android:id="@+id/name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="15dp"
+                                    android:fontFamily="@font/variable"
+                                    android:text="@{detailViewModel.userName}"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    app:layout_constraintStart_toEndOf="@+id/cv_profile"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="도현욱" />
 
-                                    <TextView
-                                        android:id="@+id/name"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="10dp"
-                                        android:layout_marginTop="15dp"
-                                        android:fontFamily="@font/variable"
-                                        android:text="@{detailViewModel.userName}"
-                                        android:textColor="@color/black"
-                                        android:textSize="14sp"
-                                        app:layout_constraintStart_toEndOf="@+id/cv_profile"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:text="도현욱" />
+                                <TextView
+                                    android:id="@+id/grade"
+                                    grade="@{detailViewModel.stdInfo.grade}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:fontFamily="@font/variable"
+                                    android:textColor="@color/gray"
+                                    android:textSize="12sp"
+                                    app:layout_constraintEnd_toStartOf="@id/room"
+                                    app:layout_constraintStart_toEndOf="@id/cv_profile"
+                                    app:layout_constraintTop_toBottomOf="@id/name"
+                                    tools:text="2학년" />
 
-                                    <TextView
-                                        android:id="@+id/grade"
-                                        grade="@{detailViewModel.stdInfo.grade}"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="10dp"
-                                        android:fontFamily="@font/variable"
-                                        android:textColor="@color/gray"
-                                        android:textSize="12sp"
-                                        app:layout_constraintEnd_toStartOf="@id/room"
-                                        app:layout_constraintStart_toEndOf="@id/cv_profile"
-                                        app:layout_constraintTop_toBottomOf="@id/name"
-                                        tools:text="2학년" />
+                                <TextView
+                                    android:id="@+id/room"
+                                    room="@{detailViewModel.stdInfo.room}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/variable"
+                                    android:textColor="@color/gray"
+                                    android:textSize="12sp"
+                                    app:layout_constraintEnd_toStartOf="@id/number"
+                                    app:layout_constraintStart_toEndOf="@+id/grade"
+                                    app:layout_constraintTop_toBottomOf="@+id/name"
+                                    tools:text="4반" />
 
-                                    <TextView
-                                        android:id="@+id/room"
-                                        room="@{detailViewModel.stdInfo.room}"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/variable"
-                                        android:textColor="@color/gray"
-                                        android:textSize="12sp"
-                                        app:layout_constraintEnd_toStartOf="@id/number"
-                                        app:layout_constraintStart_toEndOf="@+id/grade"
-                                        app:layout_constraintTop_toBottomOf="@+id/name"
-                                        tools:text="4반" />
+                                <TextView
+                                    android:id="@+id/number"
+                                    number="@{detailViewModel.stdInfo.number}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/variable"
+                                    android:textColor="@color/gray"
+                                    android:textSize="12sp"
+                                    app:layout_constraintStart_toEndOf="@+id/room"
+                                    app:layout_constraintTop_toBottomOf="@+id/name"
+                                    tools:text="6번" />
 
-                                    <TextView
-                                        android:id="@+id/number"
-                                        number="@{detailViewModel.stdInfo.number}"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/variable"
-                                        android:textColor="@color/gray"
-                                        android:textSize="12sp"
-                                        app:layout_constraintStart_toEndOf="@+id/room"
-                                        app:layout_constraintTop_toBottomOf="@+id/name"
-                                        tools:text="6번" />
+                                <TextView
+                                    android:id="@+id/content"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp"
+                                    android:layout_marginVertical="10dp"
+                                    android:fontFamily="@font/variable"
+                                    android:text="@{detailViewModel.content}"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/cv_profile"
+                                    tools:text="test용 입니다." />
 
-                                    <TextView
-                                        android:id="@+id/content"
+                                <FrameLayout
+                                    android:id="@+id/viewpager_frame"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="15dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/content">
+
+                                    <androidx.viewpager2.widget.ViewPager2
+                                        android:id="@+id/viewpager"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginHorizontal="15dp"
-                                        android:layout_marginVertical="10dp"
-                                        android:fontFamily="@font/variable"
-                                        android:text="@{detailViewModel.content}"
-                                        android:textColor="@color/black"
-                                        android:textSize="16sp"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@id/cv_profile"
-                                        tools:text="test용 입니다." />
+                                        android:layout_height="match_parent" />
 
-                                    <FrameLayout
-                                        android:id="@+id/viewpager_frame"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginHorizontal="15dp"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_marginBottom="15dp"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@id/content">
-
-                                        <androidx.viewpager2.widget.ViewPager2
-                                            android:id="@+id/viewpager"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent" />
-
-                                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                                            android:id="@+id/worm_dots_indicator"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center|bottom"
-                                            android:layout_marginBottom="10dp"
-                                            app:dotsColor="@color/white"
-                                            app:dotsCornerRadius="8dp"
-                                            app:dotsSize="6dp"
-                                            app:dotsSpacing="1.2dp"
-                                            app:dotsWidthFactor="2.5"
-                                            app:progressMode="true"
-                                            app:selectedDotColor="@color/white" />
-                                    </FrameLayout>
-
-                                    <TextView
-                                        android:id="@+id/datetime"
-                                        date="@{detailViewModel.createDateTime.toString()}"
+                                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                                        android:id="@+id/worm_dots_indicator"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginHorizontal="15dp"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_marginBottom="15dp"
-                                        android:fontFamily="@font/variable"
-                                        android:textColor="@color/gray"
-                                        android:textSize="12sp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@+id/viewpager_frame"
-                                        tools:text="23일 전" />
+                                        android:layout_gravity="center|bottom"
+                                        android:layout_marginBottom="10dp"
+                                        app:dotsColor="@color/white"
+                                        app:dotsCornerRadius="8dp"
+                                        app:dotsSize="6dp"
+                                        app:dotsSpacing="1.2dp"
+                                        app:dotsWidthFactor="2.5"
+                                        app:progressMode="true"
+                                        app:selectedDotColor="@color/white" />
+                                </FrameLayout>
 
-                                </androidx.constraintlayout.widget.ConstraintLayout>
+                                <TextView
+                                    android:id="@+id/datetime"
+                                    date="@{detailViewModel.createDateTime.toString()}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="15dp"
+                                    android:fontFamily="@font/variable"
+                                    android:textColor="@color/gray"
+                                    android:textSize="12sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/viewpager_frame"
+                                    tools:text="23일 전" />
 
-                            </androidx.cardview.widget.CardView>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cv_comment"
+                        </androidx.cardview.widget.CardView>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="10dp" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cv_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="100dp"
+                            android:translationZ="2dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="1dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/main">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_comment"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="16dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="100dp"
-                                android:translationZ="2dp"
-                                app:cardCornerRadius="10dp"
-                                app:cardElevation="1dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/main">
+                                android:paddingBottom="10dp"
+                                tools:listitem="@layout/item_comment" />
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/rv_comment"
+                            <com.facebook.shimmer.ShimmerFrameLayout
+                                android:id="@+id/sfl_comment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="100dp">
+
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingBottom="10dp"
-                                    tools:listitem="@layout/item_comment" />
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
 
-                                <com.facebook.shimmer.ShimmerFrameLayout
-                                    android:id="@+id/sfl_comment"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="100dp">
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:orientation="vertical">
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                                    <include layout="@layout/item_comment_shimmer" />
+                                </LinearLayout>
+                            </com.facebook.shimmer.ShimmerFrameLayout>
 
-                                        <include layout="@layout/item_comment_shimmer" />
+                        </androidx.cardview.widget.CardView>
 
-                                        <include layout="@layout/item_comment_shimmer" />
-                                    </LinearLayout>
-                                </com.facebook.shimmer.ShimmerFrameLayout>
+                        <!--                            <LinearLayout-->
+                        <!--                                android:id="@+id/ll_comment_empty"-->
+                        <!--                                android:layout_width="wrap_content"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:orientation="vertical"-->
+                        <!--                                android:visibility="gone"-->
+                        <!--                                app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                                app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                                app:layout_constraintTop_toBottomOf="@id/main"-->
+                        <!--                                android:layout_marginTop="10dp">-->
 
-                            </androidx.cardview.widget.CardView>
+                        <!--                                <ImageView-->
+                        <!--                                    android:id="@+id/iv_empty"-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_gravity="center"-->
+                        <!--                                    android:src="@drawable/ic_comment" />-->
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <!--                                <Space-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="5dp" />-->
+
+                        <!--                                <TextView-->
+                        <!--                                    android:id="@+id/tv_empty"-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:text="@string/empty_comment" />-->
+                        <!--                            </LinearLayout>-->
+
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

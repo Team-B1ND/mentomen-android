@@ -17,7 +17,7 @@ class HomeAdapter(
         binding: ItemHomeBinding,
     ) {
         val isDummy =
-            !item.isExpended && item.content == "" && item.userName == "" && item.author == 0 && item.tag == ""
+            !item.isExpended && item.content.isEmpty() && item.userName.isEmpty() && item.author == 0 && item.tag.isEmpty()
         binding.item = item
         if (!isDummy) {
             if (item.isExpended) {
@@ -47,13 +47,16 @@ class HomeAdapter(
                 binding.cvPreview.visibility = View.GONE
                 binding.ivPreview.visibility = View.GONE
             }
+
             binding.root.setOnClickListener { itemClick(item) }
 
             binding.btnShowMore.setOnClickListener {
                 item.isExpended = true
                 binding.tvPreview.maxLines = Int.MAX_VALUE
                 binding.btnShowMore.visibility = View.GONE
+
             }
+
             val majorImage =
                 when (item.tag) {
                     "ANDROID" -> R.drawable.ic_android

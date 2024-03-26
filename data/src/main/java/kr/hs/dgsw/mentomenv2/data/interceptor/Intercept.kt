@@ -79,7 +79,7 @@ class Intercept
                 dataStoreRepositoryImpl.getToken().let {
                     it.collect {
                         Log.d(
-                            "setToken: ",
+                            "getToken: ",
                             "token: ${it.data?.accessToken ?: ""}, ${it.data?.refreshToken ?: ""}",
                         )
                         token =

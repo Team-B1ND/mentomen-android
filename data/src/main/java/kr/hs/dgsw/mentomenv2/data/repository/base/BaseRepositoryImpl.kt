@@ -39,7 +39,10 @@ abstract class BaseRepositoryImpl {
                         }
 
                         is IOException -> emit(Result.Error(Utils.NETWORK_ERROR_MESSAGE))
-                        else -> emit(Result.Error(Utils.EXCEPTION))
+                        else -> {
+                            Log.e("BaseViewModel", e.stackTraceToString())
+                            emit(Result.Error(Utils.EXCEPTION))
+                        }
                     }
                 }.collect()
             } catch (e: Exception) {

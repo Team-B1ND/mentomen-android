@@ -7,6 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityIntroBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.signin.SignInActivity
 import java.lang.Thread.sleep
@@ -23,6 +24,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
                     navigate(MainActivity::class.java)
                 }
                 IntroViewModel.LOGIN -> {
+                    Log.d("IntroActivity", "LOGIN")
                     navigate(SignInActivity::class.java)
                 }
             }

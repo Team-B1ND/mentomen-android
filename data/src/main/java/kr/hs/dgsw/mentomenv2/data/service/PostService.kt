@@ -29,7 +29,7 @@ interface PostService {
     ): BaseResponse<Post>
 
     @DELETE("post/delete/{postId}")
-    fun deletePostById(
+    suspend fun deletePostById(
         @Path("postId") postId: Int,
     ): BaseResponse<Unit>
 }

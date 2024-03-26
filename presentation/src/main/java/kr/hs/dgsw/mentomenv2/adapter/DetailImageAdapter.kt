@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.databinding.ItemDetailImageBinding
+import kr.hs.dgsw.mentomenv2.domain.model.ImgUrl
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.detail.image.ImageDialog
 

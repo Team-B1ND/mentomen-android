@@ -20,6 +20,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     var code: String? = null
 
     override fun start() {
+        Log.d("SignInActivity", "here is singInActivity")
         lifecycleScope.launch {
             collectTokenState()
             collectEvent()
@@ -28,6 +29,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 Client.CLIENT_SECRET,
                 Client.REDIRECT_URL,
             )
+            setUpDAuth()
         }
     }
 

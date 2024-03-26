@@ -7,8 +7,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
@@ -28,9 +28,11 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     protected abstract fun start()
 
     protected fun bindingViewEvent(action: (event: Any) -> Unit) {
-        viewModel.viewEvent.observe(this) {
-            it.getContentIfNotHandled()?.let { event ->
-                action.invoke(event)
+        lifecycleScope.launch {
+            viewModel.viewEvent.collect {
+                it.getContentIfNotHandled()?.let { event ->
+                    action.invoke(event)
+                }
             }
         }
     }
@@ -83,9 +85,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     private fun layoutRes(): Int {
         val split =
             (
-                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                    .actualTypeArguments[0] as Class<*>
-            )
+                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                        .actualTypeArguments[0] as Class<*>
+                    )
                 .simpleName.replace(
                     "Binding$".toRegex(),
                     "",

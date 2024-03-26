@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
+import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +11,7 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentMyBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 
@@ -37,6 +39,7 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
 
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(true)
+        Log.d("MyFragment", "OnCreate")
         initHomeAdapter()
         observeViewModel()
         collectState()

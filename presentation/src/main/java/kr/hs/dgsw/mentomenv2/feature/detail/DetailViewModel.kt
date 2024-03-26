@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
+import kr.hs.dgsw.mentomenv2.domain.model.ImgUrl
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.DeletePostByIdUseCase
@@ -27,7 +28,7 @@ class DetailViewModel
         val content = MutableLiveData<String>()
         val imgUrls = MutableLiveData<List<String?>>()
         val createDateTime = MutableLiveData<String>("2023-11-06T14:28:51.528245")
-        val stdInfo = MutableLiveData<StdInfo>(StdInfo(2, 4, 6))
+        val stdInfo = MutableLiveData<StdInfo>(StdInfo(3, 4, 6))
         val profileImg = MutableLiveData<String?>()
         val userName = MutableLiveData<String>()
         val postId = MutableLiveData<Int>()
@@ -62,6 +63,7 @@ class DetailViewModel
         }
 
         fun deletePost() {
+            Log.d("DetailViewModel", "deletePostCall")
             deletePostByIdUseCase.invoke(id = postId.value ?: 0).safeApiCall(
                 isLoading = isLoading,
                 {
