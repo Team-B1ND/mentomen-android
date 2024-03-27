@@ -1,12 +1,15 @@
 package kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.data.datasource.PostDataSource
 import kr.hs.dgsw.mentomenv2.data.service.PostService
+import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.params.PostEditParam
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
-import kr.hs.dgsw.mentomenv2.domain.util.Log
 import javax.inject.Inject
 
 class PostDataSourceImpl
@@ -43,4 +46,15 @@ class PostDataSourceImpl
                 emit(api.deletePostById(id).data)
             }
         }
+
+        override fun editPost(postEditParam: PostEditParam): Flow<Unit> =
+            flow {
+                val response = api.editPost(postEditParam).execute()
+
+                if (response.isSuccessful) {
+                    emit(response.body()?.data ?: Unit)
+                } else {
+                    throw MenToMenException(response.message())
+                }
+            }.flowOn(Dispatchers.IO)
     }

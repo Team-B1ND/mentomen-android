@@ -19,6 +19,7 @@ import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
+import kr.hs.dgsw.mentomenv2.widget.loadImage
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -128,6 +129,12 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 PostViewModel.ON_CLICK_SUBMIT -> {
                     submitPost()
                 }
+
+                PostViewModel.LOAD_IMAGE -> {
+                    if (isEdit.value) viewModel.editPost(
+                        postId.value ?: 0
+                    ) else viewModel.submitPost()
+                }
             }
         }
         viewModel.imgUrl.observe(this) {
@@ -151,14 +158,22 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         }
         lifecycleScope.launch {
             viewModel.submitMessage.collect { message ->
-                if (message.isNotBlank()) Toast.makeText(
-                    this@PostActivity,
-                    message,
-                    Toast.LENGTH_SHORT
-                ).show()
-                if (message == "게시글 등록에 성공했습니다.") {
-                    setResult(RESULT_OK)
-                    finish()
+                if (message.isNotBlank()) {
+                    Toast.makeText(
+                        this@PostActivity,
+                        message,
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+                when (message) {
+                    "게시글 등록에 성공했습니다." -> {
+                        setResult(RESULT_OK)
+                        finish()
+                    }
+
+                    "게시글 수정에 성공했습니다." -> {
+                        finish()
+                    }
                 }
             }
         }
@@ -178,7 +193,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             Toast.makeText(this, "태그를 선택해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
-        viewModel.submitPost()
+        viewModel.loadImage()
     }
 
     private fun getImageGallery() {

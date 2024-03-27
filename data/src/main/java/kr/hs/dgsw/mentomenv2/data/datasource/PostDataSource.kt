@@ -2,6 +2,7 @@ package kr.hs.dgsw.mentomenv2.data.datasource
 
 import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.params.PostEditParam
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
 
 interface PostDataSource {
@@ -14,4 +15,6 @@ interface PostDataSource {
     fun getPostById(id: Int): Flow<Post>
 
     fun deletePostById(id: Int): Flow<Unit>
+
+    fun editPost(postEditParam: PostEditParam): Flow<Unit>
 }

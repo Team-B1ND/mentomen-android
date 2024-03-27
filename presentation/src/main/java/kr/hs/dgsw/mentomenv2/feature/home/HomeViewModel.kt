@@ -27,11 +27,6 @@ class HomeViewModel
             getMyInfo()
         }
 
-    override fun onCleared() {
-        Log.d("HomeViewModel", "onCleared")
-        super.onCleared()
-    }
-
         private fun getMyInfo() {
             getMyInfoUseCase.invoke().safeApiCall(
                 _isLoading,

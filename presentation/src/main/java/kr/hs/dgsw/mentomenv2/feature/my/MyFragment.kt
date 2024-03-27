@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
-import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope

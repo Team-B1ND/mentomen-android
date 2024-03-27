@@ -18,6 +18,7 @@ import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override val viewModel: MainViewModel by viewModels()
     val isPostSuccess = MutableStateFlow<Boolean>(false)
+
     override fun start() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -30,7 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         mBinding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_home -> {
-                    navController.popBackStack(R.id.home_fragment, true);
+                    navController.popBackStack(R.id.home_fragment, true)
                     navController.navigate(R.id.home_fragment)
                     true
                 }
@@ -55,7 +56,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         val startPostActivity =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    // 게시글 작성 성공, LiveData를 통해 Home ViewModel에 알림
+                    // 게시글 작성 성공, LiveData를 통해 Home Fragment에 알림
                     isPostSuccess.value = true
                 }
             }

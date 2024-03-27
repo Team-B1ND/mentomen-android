@@ -54,7 +54,6 @@ class HomeAdapter(
                 item.isExpended = true
                 binding.tvPreview.maxLines = Int.MAX_VALUE
                 binding.btnShowMore.visibility = View.GONE
-
             }
 
             val majorImage =

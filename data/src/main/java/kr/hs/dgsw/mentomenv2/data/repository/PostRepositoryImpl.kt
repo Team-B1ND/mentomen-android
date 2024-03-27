@@ -4,12 +4,13 @@ import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.data.datasource.PostDataSource
 import kr.hs.dgsw.mentomenv2.data.repository.base.BaseRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.params.PostEditParam
 import kr.hs.dgsw.mentomenv2.domain.params.PostSubmitParam
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class PostRepositoryImplImpl
+class PostRepositoryImpl
     @Inject
     constructor(
         private val remote: PostDataSource,
@@ -23,4 +24,6 @@ class PostRepositoryImplImpl
         override fun getPostById(id: Int): Flow<Result<Post>> = execute { remote.getPostById(id) }
 
         override fun deletePostById(id: Int): Flow<Result<Unit>> = execute { remote.deletePostById(id) }
+
+        override fun editPost(postEditParam: PostEditParam): Flow<Result<Unit>> = execute { remote.editPost(postEditParam) }
     }

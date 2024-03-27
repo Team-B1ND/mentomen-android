@@ -118,6 +118,12 @@ class DetailFragment :
         }
     }
 
+    override fun onResume() {
+        viewModel.getPostInfo()
+        commentViewModel.getComment()
+        super.onResume()
+    }
+
     private fun settingDefaultValue() {
         mBinding.detailViewModel = viewModel
         mBinding.commentViewModel = commentViewModel
@@ -236,8 +242,10 @@ class DetailFragment :
                     mBinding.sflComment.stopShimmer()
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.sflComment.visibility = View.GONE
-                    if ((commentViewModel.commentState.value.commentList
-                            ?: emptyList()).isEmpty()
+                    if ((
+                            commentViewModel.commentState.value.commentList
+                                ?: emptyList()
+                        ).isEmpty()
                     ) {
                         mBinding.cvComment.visibility = View.GONE
 //                        mBinding.llCommentEmpty.visibility = View.VISIBLE

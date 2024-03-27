@@ -1,7 +1,9 @@
 package kr.hs.dgsw.mentomenv2.base
 
+import MutableEventFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import asEventFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,8 +25,8 @@ open class BaseViewModel
         private val _error = MutableSharedFlow<String>()
         val error = _error.asSharedFlow()
 
-        private val _viewEvent = MutableSharedFlow<Event<Any>>()
-        val viewEvent = _viewEvent.asSharedFlow()
+        private val _viewEvent = MutableEventFlow<Event<Any>>()
+        val viewEvent = _viewEvent.asEventFlow()
 
         fun viewEvent(content: Any) {
             viewModelScope.launch {
