@@ -37,7 +37,7 @@ interface PostService {
     ): BaseResponse<Unit>
 
     @PATCH("post/update")
-    fun editPost(
+    suspend fun editPost(
         @Body postUpdateDto: PostEditParam,
     ): Call<BaseResponse<Unit>>
 }

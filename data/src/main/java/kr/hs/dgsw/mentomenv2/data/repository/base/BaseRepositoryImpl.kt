@@ -35,12 +35,13 @@ abstract class BaseRepositoryImpl {
                         }
 
                         is MenToMenException -> {
+                            Log.e("MenToMenException: ", "${e.message}")
                             emit(Result.Error(e.message))
                         }
 
                         is IOException -> emit(Result.Error(Utils.NETWORK_ERROR_MESSAGE))
                         else -> {
-                            Log.e("BaseViewModel", e.stackTraceToString())
+                            Log.e("BaseRepository", e.stackTraceToString())
                             emit(Result.Error(Utils.EXCEPTION))
                         }
                     }

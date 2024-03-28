@@ -19,6 +19,7 @@ import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.widget.loadImage
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -36,16 +37,53 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     private var launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                // 이미지 목록 및 파일 목록 초기화
-                imageList.value?.clear()
-                viewModel.imgFile.value?.clear()
-
                 // 선택한 이미지 처리
                 if (result.data?.clipData != null) {
                     val count = result.data?.clipData!!.itemCount
+                    val imageCount =
+                        count + viewModel.imgFile.value!!.size + viewModel.imgUrl.value!!.size
+                    if (imageCount > 10) {
+                        // 이미지는 10장까지 선택 가능
+                        Toast.makeText(this, "사진은 최대 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
+                        return@registerForActivityResult
+                    }
+
+                    for (i in 0 until count) {
+                        val imageUri = result.data?.clipData!!.getItemAt(i).uri
+                        Log.d("PostActivity", "imageUri: $imageUri")
+                        Log.d("PostActivity", "imageUri.toString: ${imageUri.toString()}")
+                        Log.d("PostActivity", "dataString: ${result.data?.dataString}")
+
+                        // URI를 파일로 변환
+                        val file = File(absolutelyPath(imageUri, this))
+
+                        // 파일을 RequestBody로 변환
+                        val extension = file.toString().split(".")[1]
+                        val requestFile = file.asRequestBody("image/$extension".toMediaTypeOrNull())
+
+                        // MultipartBody.Part 생성
+                        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                        // 이미지 및 파일 목록에 추가
+                        imageList.value?.add(imageUri.toString())
+                        viewModel.imgFile.value?.add(body)
+                    }
+                }
+                imageAdapter?.submitList(imageList.value)
+                imageAdapter?.notifyDataSetChanged()
+            }
+        }
+
+    /*
+    * /*
+            * if (result.resultCode == Activity.RESULT_OK) {
+                // 선택한 이미지 처리
+                if (result.data?.clipData != null) {
+                    val count =
+                        result.data?.clipData!!.itemCount + viewModel.imgFile.value!!.size + viewModel.imgUrl.value!!.size
                     if (count > 10) {
                         // 이미지는 10장까지 선택 가능
-                        Toast.makeText(this, "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "사진은 최대 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
                         return@registerForActivityResult
                     }
 
@@ -63,14 +101,15 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
                         // 이미지 및 파일 목록에 추가
-                        imageList.value?.add(imageUri.path)
+                        imageList.value?.add(imageUri)
                         viewModel.imgFile.value?.add(body)
                     }
                 }
                 imageAdapter?.submitList(imageList.value)
                 imageAdapter?.notifyDataSetChanged()
             }
-        }
+            * */
+    * */
 
     override fun start() {
         lifecycleScope.launch {
@@ -97,7 +136,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         }
     }
 
-    private fun absolutelyPath(
+    fun absolutelyPath(
         path: Uri?,
         context: Context,
     ): String {
@@ -137,8 +176,11 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 }
             }
         }
-        viewModel.imgUrl.observe(this) {
-            imageAdapter?.submitList(it.map { it?.imgUrl })
+        viewModel.imgUrl.observe(this) { imgUrls ->
+            imageAdapter?.submitList(imgUrls.map { imgUrl ->
+                imageList.value?.add(imgUrl?.imgUrl)
+                imgUrl?.imgUrl
+            })
         }
     }
 

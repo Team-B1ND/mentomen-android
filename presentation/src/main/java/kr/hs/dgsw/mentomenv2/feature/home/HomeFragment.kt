@@ -3,6 +3,7 @@ package kr.hs.dgsw.mentomenv2.feature.home
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +31,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(true)
-        Log.d("HomeFragment", "onCreate")
         mBinding.rvHome.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvHome.adapter = adapter
         collectPostStates()
@@ -95,8 +95,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 }
             }
         }
-        lifecycleScope.launch {
+        detailViewModel.viewModelScope.launch {
             detailViewModel.postDeleteEvent.collect {
+                Log.d("HomeFragment", "postDeleteEventCollect")
                 viewModel.getAllPost()
             }
         }
