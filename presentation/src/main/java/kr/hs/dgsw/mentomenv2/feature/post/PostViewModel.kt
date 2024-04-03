@@ -75,13 +75,15 @@ class PostViewModel
             postFileUseCase(imgFile.value!!).safeApiCall(
                 _isLoading,
                 successAction = {
-                    imgUrl.value?.plus(it)
+                    val tempList = imgUrl.value.orEmpty().toMutableList()
+                    tempList.addAll(it.orEmpty().toMutableList())
+                    imgUrl.value = tempList
                     viewEvent(LOAD_IMAGE)
                 },
                 errorAction = {
                     Log.e("loadImage: fail", "result : $it")
                     imgUrl.value = emptyList()
-                    viewEvent(LOAD_IMAGE)
+                    applyEvent("이미지 업로드에 실패했습니다.")
                 },
             )
         }
@@ -94,6 +96,7 @@ class PostViewModel
         }
 
         fun submitPost() {
+            Log.d("PostViewModel", "imgUrl: ${imgUrl.value}")
             submitUseCase(
                 PostSubmitParam(
                     content.value!!,
