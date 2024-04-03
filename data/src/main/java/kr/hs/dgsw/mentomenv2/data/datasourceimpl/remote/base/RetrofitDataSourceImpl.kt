@@ -34,7 +34,6 @@ abstract class RetrofitDataSourceImpl<SV>(
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-            // 토큰을 가져오는 메서드가 있다고 가정하고, "YOUR_TOKEN_METHOD"를 실제 메서드로 대체하세요.
             val token =
                 getTokenUseCase.invoke().let {
                     it.map {
