@@ -75,9 +75,11 @@ class PostViewModel
             postFileUseCase(imgFile.value!!).safeApiCall(
                 _isLoading,
                 successAction = {
-                    val tempList = imgUrl.value.orEmpty().toMutableList()
-                    tempList.addAll(it.orEmpty().toMutableList())
-                    imgUrl.value = tempList
+                    Log.d("PostViewModel", "it: $it")
+                    val tempList = imgUrl.value.orEmpty().toMutableList() // 현재 리스트 가져오기 (빈 리스트인 경우 빈 리스트로 초기화)
+                    tempList.addAll(it.orEmpty().toMutableList()) // 새로운 이미지 URL 리스트를 기존 리스트에 추가
+                    imgUrl.value = tempList // 변경된 리스트를 다시 MutableLiveData에 설정
+                    Log.d("PostViewModel", "imgUrl in post image: ${imgUrl.value}")
                     viewEvent(LOAD_IMAGE)
                 },
                 errorAction = {

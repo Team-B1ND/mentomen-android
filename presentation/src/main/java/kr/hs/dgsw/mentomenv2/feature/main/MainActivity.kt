@@ -17,7 +17,6 @@ import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override val viewModel: MainViewModel by viewModels()
-    val isPostSuccess = MutableStateFlow<Boolean>(false)
 
     override fun start() {
         val navHostFragment =
@@ -53,18 +52,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             }
         }
 
-        val startPostActivity =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    // 게시글 작성 성공, LiveData를 통해 Home Fragment에 알림
-                    isPostSuccess.value = true
-                }
-            }
-
         mBinding.btnAdd.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
             intent.putExtra("isEdit", false)
-            startPostActivity.launch(intent)
+            startActivity(intent)
         }
     }
 

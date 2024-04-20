@@ -123,10 +123,6 @@ dependencies {
 
     // picasso
     implementation("com.squareup.picasso:picasso:2.8")
-
-    // eventbus
-    implementation ("org.greenrobot:eventbus:3.3.1")
-
 }
 
 kapt {

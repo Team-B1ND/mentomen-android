@@ -19,7 +19,6 @@ import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
-    val detailViewModel: DetailViewModel by viewModels()
     private val adapter: HomeAdapter =
         HomeAdapter { post ->
             findNavController().navigate(
@@ -35,7 +34,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         mBinding.rvHome.adapter = adapter
         collectPostStates()
         observeViewModel()
-        observePostSuccess(activity as MainActivity)
 
         mBinding.ivNotification.setOnClickListener {
             Toast.makeText(requireContext(), "알림", Toast.LENGTH_SHORT).show()
@@ -73,15 +71,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }
     }
 
-    private fun observePostSuccess(mainActivity: MainActivity) {
-        lifecycleScope.launch {
-            mainActivity.isPostSuccess.collect { isSuccess ->
-                if (isSuccess) {
-                    viewModel.getAllPost()
-                    mainActivity.isPostSuccess.value = false
-                }
-            }
-        }
+    override fun onResume() {
+        viewModel.getAllPost()
+        super.onResume()
     }
 
     private fun collectPostStates() {
@@ -93,12 +85,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
-            }
-        }
-        detailViewModel.viewModelScope.launch {
-            detailViewModel.postDeleteEvent.collect {
-                Log.d("HomeFragment", "postDeleteEventCollect")
-                viewModel.getAllPost()
             }
         }
     }

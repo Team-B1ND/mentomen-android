@@ -17,24 +17,10 @@ class HomeViewModel
     constructor(
         private val getAllPostUseCase: GetAllPostUseCase,
         private val getPostsByTagUseCase: GetPostsByTagUseCase,
-        private val getMyInfoUseCase: GetMyInfoUseCase,
     ) : BaseViewModel() {
         val postState = MutableStateFlow<PostState>(PostState())
         private val _isLoading = MutableStateFlow<Boolean>(false)
         val isLoading = _isLoading.asStateFlow()
-
-        init {
-            getMyInfo()
-        }
-
-        private fun getMyInfo() {
-            getMyInfoUseCase.invoke().safeApiCall(
-                _isLoading,
-                successAction = {
-                    getAllPost()
-                },
-            )
-        }
 
         fun getAllPost() {
             getAllPostUseCase.invoke().safeApiCall(

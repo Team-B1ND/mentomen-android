@@ -47,7 +47,7 @@ abstract class BaseRepositoryImpl {
                     }
                 }.collect()
             } catch (e: Exception) {
-                Log.e("BaseRepository", "FlowError : ${e.cause}")
+                Log.e("BaseRepository", "FlowError : ${e.stackTraceToString()}")
                 throw e
             }
         }

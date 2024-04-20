@@ -25,7 +25,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
                 }
                 IntroViewModel.LOGIN -> {
                     Log.d("IntroActivity", "LOGIN")
-                    navigate(SignInActivity::class.java)
+                    navigate(MainActivity::class.java)
                 }
             }
         }
