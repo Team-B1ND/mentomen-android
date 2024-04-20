@@ -13,110 +13,110 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel
-    @Inject
-    constructor(
-        private val getAllPostUseCase: GetAllPostUseCase,
-        private val getPostsByTagUseCase: GetPostsByTagUseCase,
-    ) : BaseViewModel() {
-        val postState = MutableStateFlow<PostState>(PostState())
-        private val _isLoading = MutableStateFlow<Boolean>(false)
-        val isLoading = _isLoading.asStateFlow()
+@Inject
+constructor(
+    private val getAllPostUseCase: GetAllPostUseCase,
+    private val getPostsByTagUseCase: GetPostsByTagUseCase,
+) : BaseViewModel() {
+    val postState = MutableStateFlow<PostState>(PostState())
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
 
-        fun getAllPost() {
-            getAllPostUseCase.invoke().safeApiCall(
+    fun getAllPost() {
+        getAllPostUseCase.invoke().safeApiCall(
+            _isLoading,
+            successAction = {
+                postState.value =
+                    PostState(
+                        postList = it,
+                        tag = "ALL",
+                    )
+            },
+        )
+    }
+
+    fun onClickDesignBtn() {
+        if (postState.value.tag == "DESIGN") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("DESIGN").safeApiCall(
                 _isLoading,
                 successAction = {
                     postState.value =
                         PostState(
                             postList = it,
-                            tag = "ALL",
+                            tag = "DESIGN",
                         )
                 },
             )
         }
+    }
 
-        fun onClickDesignBtn() {
-            if (postState.value.tag == "DESIGN") {
-                getAllPost()
-            } else {
-                getPostsByTagUseCase("DESIGN").safeApiCall(
-                    _isLoading,
-                    successAction = {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "DESIGN",
-                            )
-                    },
-                )
-            }
-        }
-
-        fun onClickWebBtn() {
-            if (postState.value.tag == "WEB") {
-                getAllPost()
-            } else {
-                getPostsByTagUseCase("WEB").safeApiCall(
-                    _isLoading,
-                    successAction = {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "WEB",
-                            )
-                    },
-                )
-            }
-        }
-
-        fun onClickAndroidBtn() {
-            if (postState.value.tag == "ANDROID") {
-                getAllPost()
-            } else {
-                getPostsByTagUseCase("ANDROID").safeApiCall(
-                    _isLoading,
-                    successAction = {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "ANDROID",
-                            )
-                    },
-                )
-            }
-        }
-
-        fun onClickServerBtn() {
-            if (postState.value.tag == "SERVER") {
-                getAllPost()
-            } else {
-                getPostsByTagUseCase("SERVER").safeApiCall(
-                    _isLoading,
-                    successAction = {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "SERVER",
-                            )
-                    },
-                )
-            }
-        }
-
-        fun onClickIOSBtn() {
-            if (postState.value.tag == "IOS") {
-                getAllPost()
-            } else {
-                getPostsByTagUseCase("IOS").safeApiCall(
-                    _isLoading,
-                    successAction = {
-                        postState.value =
-                            PostState(
-                                postList = it,
-                                tag = "IOS",
-                            )
-                    },
-                )
-            }
+    fun onClickWebBtn() {
+        if (postState.value.tag == "WEB") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("WEB").safeApiCall(
+                _isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "WEB",
+                        )
+                },
+            )
         }
     }
+
+    fun onClickAndroidBtn() {
+        if (postState.value.tag == "ANDROID") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("ANDROID").safeApiCall(
+                _isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "ANDROID",
+                        )
+                },
+            )
+        }
+    }
+
+    fun onClickServerBtn() {
+        if (postState.value.tag == "SERVER") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("SERVER").safeApiCall(
+                _isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "SERVER",
+                        )
+                },
+            )
+        }
+    }
+
+    fun onClickIOSBtn() {
+        if (postState.value.tag == "IOS") {
+            getAllPost()
+        } else {
+            getPostsByTagUseCase("IOS").safeApiCall(
+                _isLoading,
+                successAction = {
+                    postState.value =
+                        PostState(
+                            postList = it,
+                            tag = "IOS",
+                        )
+                },
+            )
+        }
+    }
+}
