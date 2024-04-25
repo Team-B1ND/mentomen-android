@@ -74,43 +74,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             }
         }
 
-    /*
-    * /*
-            * if (result.resultCode == Activity.RESULT_OK) {
-                // 선택한 이미지 처리
-                if (result.data?.clipData != null) {
-                    val count =
-                        result.data?.clipData!!.itemCount + viewModel.imgFile.value!!.size + viewModel.imgUrl.value!!.size
-                    if (count > 10) {
-                        // 이미지는 10장까지 선택 가능
-                        Toast.makeText(this, "사진은 최대 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show()
-                        return@registerForActivityResult
-                    }
-
-                    for (i in 0 until count) {
-                        val imageUri = result.data?.clipData!!.getItemAt(i).uri
-
-                        // URI를 파일로 변환
-                        val file = File(absolutelyPath(imageUri, this))
-
-                        // 파일을 RequestBody로 변환
-                        val extension = file.toString().split(".")[1]
-                        val requestFile = file.asRequestBody("image/$extension".toMediaTypeOrNull())
-
-                        // MultipartBody.Part 생성
-                        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-
-                        // 이미지 및 파일 목록에 추가
-                        imageList.value?.add(imageUri)
-                        viewModel.imgFile.value?.add(body)
-                    }
-                }
-                imageAdapter?.submitList(imageList.value)
-                imageAdapter?.notifyDataSetChanged()
-            }
-            * */
-    * */
-
     override fun start() {
         lifecycleScope.launch {
             isEdit.value = intent?.getBooleanExtra("isEdit", false) ?: false
