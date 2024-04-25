@@ -17,18 +17,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
     override val viewModel: IntroViewModel by viewModels()
 
     override fun start() {
-        viewModel.getToken()
-        bindingViewEvent { event ->
-            when (event) {
-                IntroViewModel.START -> {
-                    navigate(MainActivity::class.java)
-                }
-                IntroViewModel.LOGIN -> {
-                    Log.d("IntroActivity", "LOGIN")
-                    navigate(MainActivity::class.java)
-                }
-            }
-        }
+        navigate(MainActivity::class.java)
     }
 
     private fun navigate(destination: Class<*>) {

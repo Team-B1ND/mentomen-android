@@ -11,12 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.mentomenv2.feature.signin.LoginDialog
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
@@ -57,16 +57,24 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         initialize()
         lifecycleScope.launch {
             viewModel.error.collect {
-                if (it == Utils.TOKEN_EXCEPTION || it == Utils.NETWORK_ERROR_MESSAGE) {
-                    Log.e("baseFragment", "token, network error")
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                    val intent = Intent(requireContext(), IntroActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    this@BaseFragment.requireActivity().finishAffinity()
-                } else {
-                    Log.e("baseFragment", "else error")
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                when (it) {
+                    Utils.TOKEN_EXCEPTION -> {
+                        Log.e("baseFragment", "token error")
+                        val loginDialog = this@BaseFragment.context?.let { LoginDialog(it) }
+                        loginDialog?.show()
+                    }
+                    Utils.NETWORK_ERROR_MESSAGE -> {
+                        Log.e("baseFragment", "network error")
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), IntroActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        this@BaseFragment.requireActivity().finishAffinity()
+                    }
+                    else -> {
+                        Log.e("baseFragment", "else error")
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
