@@ -14,6 +14,7 @@ import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
@@ -56,16 +57,22 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         viewModel.viewModelScope.launch {
             Log.d("bindingViewEvent: ", "BaseActivity")
             viewModel.error.collect {
-                if (it == Utils.TOKEN_EXCEPTION || it == Utils.NETWORK_ERROR_MESSAGE) {
-                    Log.e("baseActivity", "token, network error")
-                    Toast.makeText(this@BaseActivity, it, Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@BaseActivity, IntroActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Log.e("baseActivity", "else error")
-                    Toast.makeText(this@BaseActivity, it, Toast.LENGTH_SHORT).show()
+                when (it) {
+                    Utils.TOKEN_EXCEPTION -> {
+
+                    }
+                    Utils.NETWORK_ERROR_MESSAGE -> {
+                        Log.e("baseActivity", "token, network error")
+                        Toast.makeText(this@BaseActivity, it, Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@BaseActivity, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        finish()
+                    }
+                    else -> {
+                        Log.e("baseActivity", "else error")
+                        Toast.makeText(this@BaseActivity, it, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

@@ -20,14 +20,17 @@ import kotlinx.coroutines.SupervisorJob
 import kr.hs.dgsw.mentomenv2.data.interceptor.Intercept
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.CommentService
+import kr.hs.dgsw.mentomenv2.data.service.DAuthService
 import kr.hs.dgsw.mentomenv2.data.service.FileService
 import kr.hs.dgsw.mentomenv2.data.service.MyService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -63,10 +66,24 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    @Named("login")
+    fun provideLoginRetrofit(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://dauth.b1nd.com/api/auth/")
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+    }
+
+    @Singleton
+    @Provides
     fun provideGsonConverter(): GsonConverterFactory = GsonConverterFactory.create(GsonBuilder().create())
 
-    @Provides
     @Singleton
+    @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
     private const val USER_PREFERENCES = "user_preferences"
@@ -89,21 +106,25 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providesPostRepository(retrofit: Retrofit): PostService = retrofit.create(PostService::class.java)
+    fun providesPostService(retrofit: Retrofit): PostService = retrofit.create(PostService::class.java)
 
     @Singleton
     @Provides
-    fun providesAuthRepository(retrofit: Retrofit): AuthService = retrofit.create(AuthService::class.java)
+    fun providesAuthService(retrofit: Retrofit): AuthService = retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides
-    fun provideFileRepository(retrofit: Retrofit): FileService = retrofit.create(FileService::class.java)
+    fun provideFileService(retrofit: Retrofit): FileService = retrofit.create(FileService::class.java)
 
     @Singleton
     @Provides
-    fun provideCommentRepository(retrofit: Retrofit): CommentService = retrofit.create(CommentService::class.java)
+    fun provideCommentService(retrofit: Retrofit): CommentService = retrofit.create(CommentService::class.java)
 
     @Singleton
     @Provides
-    fun provideMyRepository(retrofit: Retrofit): MyService = retrofit.create(MyService::class.java)
+    fun provideMyService(retrofit: Retrofit): MyService = retrofit.create(MyService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideDAuthService(@Named("login") retrofit: Retrofit): DAuthService = retrofit.create(DAuthService::class.java)
 }

@@ -5,8 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_btn_rounded"
-        android:padding="16dp">
+        android:background="@color/white"
+        android:paddingHorizontal="16dp">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -84,6 +84,7 @@
             android:background="@drawable/bg_edit_text_rounded"
             android:fontFamily="@font/variable"
             android:hint="@string/password"
+            android:inputType="textPassword"
             android:maxLines="1"
             android:padding="12dp"
             android:textSize="16sp"

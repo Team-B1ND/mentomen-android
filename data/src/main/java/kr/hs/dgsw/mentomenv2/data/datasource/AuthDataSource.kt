@@ -6,6 +6,5 @@ import kr.hs.dgsw.mentomenv2.domain.model.Token
 
 interface AuthDataSource {
     fun signIn(code: String): Flow<Token>
-
     fun getAccessToken(): Flow<TokenResponse>
 }

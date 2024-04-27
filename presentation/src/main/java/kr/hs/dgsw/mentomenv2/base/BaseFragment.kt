@@ -11,12 +11,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
-import kr.hs.dgsw.mentomenv2.feature.signin.LoginDialog
+import kr.hs.dgsw.mentomenv2.feature.home.HomeFragmentDirections
+import kr.hs.dgsw.mentomenv2.feature.signin.LoginFragment
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
@@ -60,8 +62,11 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
                 when (it) {
                     Utils.TOKEN_EXCEPTION -> {
                         Log.e("baseFragment", "token error")
-                        val loginDialog = this@BaseFragment.context?.let { LoginDialog(it) }
-                        loginDialog?.show()
+                        parentFragmentManager.beginTransaction()
+                            .add(R.id.nav_host_fragment, LoginFragment())
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit()
                     }
                     Utils.NETWORK_ERROR_MESSAGE -> {
                         Log.e("baseFragment", "network error")
