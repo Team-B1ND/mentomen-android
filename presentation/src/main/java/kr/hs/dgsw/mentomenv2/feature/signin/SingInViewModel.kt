@@ -4,6 +4,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
+import kr.hs.dgsw.mentomenv2.domain.model.Code
 import kr.hs.dgsw.mentomenv2.domain.model.Token
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
@@ -51,9 +52,9 @@ class SingInViewModel
                 })
         }
 
-        fun getTokenUseCode(code: String?) {
+        fun getTokenUseCode(code: Code) {
             Log.d("getTokenUseCode: ", "getTokenUseCode: $code 호출됨")
-            authRepository.signIn(code ?: "").safeApiCall(
+            authRepository.signIn(code).safeApiCall(
                 isLoading = _isLoading,
                 successAction = {
                     tokenState.value = Token(it?.accessToken ?: "", it?.refreshToken ?: "")

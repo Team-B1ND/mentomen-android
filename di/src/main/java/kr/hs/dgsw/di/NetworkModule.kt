@@ -72,7 +72,7 @@ object NetworkModule {
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://dauth.b1nd.com/api/auth/")
+            .baseUrl("https://dauth.b1nd.com")
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()

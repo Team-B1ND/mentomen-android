@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <data>
+
+        <variable
+            name="vm"
+            type="kr.hs.dgsw.mentomenv2.feature.signin.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -61,6 +68,7 @@
             android:hint="@string/id"
             android:maxLines="1"
             android:padding="12dp"
+            android:text="@={vm.id}"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/tv_id" />
 
@@ -87,6 +95,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:padding="12dp"
+            android:text="@={vm.pw}"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/tv_password" />
 
@@ -112,24 +121,36 @@
                 android:text="@string/auto_login" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_sing_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/singIn"
+            android:fontFamily="@font/variable"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintTop_toBottomOf="@id/ll_auto_login"
+            />
+
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
             android:background="@color/hint"
-            app:layout_constraintTop_toBottomOf="@id/ll_auto_login" />
+            app:layout_constraintTop_toBottomOf="@id/tv_sing_in" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_login"
-            android:text="@string/login"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:alpha="0.5"
-            android:textColor="?attr/colorOnPrimary"
             android:background="@drawable/bg_btn_rounded"
-            android:backgroundTint="?attr/colorPrimary"/>
+            android:backgroundTint="?attr/colorPrimary"
+            android:text="@string/login"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

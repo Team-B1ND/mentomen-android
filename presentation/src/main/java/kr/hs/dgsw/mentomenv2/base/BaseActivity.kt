@@ -15,7 +15,7 @@ import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
-import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
+import kr.hs.dgsw.mentomenv2.feature.signin.LoginActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
 import java.util.Objects
@@ -59,7 +59,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
             viewModel.error.collect {
                 when (it) {
                     Utils.TOKEN_EXCEPTION -> {
-
+                        val intent = Intent(this@BaseActivity, LoginActivity::class.java)
+                        startActivity(intent)
                     }
                     Utils.NETWORK_ERROR_MESSAGE -> {
                         Log.e("baseActivity", "token, network error")

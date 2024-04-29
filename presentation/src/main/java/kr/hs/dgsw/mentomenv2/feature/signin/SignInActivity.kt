@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
+import kr.hs.dgsw.mentomenv2.domain.model.Code
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
@@ -74,7 +75,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 this@SignInActivity,
                 {
                     Log.d("autoLogin: ", "로그인 성공1")
-                    viewModel.getTokenUseCode(it)
+                    viewModel.getTokenUseCode(Code(it))
                 },
                 {
                     setUpDAuth()

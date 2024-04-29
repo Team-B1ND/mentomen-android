@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityIntroBinding
@@ -17,13 +18,9 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
     override val viewModel: IntroViewModel by viewModels()
 
     override fun start() {
-        navigate(MainActivity::class.java)
-    }
-
-    private fun navigate(destination: Class<*>) {
         lifecycleScope.launch {
-            val intent = Intent(this@IntroActivity, destination)
-            sleep(2000)
+            delay(2000)
+            val intent = Intent(this@IntroActivity, MainActivity::class.java)
             finish()
             startActivity(intent)
         }

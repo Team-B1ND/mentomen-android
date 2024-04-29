@@ -8,8 +8,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface DAuthService {
-    @POST("/login")
+    @POST("/api/auth/login")
     suspend fun getCode(
-        @Body GetCodeRequest: GetCodeRequest
-    ): Call<BaseResponse<GetCodeResponse>>
+        @Body getCodeRequest: GetCodeRequest
+    ): BaseResponse<GetCodeResponse>
 }

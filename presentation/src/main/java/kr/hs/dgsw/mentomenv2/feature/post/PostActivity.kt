@@ -75,6 +75,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         }
 
     override fun start() {
+        viewModel.getMyInfo()
         lifecycleScope.launch {
             isEdit.value = intent?.getBooleanExtra("isEdit", false) ?: false
             postId.value = intent?.getIntExtra("postId", 0) ?: 0
