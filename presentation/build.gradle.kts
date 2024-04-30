@@ -73,6 +73,7 @@ dependencies {
 
     // gilde
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     // dataStore
@@ -113,6 +114,15 @@ dependencies {
     // viewpager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.tbuonomo:dotsindicator:4.3")
+
+    // skeleton
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // photoview
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
+
+    // picasso
+    implementation("com.squareup.picasso:picasso:2.8")
 }
 
 kapt {

@@ -1,11 +1,10 @@
 package kr.hs.dgsw.mentomenv2.data.interceptor
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.Token
-import kr.hs.dgsw.mentomenv2.domain.usecase.auth.GetAccessTokenUseCase
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import okhttp3.Interceptor
 import okhttp3.Protocol
@@ -19,7 +18,6 @@ class Intercept
     @Inject
     constructor(
         private val dataStoreRepositoryImpl: DataStoreRepositoryImpl,
-        private val getAccessTokenUseCase: GetAccessTokenUseCase,
     ) : Interceptor {
         private val tokenHeader = "Authorization"
 
@@ -28,7 +26,7 @@ class Intercept
 
         @Synchronized
         override fun intercept(chain: Interceptor.Chain): Response {
-            setToken()
+            getToken()
             response = chain.proceedWithToken(chain.request())
 
             if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
@@ -76,10 +74,14 @@ class Intercept
             }
         }
 
-        private fun setToken() =
+        private fun getToken() =
             runBlocking(Dispatchers.IO) {
                 dataStoreRepositoryImpl.getToken().let {
                     it.collect {
+                        Log.d(
+                            "getToken: ",
+                            "token: ${it.data?.accessToken ?: ""}, ${it.data?.refreshToken ?: ""}",
+                        )
                         token =
                             when (it) {
                                 is Result.Success ->
@@ -97,25 +99,42 @@ class Intercept
 
         private fun clearDataStore() =
             runBlocking(Dispatchers.IO) {
-                dataStoreRepositoryImpl.clearData().let { }
+                dataStoreRepositoryImpl.clearData().let {
+                    it.collect { result ->
+                        when (result) {
+                            is Result.Success -> {
+                                Log.d("clearDataStore: ", "clearDataStore: 성공")
+                            }
+
+                            is Result.Error -> {
+                                Log.d("clearDataStore: ", "clearDataStore: 실패")
+                            }
+
+                            is Result.Loading -> {
+                                Log.d("clearDataStore: ", "clearDataStore: 로딩중")
+                            }
+                        }
+                    }
+                }
             }
 
         private fun fetchToken() =
             runBlocking(Dispatchers.IO) {
-                getAccessTokenUseCase.invoke().let {
-                    it.collect {
+                dataStoreRepositoryImpl.getToken().let { token ->
+                    token.collect {
                         when (it) {
                             is Result.Success -> {
-                                dataStoreRepositoryImpl.saveData("refresh_token", it.data ?: "")
-                                token = Token(it.data ?: "", token.refreshToken)
+                                dataStoreRepositoryImpl.saveData("refresh_token", it.data?.refreshToken ?: "")
+                                this@Intercept.token =
+                                    Token(it.data?.refreshToken ?: "", this@Intercept.token.refreshToken)
                             }
 
                             is Result.Error -> {
-                                token = Token("", "")
+                                this@Intercept.token = Token("", "")
                             }
 
                             is Result.Loading -> {
-                                token = Token("", "")
+                                this@Intercept.token = Token("", "")
                             }
                         }
                     }

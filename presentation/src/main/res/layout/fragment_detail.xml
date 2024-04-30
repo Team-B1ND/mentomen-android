@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="detailViewModel"
             type="kr.hs.dgsw.mentomenv2.feature.detail.DetailViewModel" />
@@ -25,35 +27,46 @@
             android:background="@color/background"
             tools:context=".view.activity.DetailActivity">
 
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/nestedScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            <include
+                android:id="@+id/progress_loading"
+                layout="@layout/item_loading_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{commentViewModel.isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/srl_post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/nestedScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toTopOf="@+id/cl_comment_input"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="vertical"
                         android:background="@color/background">
-
 
                         <androidx.appcompat.widget.Toolbar
                             android:id="@+id/post_upload_toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:elevation="3dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            android:elevation="3dp">
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/back_button"
@@ -74,18 +87,18 @@
 
                         </androidx.appcompat.widget.Toolbar>
 
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="10dp"/>
+
                         <androidx.cardview.widget.CardView
                             android:id="@+id/main"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="16dp"
-                            android:layout_marginVertical="10dp"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="10dp"
-                            app:cardElevation="3dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/post_upload_toolbar">
+                            app:cardElevation="3dp">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -116,7 +129,7 @@
 
                                     <ImageView
                                         android:id="@+id/iv_profile"
-                                        circleImage="@{detailViewModel.profileUrl}"
+                                        circleImage="@{detailViewModel.profileImg}"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
                                         android:contentDescription="@string/todo"
@@ -243,103 +256,172 @@
 
                         </androidx.cardview.widget.CardView>
 
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="10dp" />
+
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/cv_comment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="100dp"
                             android:translationZ="2dp"
                             app:cardCornerRadius="10dp"
                             app:cardElevation="1dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/main">
+                            app:layout_constraintTop_toBottomOf="@+id/main">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_comment"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:paddingBottom="10dp"
                                 tools:listitem="@layout/item_comment" />
+
+                            <com.facebook.shimmer.ShimmerFrameLayout
+                                android:id="@+id/sfl_comment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="100dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+
+                                    <include layout="@layout/item_comment_shimmer" />
+                                </LinearLayout>
+                            </com.facebook.shimmer.ShimmerFrameLayout>
 
                         </androidx.cardview.widget.CardView>
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+                        <!--                            <LinearLayout-->
+                        <!--                                android:id="@+id/ll_comment_empty"-->
+                        <!--                                android:layout_width="wrap_content"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:orientation="vertical"-->
+                        <!--                                android:visibility="gone"-->
+                        <!--                                app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                                app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                                app:layout_constraintTop_toBottomOf="@id/main"-->
+                        <!--                                android:layout_marginTop="10dp">-->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@color/white"
-                android:elevation="3dp"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                        <!--                                <ImageView-->
+                        <!--                                    android:id="@+id/iv_empty"-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_gravity="center"-->
+                        <!--                                    android:src="@drawable/ic_comment" />-->
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="10dp"
-                    app:cardCornerRadius="100dp"
-                    app:cardElevation="0dp"
-                    app:layout_constraintEnd_toStartOf="@id/et_comment"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                        <!--                                <Space-->
+                        <!--                                    android:layout_width="0dp"-->
+                        <!--                                    android:layout_height="5dp" />-->
 
-                    <ImageView
-                        android:id="@+id/iv_comment_profile"
-                        image="@{detailViewModel.profileUrl}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/todo"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_default_user" />
-                </androidx.cardview.widget.CardView>
+                        <!--                                <TextView-->
+                        <!--                                    android:id="@+id/tv_empty"-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:text="@string/empty_comment" />-->
+                        <!--                            </LinearLayout>-->
 
-                <EditText
-                    android:id="@+id/et_comment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_btn_rounded"
-                    android:backgroundTint="@color/background"
-                    android:fontFamily="@font/variable"
-                    android:hint="@string/comment"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp"
-                    android:text="@={commentViewModel.commentContent}"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_send"
-                    app:layout_constraintStart_toEndOf="@+id/cardView2"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                <ImageButton
-                    android:id="@+id/iv_send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="#00FFFFFF"
-                    android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_send"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/et_comment"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_comment_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:elevation="3dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toStartOf="@id/et_comment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_comment_profile"
+                    image="@{detailViewModel.myProfileImg}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_default_user" />
+            </androidx.cardview.widget.CardView>
+
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_rounded"
+                android:backgroundTint="@color/background"
+                android:fontFamily="@font/variable"
+                android:hint="@string/comment"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:text="@={commentViewModel.commentContent}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_send"
+                app:layout_constraintStart_toEndOf="@+id/cardView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/iv_send"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="7dp"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/et_comment"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

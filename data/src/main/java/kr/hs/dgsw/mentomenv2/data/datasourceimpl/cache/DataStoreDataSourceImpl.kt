@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.data.datasourceimpl.cache
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -10,8 +9,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kr.hs.dgsw.mentomenv2.data.datasource.DataStoreDataSource
-import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
 import kr.hs.dgsw.mentomenv2.domain.model.Token
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import javax.inject.Inject
 
 class DataStoreDataSourceImpl
@@ -30,6 +29,14 @@ class DataStoreDataSourceImpl
                 }
             }
 
+        override fun saveToken(token: Token): Flow<Unit> =
+            flow {
+                dataStore.edit { preferences ->
+                    preferences[stringPreferencesKey("access_token")] = token.accessToken
+                    preferences[stringPreferencesKey("refresh_token")] = token.refreshToken
+                }
+            }
+
         override fun getToken(): Flow<Token> =
             flow {
                 val accessToken =
@@ -44,11 +51,7 @@ class DataStoreDataSourceImpl
                     "DataStoreDataSourceImpl",
                     "Token: ${accessToken.first()}, ${refreshToken.first()} 토큰 호출 성공",
                 )
-                if (accessToken.first() == "" || refreshToken.first() == "") {
-                    throw MenToMenException("토큰이 없습니다.")
-                } else {
-                    emit(Token(accessToken.first(), refreshToken.first()))
-                }
+                emit(Token(accessToken.first(), refreshToken.first()))
             }
 
         override fun getData(
@@ -64,6 +67,7 @@ class DataStoreDataSourceImpl
 
         override fun removeData(key: String): Flow<Unit> =
             flow {
+                Log.d("removeData: ", "key: $key")
                 val preferencesKey = stringPreferencesKey(key)
                 dataStore.edit { preferences ->
                     preferences.remove(preferencesKey)

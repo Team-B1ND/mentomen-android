@@ -1,13 +1,19 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.MyRepository
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,41 +27,47 @@ class MyViewModel
         val userName: MutableLiveData<String> = MutableLiveData("")
         val userProfileUrl: MutableLiveData<String> = MutableLiveData("")
         val post = MutableLiveData<List<Post>>()
+        private val _isLoading = MutableStateFlow(false)
+        val isLoading = _isLoading.asStateFlow()
 
-        private fun getMyInfo() {
+        fun collectError() {
+            viewModelScope.launch {
+                error.collect {
+                    viewEvent(TOKEN_EXCEPTION)
+                }
+            }
+        }
+
+        fun getMyInfo() {
             myRepository.getMyInfo().safeApiCall(
-                null,
+                _isLoading,
                 {
                     userName.value = it?.name ?: ""
                     stdInfo.value = it?.stdInfo ?: StdInfo(0, 0, 0)
-                },
-                {
-                    Log.d("getMyInfo: ", error.value.toString())
+                    userProfileUrl.value = it?.profileImage ?: R.drawable.ic_default_user.toString()
                 },
             )
         }
 
-        private fun getMyPost() {
+        fun getMyPost() {
             myRepository.getMyPost().safeApiCall(
-                null,
+                _isLoading,
                 {
                     post.value = it
                 },
+            )
+        }
+
+        fun clearDataStore() {
+            dataStoreRepository.clearData().safeApiCall(
+                _isLoading,
                 {
-                    Log.d("getMyPost: ", error.value.toString())
+                    Log.d("logout: ", "dataStore 비우기 성공")
                 },
             )
         }
 
-        fun logout() {
-            dataStoreRepository.clearData().safeApiCall(
-                null,
-                successAction = {
-                    Log.d("logout: ", "dataStore 비우기 성공")
-                },
-                errorAction = {
-                    Log.d("logout: ", error.value.toString())
-                },
-            )
+        companion object {
+            const val TOKEN_EXCEPTION = 1
         }
     }

@@ -1,13 +1,12 @@
 package kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.data.datasource.AuthDataSource
 import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.base.RetrofitDataSourceImpl
-import kr.hs.dgsw.mentomenv2.data.request.DAuthClientRequest
+import kr.hs.dgsw.mentomenv2.data.request.SingInRequest
 import kr.hs.dgsw.mentomenv2.data.response.TokenResponse
 import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
@@ -24,9 +23,8 @@ class AuthDataSourceImpl
             get() = createApi(AuthService::class.java)
 
         override fun signIn(code: String): Flow<Token> {
-            Log.d("AuthDataSourceImpl", "signIn out return flow: $code")
             return flow {
-                emit(api.signIn(DAuthClientRequest(code)).data)
+                emit(api.signIn(SingInRequest(code)).data)
             }
         }
 

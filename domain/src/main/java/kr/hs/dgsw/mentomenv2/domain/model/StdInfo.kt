@@ -4,9 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class StdInfo(
-    val grade: Int,
-    val room: Int,
-    val number: Int,
+    val grade: Int = 0,
+    val room: Int = 0,
+    val number: Int = 0,
 ) : Parcelable {
     // Parcelable 구현 코드
     override fun writeToParcel(

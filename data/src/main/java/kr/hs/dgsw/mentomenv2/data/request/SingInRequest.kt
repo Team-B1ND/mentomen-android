@@ -1,5 +1,5 @@
 package kr.hs.dgsw.mentomenv2.data.request
 
-data class DAuthClientRequest(
+data class SingInRequest(
     val code: String,
 )

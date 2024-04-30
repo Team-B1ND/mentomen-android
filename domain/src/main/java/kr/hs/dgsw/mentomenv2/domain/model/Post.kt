@@ -4,17 +4,17 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Post(
-    val author: Int,
-    val content: String,
+    val author: Int = 0,
+    val content: String = "",
     val imgUrls: List<String>? = emptyList(),
-    val createDateTime: String,
-    val postId: Int,
-    val profileUrl: String?,
-    val stdInfo: StdInfo,
-    val tag: String,
-    val updateDateTime: String,
-    val updateStatus: String,
-    val userName: String,
+    val createDateTime: String = "2024-03-11T01:28:36.93154",
+    val postId: Int = 0,
+    val profileUrl: String? = null,
+    val stdInfo: StdInfo = StdInfo(),
+    val tag: String = "",
+    val updateDateTime: String = "2024-03-11T11:14:27.13239",
+    val updateStatus: String = "",
+    val userName: String = "",
     var isExpended: Boolean = false,
 ) : Parcelable {
     // Parcelable 구현 코드
@@ -33,7 +33,7 @@ data class Post(
         parcel.writeString(updateDateTime)
         parcel.writeString(updateStatus)
         parcel.writeString(userName)
-        parcel.writeByte(if (isExpended) 1 else 0)
+        parcel.writeInt(if (isExpended) 1 else 0)
     }
 
     private constructor(parcel: Parcel) : this(
@@ -51,7 +51,7 @@ data class Post(
         updateDateTime = parcel.readString() ?: "",
         updateStatus = parcel.readString() ?: "",
         userName = parcel.readString() ?: "",
-        isExpended = parcel.readByte() != 0.toByte(),
+        isExpended = parcel.readInt() == 1,
     )
 
     override fun hashCode(): Int {
@@ -72,6 +72,28 @@ data class Post(
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Post
+
+        if (author != other.author) return false
+        if (content != other.content) return false
+        if (imgUrls != other.imgUrls) return false
+        if (createDateTime != other.createDateTime) return false
+        if (postId != other.postId) return false
+        if (profileUrl != other.profileUrl) return false
+        if (stdInfo != other.stdInfo) return false
+        if (tag != other.tag) return false
+        if (updateDateTime != other.updateDateTime) return false
+        if (updateStatus != other.updateStatus) return false
+        if (userName != other.userName) return false
+        if (isExpended != other.isExpended) return false
+
+        return true
     }
 
     companion object CREATOR : Parcelable.Creator<Post> {

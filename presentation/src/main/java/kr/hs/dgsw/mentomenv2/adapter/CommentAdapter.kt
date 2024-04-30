@@ -7,30 +7,42 @@ import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentDiffUtil
 import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
-import kr.hs.dgsw.mentomenv2.databinding.CommentSettingFragmentBinding
+import kr.hs.dgsw.mentomenv2.databinding.DialogCommentBinding
 import kr.hs.dgsw.mentomenv2.databinding.ItemCommentBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Comment
+import kr.hs.dgsw.mentomenv2.util.dpToPx
+import kotlin.math.roundToInt
 
 class CommentAdapter(
     private val callback: CommentAdapterCallback,
+    private val userId: Int,
 ) :
     BaseListAdapter<Comment, ItemCommentBinding>(R.layout.item_comment, CommentDiffUtil) {
-    private var myUserId = 0
-
-    fun setMyUserId(userId: Int) {
-        this.myUserId = userId
-    }
-
     override fun action(
         item: Comment,
         binding: ItemCommentBinding,
     ) {
         binding.item = item
         val bottomSheetBinding =
-            CommentSettingFragmentBinding.inflate(LayoutInflater.from(binding.root.context))
+            DialogCommentBinding.inflate(LayoutInflater.from(binding.root.context))
         val bottomSheetDialog = BottomSheetDialog(binding.root.context)
         bottomSheetDialog.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
+
+        binding.btnMore.visibility = if (userId == item.userId) View.VISIBLE else View.GONE
+
+        binding.cvComment.post {
+            binding.tvTime.post {
+                binding.content.maxWidth =
+                    binding.cvComment.width - (
+                        binding.tvTime.width + binding.ivProfile.width +
+                            dpToPx(
+                                binding.content.context,
+                                80.0f,
+                            ).roundToInt()
+                    )
+            }
+        }
 
         binding.btnMore.setOnClickListener {
             bottomSheetDialog.show()
@@ -38,33 +50,22 @@ class CommentAdapter(
 
         bottomSheetBinding.tvCancel.setOnClickListener {
             bottomSheetDialog.dismiss()
+            callback.updateIsEdit()
         }
 
         bottomSheetBinding.tvDelete.setOnClickListener {
             callback.deleteComment(item.commentId.toInt())
+            callback.updateIsEdit()
             bottomSheetDialog.dismiss()
         }
 
         bottomSheetBinding.tvEdit.setOnClickListener {
-            binding.ivEdit.visibility = View.VISIBLE
-            binding.etEditComment.visibility = View.VISIBLE
-            binding.content.visibility = View.GONE
-            binding.etEditComment.requestFocus()
-            binding.etEditComment.setSelection(binding.etEditComment.text.length)
             bottomSheetDialog.dismiss()
+            callback.updateIsEdit(true, item.commentId.toInt(), item.content)
         }
-
-        binding.btnMore.visibility = if (item.userId == myUserId) View.VISIBLE else View.GONE
 
         binding.btnMore.setOnClickListener {
             bottomSheetDialog.show()
-        }
-
-        binding.ivEdit.setOnClickListener {
-            binding.ivEdit.visibility = View.GONE
-            binding.etEditComment.visibility = View.GONE
-            binding.content.visibility = View.VISIBLE
-            callback.updateComment(item.commentId.toInt(), binding.etEditComment.text.toString())
         }
     }
 }

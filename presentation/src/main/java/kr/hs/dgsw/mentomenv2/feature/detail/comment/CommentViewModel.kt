@@ -1,15 +1,17 @@
 package kr.hs.dgsw.mentomenv2.feature.detail.comment
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.params.CommentSubmitParam
+import kr.hs.dgsw.mentomenv2.domain.params.CommentUpdateParam
 import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.state.CommentState
 import javax.inject.Inject
 
@@ -22,15 +24,14 @@ class CommentViewModel
         val commentState = MutableStateFlow<CommentState>(CommentState())
         val postId = MutableLiveData<Int>()
         val commentContent = MutableLiveData<String>()
+        private val _isLoading = MutableStateFlow<Boolean>(false)
+        val isLoading = _isLoading.asStateFlow()
+        var toastMessage = MutableLiveData<String>("")
 
         fun postComment() {
             viewModelScope.launch(Dispatchers.IO) {
                 if (commentContent.value.isNullOrBlank()) {
-                    Log.d("postComment: ", "postComment is empty")
-                    commentState.value =
-                        CommentState(
-                            error = "내용을 입력해주세요.",
-                        )
+                    toastMessage.value = "댓글을 입력해주세요."
                 } else {
                     commentRepository.submitComment(
                         CommentSubmitParam(
@@ -38,17 +39,15 @@ class CommentViewModel
                             content = commentContent.value ?: "",
                         ),
                     ).safeApiCall(
-                        null,
+                        _isLoading,
                         {
+                            toastMessage.value = "댓글 작성에 성공했습니다."
+                            Log.d("postComment: ", "댓글 작성 성공")
                             commentContent.value = ""
                             getComment()
                         },
                         {
-                            commentState.value =
-                                CommentState(
-                                    error = it.toString(),
-                                )
-                            getComment()
+                            toastMessage.value = "댓글 작성에 실패했습니다."
                         },
                     )
                 }
@@ -58,19 +57,15 @@ class CommentViewModel
         fun getComment() {
             commentRepository.getCommentList(postId.value ?: 0)
                 .safeApiCall(
-                    null,
+                    _isLoading,
                     { comments ->
-                        Log.d("getComment: ", "getComment: $comments")
                         commentState.value =
                             CommentState(
                                 commentList = comments,
                             )
                     },
                     {
-                        commentState.value =
-                            CommentState(
-                                error = "finish",
-                            )
+                        toastMessage.value = "댓글 불러오기에 실패했습니다."
                     },
                 )
         }
@@ -78,8 +73,9 @@ class CommentViewModel
         fun deleteComment(commentId: Int) {
             commentRepository.deleteComment(commentId)
                 .safeApiCall(
-                    null,
+                    _isLoading,
                     {
+                        toastMessage.value = "댓글 삭제에 성공했습니다."
                         commentState.value.commentList?.let { list ->
                             commentState.value =
                                 CommentState(
@@ -87,16 +83,11 @@ class CommentViewModel
                                         list.filter { comment ->
                                             comment.commentId.toInt() != commentId
                                         },
-                                    error = "댓글 삭제 성공",
                                 )
                         }
                     },
                     {
-                        commentState.value =
-                            CommentState(
-                                error = it.toString(),
-                            )
-                        getComment()
+                        toastMessage.value = "댓글 삭제에 실패했습니다."
                     },
                 )
         }
@@ -105,5 +96,16 @@ class CommentViewModel
             commentId: Int,
             content: String,
         ) {
+            commentRepository.updateComment(CommentUpdateParam(commentId, content)).safeApiCall(
+                _isLoading,
+                {
+                    getComment()
+                    toastMessage.value = "댓글 수정에 성공했습니다."
+                },
+                {
+                    getComment()
+                    toastMessage.value = "댓글 수정에 실패했습니다."
+                },
+            )
         }
     }

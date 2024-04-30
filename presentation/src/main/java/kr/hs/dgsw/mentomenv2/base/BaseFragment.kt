@@ -1,18 +1,26 @@
 package kr.hs.dgsw.mentomenv2.base
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.mentomenv2.feature.signin.LoginActivity
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
@@ -25,19 +33,14 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
     protected var savedInstanceState: Bundle? = null
 
-    protected fun bindingViewEvent(action: (event: Any) -> Unit) {
-        viewModel.viewEvent.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let { event ->
-                action.invoke(event)
-            }
-        }
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
-        viewModel.error.observe(viewLifecycleOwner) {
-            if (it == Utils.TOKEN_EXCEPTION) {
-                Toast.makeText(requireContext(), "세션이 만료되었습니다.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(requireContext(), IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+    protected fun bindingViewEvent(action: (event: Any) -> Unit) {
+        lifecycleScope.launch {
+            viewModel.viewEvent.collect {
+                it.getContentIfNotHandled()?.let { event ->
+                    action.invoke(event)
+                }
             }
         }
     }
@@ -58,20 +61,40 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         super.onViewCreated(view, savedInstanceState)
         this.savedInstanceState = savedInstanceState
         initialize()
+        lifecycleScope.launch {
+            viewModel.error.collect {
+                when (it) {
+                    Utils.TOKEN_EXCEPTION -> {
+                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                        launcher.launch(intent)
+                    }
 
-        viewModel.error.observe(viewLifecycleOwner) {
-            if (it == Utils.TOKEN_EXCEPTION) {
-                val intent = Intent(requireContext(), IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                startActivity(intent)
-                this.requireActivity().finishAffinity()
+                    Utils.NETWORK_ERROR_MESSAGE -> {
+                        Log.e("baseFragment", "network error")
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), IntroActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        this@BaseFragment.requireActivity().finishAffinity()
+                    }
+
+                    else -> {
+                        Log.e("baseFragment", "else error")
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
-
         setupViews()
     }
 
     private fun initialize() {
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode != Activity.RESULT_OK) {
+                    findNavController().popBackStack()
+                }
+            }
         mViewModel = if (::mViewModel.isInitialized) mViewModel else viewModel
         mBinding.setVariable(BR.vm, mViewModel)
         mBinding.lifecycleOwner = viewLifecycleOwner

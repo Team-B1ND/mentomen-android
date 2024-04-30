@@ -9,6 +9,8 @@ interface DataStoreDataSource {
         value: String,
     ): Flow<Unit>
 
+    fun saveToken(token: Token): Flow<Unit>
+
     fun getData(
         key: String,
         defaultValue: String,

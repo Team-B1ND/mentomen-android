@@ -1,13 +1,15 @@
 package kr.hs.dgsw.mentomenv2.feature.signin
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivitySignInBinding
+import kr.hs.dgsw.mentomenv2.domain.model.Code
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
 import kr.hs.dgsw.smartschool.dodamdodam.dauth.DAuth.getCode
@@ -19,6 +21,7 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
     var code: String? = null
 
     override fun start() {
+        Log.d("SignInActivity", "here is singInActivity")
         lifecycleScope.launch {
             collectTokenState()
             collectEvent()
@@ -27,21 +30,24 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 Client.CLIENT_SECRET,
                 Client.REDIRECT_URL,
             )
-            viewModel.getToken()
+            setUpDAuth()
         }
     }
 
     private fun collectEvent() {
         lifecycleScope.launch {
-            viewModel.event.collect { event ->
-                if (event == "Start") {
-                    Log.d("collectEvent: ", "$event collect viewModels event")
-                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else if (event == "Login") {
-                    Log.d("collectEvent: ", "$event collect viewModels event")
-                    setUpDAuth()
+            bindingViewEvent { event ->
+                when (event) {
+                    SingInViewModel.START -> {
+                        Log.d("collectEvent: ", "$event collect viewModels event")
+                        val intent = Intent(this@SignInActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    SingInViewModel.LOGIN -> {
+                        Log.d("collectEvent: ", "$event collect viewModels event")
+                        setUpDAuth()
+                    }
                 }
             }
         }
@@ -54,11 +60,10 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                     "collectTokenState: ",
                     "Token 수집 성공 " + "token : " + tokenState.accessToken + tokenState.refreshToken,
                 )
-                if (!tokenState.accessToken.isNullOrBlank() && !tokenState.refreshToken.isNullOrBlank()) {
-                    viewModel.event.emit("Start")
+                if (tokenState.accessToken.isNotBlank() && tokenState.refreshToken.isNotBlank()) {
+                    viewModel.viewEvent(SingInViewModel.START)
                 } else {
-                    Log.d("123", "collectTokenState: 로그인 필요")
-                    viewModel.event.emit("Login")
+                    viewModel.viewEvent(SingInViewModel.LOGIN)
                 }
             }
         }
@@ -70,16 +75,12 @@ class SignInActivity : BaseActivity<ActivitySignInBinding, SingInViewModel>() {
                 this@SignInActivity,
                 {
                     Log.d("autoLogin: ", "로그인 성공1")
-                    viewModel.getTokenUseCode(it)
+                    viewModel.getTokenUseCode(Code(it))
                 },
                 {
                     setUpDAuth()
                 },
             )
         }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 }

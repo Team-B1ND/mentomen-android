@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.data.datasource.MyDataSource
 import kr.hs.dgsw.mentomenv2.data.service.MyService
+import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
 import kr.hs.dgsw.mentomenv2.domain.model.User
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class MyDataSourceImpl
@@ -36,7 +36,7 @@ class MyDataSourceImpl
                         emit(response.body()?.data ?: User())
                     }
                 } else {
-                    throw HttpException(response)
+                    throw MenToMenException(response.message())
                 }
             }.flowOn(Dispatchers.IO)
 
@@ -47,7 +47,7 @@ class MyDataSourceImpl
                 if (response.isSuccessful) {
                     emit(response.body()?.data ?: emptyList())
                 } else {
-                    throw HttpException(response)
+                    throw MenToMenException(response.message())
                 }
             }.flowOn(Dispatchers.IO)
     }
