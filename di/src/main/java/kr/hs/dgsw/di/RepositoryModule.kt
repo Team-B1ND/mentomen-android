@@ -24,6 +24,7 @@ import kr.hs.dgsw.mentomenv2.data.repository.DAuthRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.FileRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.MyRepositoryImpl
+import kr.hs.dgsw.mentomenv2.data.repository.NoticeRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.PostRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
@@ -31,6 +32,7 @@ import kr.hs.dgsw.mentomenv2.domain.repository.DAuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.FileRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.MyRepository
+import kr.hs.dgsw.mentomenv2.domain.repository.NoticeRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import javax.inject.Singleton
 
@@ -43,15 +45,7 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource
-
-    @Binds
-    @Singleton
     fun bindsDataStoreRepository(dataStoreRepositoryImpl: DataStoreRepositoryImpl): DataStoreRepository
-
-    @Binds
-    @Singleton
-    fun bindsDataStore(tokenDataSourceImpl: DataStoreDataSourceImpl): DataStoreDataSource
 
     @Binds
     @Singleton
@@ -59,15 +53,7 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsPostDataSource(postDataSourceImpl: PostDataSourceImpl): PostDataSource
-
-    @Binds
-    @Singleton
     fun bindsFileRepository(fileRepositoryImpl: FileRepositoryImpl): FileRepository
-
-    @Binds
-    @Singleton
-    fun bindsFileDataSource(fileDataSourceImpl: FileDataSourceImpl): FileDataSource
 
     @Binds
     @Singleton
@@ -75,15 +61,7 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsCommentDataSource(commentDataSourceImpl: CommentDataSourceImpl): CommentDataSource
-
-    @Binds
-    @Singleton
     fun bindsMyRepository(myRepositoryImpl: MyRepositoryImpl): MyRepository
-
-    @Binds
-    @Singleton
-    fun bindsMyDataSource(myDataSourceImpl: MyDataSourceImpl): MyDataSource
 
     @Binds
     @Singleton
@@ -91,5 +69,5 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsDAuthDataSource(dAuthDataSourceImpl: DAuthDataSourceImpl): DAuthDataSource
+    fun bindsNoticeRepository(noticeRepository: NoticeRepository): NoticeRepositoryImpl
 }

@@ -15,11 +15,11 @@ import javax.inject.Inject
 class MyDataSourceImpl
     @Inject
     constructor(
-        private val myApi: MyService,
+        private val myService: MyService,
     ) : MyDataSource {
         override fun getMyInfo(): Flow<User> =
             flow {
-                val response = myApi.getUserInfo().execute()
+                val response = myService.getUserInfo().execute()
                 if (response.isSuccessful) {
                     if (response.body()?.data?.profileImage == null) {
                         emit(
@@ -42,7 +42,7 @@ class MyDataSourceImpl
 
         override fun getMyPost(): Flow<List<Post>> =
             flow {
-                val response = myApi.getMyPost().execute()
+                val response = myService.getMyPost().execute()
 
                 if (response.isSuccessful) {
                     emit(response.body()?.data ?: emptyList())
