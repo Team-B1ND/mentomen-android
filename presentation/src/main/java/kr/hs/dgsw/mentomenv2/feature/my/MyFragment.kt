@@ -1,6 +1,9 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
+import android.app.Activity
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,6 +20,7 @@ import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 @AndroidEntryPoint
 class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
     override val viewModel: MyViewModel by viewModels()
+
     private val adapter =
         HomeAdapter { post ->
             findNavController().navigate(
@@ -42,6 +46,7 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
         initHomeAdapter()
         observeViewModel()
         collectState()
+        viewModel.collectError()
         viewModel.getMyInfo()
         viewModel.getMyPost()
     }

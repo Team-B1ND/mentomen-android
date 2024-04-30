@@ -65,6 +65,11 @@ open class BaseViewModel
                                 _error.emit(Utils.NETWORK_ERROR_MESSAGE)
                             }
                         }
+                        Utils.EXCEPTION -> {
+                            viewModelScope.launch {
+                                _error.emit(Utils.EXCEPTION)
+                            }
+                        }
                     }
                 }
             }

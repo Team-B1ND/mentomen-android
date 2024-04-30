@@ -1,8 +1,11 @@
 package kr.hs.dgsw.mentomenv2.base
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,6 +31,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
 
     protected abstract fun start()
 
+    private lateinit var launcher: ActivityResultLauncher<Intent>
+
     protected fun bindingViewEvent(action: (event: Any) -> Unit) {
         lifecycleScope.launch {
             viewModel.viewEvent.collect {
@@ -48,6 +53,11 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode != Activity.RESULT_OK) {
+                finish()
+            }
+        }
         performDataBinding()
         collectViewModel()
         start()
@@ -60,7 +70,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
                 when (it) {
                     Utils.TOKEN_EXCEPTION -> {
                         val intent = Intent(this@BaseActivity, LoginActivity::class.java)
-                        startActivity(intent)
+                        launcher.launch(intent)
                     }
                     Utils.NETWORK_ERROR_MESSAGE -> {
                         Log.e("baseActivity", "token, network error")
@@ -70,6 +80,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
                         startActivity(intent)
                         finish()
                     }
+
                     else -> {
                         Log.e("baseActivity", "else error")
                         Toast.makeText(this@BaseActivity, it, Toast.LENGTH_SHORT).show()
@@ -93,9 +104,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     private fun layoutRes(): Int {
         val split =
             (
-                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                    .actualTypeArguments[0] as Class<*>
-            )
+                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                        .actualTypeArguments[0] as Class<*>
+                    )
                 .simpleName.replace(
                     "Binding$".toRegex(),
                     "",

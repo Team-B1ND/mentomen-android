@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +21,8 @@ import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
-import kr.hs.dgsw.mentomenv2.widget.loadImage
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import kr.hs.dgsw.mentomenv2.feature.signin.LoginActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -34,7 +36,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     private var imageAdapter: ImageAdapter? = null
     private val imageList = MutableLiveData<ArrayList<String?>>(arrayListOf())
 
-    private var launcher =
+    private var photoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // 선택한 이미지 처리
@@ -124,6 +126,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
     private fun observerViewModel() {
         bindingViewEvent {
+            Log.d("PostActivity", "it: $it")
             when (it) {
                 PostViewModel.ON_CLICK_IMAGE -> {
                     getImageGallery()
@@ -211,7 +214,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             chooserIntent.putExtra(Intent.EXTRA_INTENT, intent)
             chooserIntent.putExtra(Intent.EXTRA_TITLE, "사용할 앱을 선택해주세요.")
-            launcher.launch(chooserIntent)
+            photoLauncher.launch(chooserIntent)
         }
     }
 }

@@ -1,9 +1,12 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.Post
@@ -26,6 +29,14 @@ class MyViewModel
         val post = MutableLiveData<List<Post>>()
         private val _isLoading = MutableStateFlow(false)
         val isLoading = _isLoading.asStateFlow()
+
+        fun collectError() {
+            viewModelScope.launch {
+                error.collect {
+                    viewEvent(TOKEN_EXCEPTION)
+                }
+            }
+        }
 
         fun getMyInfo() {
             myRepository.getMyInfo().safeApiCall(
@@ -54,5 +65,9 @@ class MyViewModel
                     Log.d("logout: ", "dataStore 비우기 성공")
                 },
             )
+        }
+
+        companion object {
+            const val TOKEN_EXCEPTION = 1
         }
     }

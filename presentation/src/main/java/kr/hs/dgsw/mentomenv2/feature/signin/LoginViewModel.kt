@@ -34,11 +34,9 @@ class LoginViewModel @Inject constructor(
                 .safeApiCall(
                     isLoading = _isLoading,
                     {
-                        it?.let {
-                            val code = extractValueFromUrl(it.code, "code")
-                            Log.d("LoginViewModel","Extracted code: $code")
-                            getToken(Code(code.toString()))
-                        }
+                        val code = extractValueFromUrl(it?.code ?: "", "code")
+                        Log.d("LoginViewModel", "Extracted code: $code")
+                        getToken(Code(code.toString()))
                     },
                     {
                         viewModelScope.launch {

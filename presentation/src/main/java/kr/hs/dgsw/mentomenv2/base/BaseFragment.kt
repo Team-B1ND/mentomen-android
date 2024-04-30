@@ -1,16 +1,20 @@
 package kr.hs.dgsw.mentomenv2.base
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
@@ -28,6 +32,8 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     protected abstract val viewModel: VM
 
     protected var savedInstanceState: Bundle? = null
+
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     protected fun bindingViewEvent(action: (event: Any) -> Unit) {
         lifecycleScope.launch {
@@ -60,8 +66,9 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
                 when (it) {
                     Utils.TOKEN_EXCEPTION -> {
                         val intent = Intent(requireContext(), LoginActivity::class.java)
-                        startActivity(intent)
+                        launcher.launch(intent)
                     }
+
                     Utils.NETWORK_ERROR_MESSAGE -> {
                         Log.e("baseFragment", "network error")
                         Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -70,6 +77,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
                         startActivity(intent)
                         this@BaseFragment.requireActivity().finishAffinity()
                     }
+
                     else -> {
                         Log.e("baseFragment", "else error")
                         Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -81,6 +89,11 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     }
 
     private fun initialize() {
+        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode != Activity.RESULT_OK) {
+                findNavController().popBackStack()
+            }
+        }
         mViewModel = if (::mViewModel.isInitialized) mViewModel else viewModel
         mBinding.setVariable(BR.vm, mViewModel)
         mBinding.lifecycleOwner = viewLifecycleOwner
@@ -93,9 +106,9 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     private fun layoutRes(): Int {
         val split =
             (
-                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                    .actualTypeArguments[0] as Class<*>
-            )
+                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                        .actualTypeArguments[0] as Class<*>
+                    )
                 .simpleName.replace("Binding$".toRegex(), "")
                 .split("(?<=.)(?=\\p{Upper})".toRegex())
                 .dropLastWhile { it.isEmpty() }.toTypedArray()
