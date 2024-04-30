@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri

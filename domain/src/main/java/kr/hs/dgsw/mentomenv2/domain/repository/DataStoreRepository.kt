@@ -15,9 +15,7 @@ interface DataStoreRepository {
         defaultValue: String,
     ): Flow<Result<String>>
 
-    fun saveToken(
-        token: Token
-    ): Flow<Result<Unit>>
+    fun saveToken(token: Token): Flow<Result<Unit>>
 
     fun getToken(): Flow<Result<Token>>
 

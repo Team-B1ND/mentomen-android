@@ -12,20 +12,20 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
 class AuthRepositoryImpl
-@Inject
-constructor(
-    private val authDataSource: AuthDataSource,
-) : BaseRepositoryImpl(), AuthRepository {
-    override fun signIn(code: Code): Flow<Result<Token>> {
-        Log.d("AuthRepositoryImpl", "signIn: $code")
-        return execute { authDataSource.signIn(code.code) }
-    }
+    @Inject
+    constructor(
+        private val authDataSource: AuthDataSource,
+    ) : BaseRepositoryImpl(), AuthRepository {
+        override fun signIn(code: Code): Flow<Result<Token>> {
+            Log.d("AuthRepositoryImpl", "signIn: $code")
+            return execute { authDataSource.signIn(code.code) }
+        }
 
-    override fun getAccessToken(): Flow<Result<String>> {
-        return execute {
-            authDataSource.getAccessToken().map {
-                it.toString()
+        override fun getAccessToken(): Flow<Result<String>> {
+            return execute {
+                authDataSource.getAccessToken().map {
+                    it.toString()
+                }
             }
         }
     }
-}

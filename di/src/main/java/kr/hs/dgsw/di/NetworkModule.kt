@@ -24,7 +24,6 @@ import kr.hs.dgsw.mentomenv2.data.service.DAuthService
 import kr.hs.dgsw.mentomenv2.data.service.FileService
 import kr.hs.dgsw.mentomenv2.data.service.MyService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
-import kr.hs.dgsw.mentomenv2.domain.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -126,5 +125,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideDAuthService(@Named("login") retrofit: Retrofit): DAuthService = retrofit.create(DAuthService::class.java)
+    fun provideDAuthService(
+        @Named("login") retrofit: Retrofit,
+    ): DAuthService = retrofit.create(DAuthService::class.java)
 }

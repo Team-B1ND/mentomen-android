@@ -4,5 +4,10 @@ import kotlinx.coroutines.flow.Flow
 import kr.hs.dgsw.mentomenv2.data.response.GetCodeResponse
 
 interface DAuthDataSource {
-    fun getCode(id: String, pw: String, clientId: String, redirectURL: String): Flow<GetCodeResponse>
+    fun getCode(
+        id: String,
+        pw: String,
+        clientId: String,
+        redirectURL: String,
+    ): Flow<GetCodeResponse>
 }

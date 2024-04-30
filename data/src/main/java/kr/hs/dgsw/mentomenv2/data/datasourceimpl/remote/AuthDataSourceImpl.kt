@@ -15,28 +15,28 @@ import kr.hs.dgsw.mentomenv2.domain.usecase.token.GetTokenUseCase
 import javax.inject.Inject
 
 class AuthDataSourceImpl
-@Inject
-constructor(
-    getTokenUseCase: GetTokenUseCase,
-) : RetrofitDataSourceImpl<AuthService>(getTokenUseCase), AuthDataSource {
-    override val api: AuthService
-        get() = createApi(AuthService::class.java)
+    @Inject
+    constructor(
+        getTokenUseCase: GetTokenUseCase,
+    ) : RetrofitDataSourceImpl<AuthService>(getTokenUseCase), AuthDataSource {
+        override val api: AuthService
+            get() = createApi(AuthService::class.java)
 
-    override fun signIn(code: String): Flow<Token> {
-        return flow {
-            emit(api.signIn(SingInRequest(code)).data)
+        override fun signIn(code: String): Flow<Token> {
+            return flow {
+                emit(api.signIn(SingInRequest(code)).data)
+            }
+        }
+
+        override fun getAccessToken(): Flow<TokenResponse> {
+            return flow {
+                val response = api.refreshToken().execute()
+
+                if (response.isSuccessful) {
+                    emit(response.body()?.data ?: TokenResponse())
+                } else {
+                    throw MenToMenException("토큰을 갱신하는데 실패했습니다.")
+                }
+            }.flowOn(Dispatchers.IO)
         }
     }
-
-    override fun getAccessToken(): Flow<TokenResponse> {
-        return flow {
-            val response = api.refreshToken().execute()
-
-            if (response.isSuccessful) {
-                emit(response.body()?.data ?: TokenResponse())
-            } else {
-                throw MenToMenException("토큰을 갱신하는데 실패했습니다.")
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-}

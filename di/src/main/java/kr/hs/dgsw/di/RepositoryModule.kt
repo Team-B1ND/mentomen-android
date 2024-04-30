@@ -27,9 +27,9 @@ import kr.hs.dgsw.mentomenv2.data.repository.MyRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.PostRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
+import kr.hs.dgsw.mentomenv2.domain.repository.DAuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.FileRepository
-import kr.hs.dgsw.mentomenv2.domain.repository.DAuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.MyRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
 import javax.inject.Singleton

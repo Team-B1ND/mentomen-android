@@ -1,14 +1,11 @@
 package kr.hs.dgsw.mentomenv2.feature.main
 
-import android.app.Activity
 import android.content.Intent
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityMainBinding

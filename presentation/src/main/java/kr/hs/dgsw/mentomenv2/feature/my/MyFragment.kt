@@ -1,9 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.my
 
-import android.app.Activity
 import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController

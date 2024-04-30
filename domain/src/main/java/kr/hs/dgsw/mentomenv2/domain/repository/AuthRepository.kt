@@ -7,5 +7,6 @@ import kr.hs.dgsw.mentomenv2.domain.util.Result
 
 interface AuthRepository {
     fun signIn(code: Code): Flow<Result<Token>>
+
     fun getAccessToken(): Flow<Result<String>>
 }

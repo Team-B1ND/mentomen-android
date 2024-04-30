@@ -29,17 +29,15 @@ class DataStoreDataSourceImpl
                 }
             }
 
-    override fun saveToken(
-        token: Token
-    ): Flow<Unit> =
-        flow {
-            dataStore.edit { preferences ->
-                preferences[stringPreferencesKey("access_token")] = token.accessToken
-                preferences[stringPreferencesKey("refresh_token")] = token.refreshToken
+        override fun saveToken(token: Token): Flow<Unit> =
+            flow {
+                dataStore.edit { preferences ->
+                    preferences[stringPreferencesKey("access_token")] = token.accessToken
+                    preferences[stringPreferencesKey("refresh_token")] = token.refreshToken
+                }
             }
-        }
 
-    override fun getToken(): Flow<Token> =
+        override fun getToken(): Flow<Token> =
             flow {
                 val accessToken =
                     dataStore.data.map { preferences ->

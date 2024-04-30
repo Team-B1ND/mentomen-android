@@ -3,7 +3,6 @@ package kr.hs.dgsw.mentomenv2.feature.home
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,8 +11,6 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
-import kr.hs.dgsw.mentomenv2.domain.util.Log
-import kr.hs.dgsw.mentomenv2.feature.detail.DetailViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 
 @AndroidEntryPoint

@@ -53,11 +53,12 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode != Activity.RESULT_OK) {
-                finish()
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode != Activity.RESULT_OK) {
+                    finish()
+                }
             }
-        }
         performDataBinding()
         collectViewModel()
         start()
@@ -104,9 +105,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     private fun layoutRes(): Int {
         val split =
             (
-                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                        .actualTypeArguments[0] as Class<*>
-                    )
+                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                    .actualTypeArguments[0] as Class<*>
+            )
                 .simpleName.replace(
                     "Binding$".toRegex(),
                     "",

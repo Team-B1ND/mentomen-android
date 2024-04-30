@@ -8,10 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityIntroBinding
-import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
-import kr.hs.dgsw.mentomenv2.feature.signin.SignInActivity
-import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {

@@ -89,11 +89,12 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     }
 
     private fun initialize() {
-        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode != Activity.RESULT_OK) {
-                findNavController().popBackStack()
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode != Activity.RESULT_OK) {
+                    findNavController().popBackStack()
+                }
             }
-        }
         mViewModel = if (::mViewModel.isInitialized) mViewModel else viewModel
         mBinding.setVariable(BR.vm, mViewModel)
         mBinding.lifecycleOwner = viewLifecycleOwner
@@ -106,9 +107,9 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     private fun layoutRes(): Int {
         val split =
             (
-                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                        .actualTypeArguments[0] as Class<*>
-                    )
+                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                    .actualTypeArguments[0] as Class<*>
+            )
                 .simpleName.replace("Binding$".toRegex(), "")
                 .split("(?<=.)(?=\\p{Upper})".toRegex())
                 .dropLastWhile { it.isEmpty() }.toTypedArray()

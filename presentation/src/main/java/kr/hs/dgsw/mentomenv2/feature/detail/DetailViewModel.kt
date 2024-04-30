@@ -37,6 +37,7 @@ class DetailViewModel
 
         val isLoading = MutableStateFlow<Boolean>(false)
         val postDeleteEvent = MutableEventFlow<Unit>()
+
         fun getUserInfo() {
             getMyInfoUseCase.invoke().safeApiCall(
                 isLoading = isLoading,

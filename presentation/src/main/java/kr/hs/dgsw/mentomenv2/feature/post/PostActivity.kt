@@ -7,7 +7,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -21,8 +20,6 @@ import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
-import kr.hs.dgsw.mentomenv2.domain.util.Utils
-import kr.hs.dgsw.mentomenv2.feature.signin.LoginActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -53,7 +50,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                     for (i in 0 until count) {
                         val imageUri = result.data?.clipData!!.getItemAt(i).uri
                         Log.d("PostActivity", "imageUri: $imageUri")
-                        Log.d("PostActivity", "imageUri.toString: ${imageUri.toString()}")
+                        Log.d("PostActivity", "imageUri.toString: $imageUri")
                         Log.d("PostActivity", "dataString: ${result.data?.dataString}")
 
                         // URI를 파일로 변환
@@ -137,17 +134,23 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
                 }
 
                 PostViewModel.LOAD_IMAGE -> {
-                    if (isEdit.value) viewModel.editPost(
-                        postId.value ?: 0
-                    ) else viewModel.submitPost()
+                    if (isEdit.value) {
+                        viewModel.editPost(
+                            postId.value ?: 0,
+                        )
+                    } else {
+                        viewModel.submitPost()
+                    }
                 }
             }
         }
         viewModel.imgUrl.observe(this) { imgUrls ->
-            imageAdapter?.submitList(imgUrls.map { imgUrl ->
-                imageList.value?.add(imgUrl?.imgUrl)
-                imgUrl?.imgUrl
-            })
+            imageAdapter?.submitList(
+                imgUrls.map { imgUrl ->
+                    imageList.value?.add(imgUrl?.imgUrl)
+                    imgUrl?.imgUrl
+                },
+            )
         }
     }
 

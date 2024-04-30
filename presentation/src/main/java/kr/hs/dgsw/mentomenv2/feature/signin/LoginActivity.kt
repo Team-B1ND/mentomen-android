@@ -13,6 +13,7 @@ import kr.hs.dgsw.mentomenv2.databinding.ActivityLoginBinding
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
     override val viewModel: LoginViewModel by viewModels()
+
     override fun start() {
         mBinding.icBack.setOnClickListener {
             setResult(RESULT_CANCELED)
@@ -24,12 +25,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             }
         }
         mBinding.tvSingIn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(
-                    "https://play.google.com/store/apps/details?id=com.b1nd.dodam.student"
-                )
-                setPackage("com.android.vending")
-            }
+            val intent =
+                Intent(Intent.ACTION_VIEW).apply {
+                    data =
+                        Uri.parse(
+                            "https://play.google.com/store/apps/details?id=com.b1nd.dodam.student",
+                        )
+                    setPackage("com.android.vending")
+                }
             startActivity(intent)
         }
         lifecycleScope.launch {
