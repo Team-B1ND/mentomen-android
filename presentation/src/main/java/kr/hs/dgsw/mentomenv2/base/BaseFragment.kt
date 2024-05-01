@@ -40,7 +40,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         lifecycleScope.launch {
             viewModel.viewEvent.collect {
                 it.getContentIfNotHandled()?.let { event ->
-                    action.invoke(event)
+                    action(event)
                 }
             }
         }

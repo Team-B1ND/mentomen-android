@@ -41,7 +41,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         lifecycleScope.launch {
             viewModel.viewEvent.collect {
                 it.getContentIfNotHandled()?.let { event ->
-                    action.invoke(event)
+                    action(event)
                 }
             }
         }

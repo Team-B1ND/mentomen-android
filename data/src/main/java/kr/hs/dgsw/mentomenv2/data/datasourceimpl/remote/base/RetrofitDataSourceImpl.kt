@@ -35,7 +35,7 @@ abstract class RetrofitDataSourceImpl<SV>(
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
             val token =
-                getTokenUseCase.invoke().let {
+                getTokenUseCase().let {
                     it.map {
                         when (it) {
                             is Result.Success -> it.data?.refreshToken ?: ""

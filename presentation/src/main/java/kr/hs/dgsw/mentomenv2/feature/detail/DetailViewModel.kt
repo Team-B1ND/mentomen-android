@@ -36,10 +36,9 @@ class DetailViewModel
         val postId = MutableLiveData<Int>()
 
         val isLoading = MutableStateFlow<Boolean>(false)
-        val postDeleteEvent = MutableEventFlow<Unit>()
 
         fun getUserInfo() {
-            getMyInfoUseCase.invoke().safeApiCall(
+            getMyInfoUseCase().safeApiCall(
                 isLoading = isLoading,
                 {
                     Log.d("observegetUserInfo: ", it?.userId.toString())
@@ -50,7 +49,7 @@ class DetailViewModel
         }
 
         fun getPostInfo() {
-            getPostByIdUseCase.invoke(id = postId.value ?: 0).safeApiCall(
+            getPostByIdUseCase(id = postId.value ?: 0).safeApiCall(
                 isLoading = isLoading,
                 { post ->
                     author.value = post?.author
@@ -67,12 +66,11 @@ class DetailViewModel
 
         fun deletePost() {
             Log.d("DetailViewModel", "deletePostCall")
-            deletePostByIdUseCase.invoke(id = postId.value ?: 0).safeApiCall(
+            deletePostByIdUseCase(id = postId.value ?: 0).safeApiCall(
                 isLoading = isLoading,
                 {
                     viewModelScope.launch {
                         viewEvent(DELETE_POST)
-                        postDeleteEvent.emit(Unit)
                     }
                 },
             )

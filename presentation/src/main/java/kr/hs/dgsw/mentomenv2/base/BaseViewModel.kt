@@ -45,7 +45,7 @@ constructor() : ViewModel() {
         when (resource) {
             is Result.Success -> {
                 isLoading?.value = false
-                successAction.invoke(resource.data)
+                successAction(resource.data)
             }
 
             is Result.Loading -> {
@@ -54,7 +54,7 @@ constructor() : ViewModel() {
 
             is Result.Error -> {
                 isLoading?.value = false
-                errorAction.invoke(resource.message)
+                errorAction(resource.message)
 
                 if (_message != resource.message) {
                     if (resource.message == Utils.TOKEN_EXCEPTION) {

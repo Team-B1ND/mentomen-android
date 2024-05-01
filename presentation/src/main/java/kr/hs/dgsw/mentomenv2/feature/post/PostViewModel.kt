@@ -121,7 +121,7 @@ class PostViewModel
         }
 
         fun getPostInfo(postId: Int) {
-            getPostByIdUseCase.invoke(postId).safeApiCall(
+            getPostByIdUseCase(postId).safeApiCall(
                 _isLoading,
                 successAction = { post ->
                     postMessage.value = post?.content ?: ""
@@ -151,8 +151,7 @@ class PostViewModel
         }
 
         fun getMyInfo() {
-            getMyInfoUseCase
-                .invoke()
+            getMyInfoUseCase()
                 .safeApiCall(_isLoading, {})
         }
 
