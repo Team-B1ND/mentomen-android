@@ -23,6 +23,7 @@ import kr.hs.dgsw.mentomenv2.data.repository.CommentRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.DAuthRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.FileRepositoryImpl
+import kr.hs.dgsw.mentomenv2.data.repository.MyProfileRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.MyRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.NoticeRepositoryImpl
 import kr.hs.dgsw.mentomenv2.data.repository.PostRepositoryImpl
@@ -31,6 +32,7 @@ import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DAuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.FileRepository
+import kr.hs.dgsw.mentomenv2.domain.repository.MyProfileRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.MyRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.NoticeRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.PostRepository
@@ -70,4 +72,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindsNoticeRepository(noticeRepositoryImpl: NoticeRepositoryImpl): NoticeRepository
+
+    @Binds
+    @Singleton
+    fun bindsMyProfileRepository(myProfileRepositoryImpl: MyProfileRepositoryImpl): MyProfileRepository
 }

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
+import kr.hs.dgsw.mentomenv2.domain.repository.MyProfileRepository
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.DeletePostByIdUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostByIdUseCase
@@ -21,6 +22,7 @@ class DetailViewModel
         private val getMyInfoUseCase: GetMyInfoUseCase,
         private val getPostByIdUseCase: GetPostByIdUseCase,
         private val deletePostByIdUseCase: DeletePostByIdUseCase,
+        private val myProfileRepository: MyProfileRepository,
     ) : BaseViewModel() {
         val myUserId = MutableLiveData<Int>()
         val myProfileImg = MutableLiveData<String?>()
@@ -38,7 +40,7 @@ class DetailViewModel
         val isLoading = MutableStateFlow<Boolean>(false)
 
         fun getUserInfo() {
-            getMyInfoUseCase().safeApiCall(
+            myProfileRepository.getMyInfo().safeApiCall(
                 isLoading = isLoading,
                 {
                     Log.d("observegetUserInfo: ", it?.userId.toString())

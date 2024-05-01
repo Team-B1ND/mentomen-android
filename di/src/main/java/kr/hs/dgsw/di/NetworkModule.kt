@@ -22,6 +22,7 @@ import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.CommentService
 import kr.hs.dgsw.mentomenv2.data.service.DAuthService
 import kr.hs.dgsw.mentomenv2.data.service.FileService
+import kr.hs.dgsw.mentomenv2.data.service.MyProfileService
 import kr.hs.dgsw.mentomenv2.data.service.MyService
 import kr.hs.dgsw.mentomenv2.data.service.NoticeService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
@@ -53,7 +54,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("dAuth")
+    @Named("noIntercept")
     fun provideLoginOkHttpClient(
         loggerInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
@@ -80,9 +81,23 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    @Named("noIntercept")
+    fun provideNoInterceptRetrofit(
+        @Named("noIntercept") okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://43.201.193.60/")
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+    }
+
+    @Singleton
+    @Provides
     @Named("dAuth")
     fun provideLoginRetrofit(
-        @Named("dAuth") okHttpClient: OkHttpClient,
+        @Named("noIntercept") okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
@@ -94,11 +109,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGsonConverter(): GsonConverterFactory = GsonConverterFactory.create(GsonBuilder().create())
+    fun provideGsonConverter(): GsonConverterFactory =
+        GsonConverterFactory.create(GsonBuilder().create())
 
     @Singleton
     @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
     private const val USER_PREFERENCES = "user_preferences"
 
@@ -109,9 +126,9 @@ object NetworkModule {
     ): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
             corruptionHandler =
-                ReplaceFileCorruptionHandler(
-                    produceNewData = { emptyPreferences() },
-                ),
+            ReplaceFileCorruptionHandler(
+                produceNewData = { emptyPreferences() },
+            ),
             migrations = listOf(SharedPreferencesMigration(appContext, USER_PREFERENCES)),
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
             produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES) },
@@ -120,19 +137,23 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun providesPostService(retrofit: Retrofit): PostService = retrofit.create(PostService::class.java)
+    fun providesPostService(retrofit: Retrofit): PostService =
+        retrofit.create(PostService::class.java)
 
     @Singleton
     @Provides
-    fun providesAuthService(retrofit: Retrofit): AuthService = retrofit.create(AuthService::class.java)
+    fun providesAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides
-    fun provideFileService(retrofit: Retrofit): FileService = retrofit.create(FileService::class.java)
+    fun provideFileService(retrofit: Retrofit): FileService =
+        retrofit.create(FileService::class.java)
 
     @Singleton
     @Provides
-    fun provideCommentService(retrofit: Retrofit): CommentService = retrofit.create(CommentService::class.java)
+    fun provideCommentService(retrofit: Retrofit): CommentService =
+        retrofit.create(CommentService::class.java)
 
     @Singleton
     @Provides
@@ -146,5 +167,12 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideNoticeService(retrofit: Retrofit): NoticeService = retrofit.create(NoticeService::class.java)
+    fun provideNoticeService(retrofit: Retrofit): NoticeService =
+        retrofit.create(NoticeService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideMyProfileService(
+        @Named("noIntercept") retrofit: Retrofit
+    ): MyProfileService = retrofit.create(MyProfileService::class.java)
 }
