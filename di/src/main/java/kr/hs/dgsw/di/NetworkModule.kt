@@ -22,7 +22,6 @@ import kr.hs.dgsw.mentomenv2.data.service.AuthService
 import kr.hs.dgsw.mentomenv2.data.service.CommentService
 import kr.hs.dgsw.mentomenv2.data.service.DAuthService
 import kr.hs.dgsw.mentomenv2.data.service.FileService
-import kr.hs.dgsw.mentomenv2.data.service.MyProfileService
 import kr.hs.dgsw.mentomenv2.data.service.MyService
 import kr.hs.dgsw.mentomenv2.data.service.NoticeService
 import kr.hs.dgsw.mentomenv2.data.service.PostService
@@ -70,20 +69,6 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("http://43.201.193.60/")
-            .client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory)
-            .build()
-    }
-
-    @Singleton
-    @Provides
-    @Named("noIntercept")
-    fun provideNoInterceptRetrofit(
-        @Named("noIntercept") okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
@@ -169,10 +154,4 @@ object NetworkModule {
     @Provides
     fun provideNoticeService(retrofit: Retrofit): NoticeService =
         retrofit.create(NoticeService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideMyProfileService(
-        @Named("noIntercept") retrofit: Retrofit
-    ): MyProfileService = retrofit.create(MyProfileService::class.java)
 }

@@ -31,6 +31,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     private lateinit var mViewModel: VM
 
     protected abstract val viewModel: VM
+    protected var loginSuccessAction: () -> Unit = {}
 
     protected abstract fun start()
 
@@ -61,6 +62,8 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode != Activity.RESULT_OK) {
                     finish()
+                } else {
+                    loginSuccessAction()
                 }
             }
         performDataBinding()

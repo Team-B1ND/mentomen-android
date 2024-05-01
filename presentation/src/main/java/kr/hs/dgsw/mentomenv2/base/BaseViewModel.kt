@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -29,7 +28,7 @@ constructor() : ViewModel() {
     private val _viewEvent = MutableEventFlow<Event<Any>>()
     val viewEvent = _viewEvent.asEventFlow()
 
-    private var _message = ""
+    private var _transferMessage = ""
     fun viewEvent(content: Any) {
         viewModelScope.launch {
             _viewEvent.emit(Event(content))
@@ -40,6 +39,7 @@ constructor() : ViewModel() {
         isLoading: MutableStateFlow<Boolean>? = null,
         successAction: (T?) -> Unit,
         errorAction: (String?) -> Unit = {},
+        _isEmitError: Boolean = true
     ) = onEach { resource ->
 
         when (resource) {
@@ -56,9 +56,9 @@ constructor() : ViewModel() {
                 isLoading?.value = false
                 errorAction(resource.message)
 
-                if (_message != resource.message) {
+                if (_transferMessage != resource.message && _isEmitError) {
                     if (resource.message == Utils.TOKEN_EXCEPTION) {
-                        _message = resource.message.toString()
+                        _transferMessage = resource.message.toString()
                     }
                     viewModelScope.launch {
                         Log.e("baseViewModel", "message: ${resource.message}")

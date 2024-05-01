@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.feature.detail
 
-import MutableEventFlow
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
-import kr.hs.dgsw.mentomenv2.domain.repository.MyProfileRepository
 import kr.hs.dgsw.mentomenv2.domain.usecase.my.GetMyInfoUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.DeletePostByIdUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostByIdUseCase
@@ -22,7 +20,6 @@ class DetailViewModel
         private val getMyInfoUseCase: GetMyInfoUseCase,
         private val getPostByIdUseCase: GetPostByIdUseCase,
         private val deletePostByIdUseCase: DeletePostByIdUseCase,
-        private val myProfileRepository: MyProfileRepository,
     ) : BaseViewModel() {
         val myUserId = MutableLiveData<Int>()
         val myProfileImg = MutableLiveData<String?>()
@@ -36,13 +33,30 @@ class DetailViewModel
         val profileImg = MutableLiveData<String?>()
         val userName = MutableLiveData<String>()
         val postId = MutableLiveData<Int>()
-
+        val isLogin = MutableStateFlow<Boolean>(false)
         val isLoading = MutableStateFlow<Boolean>(false)
 
-        fun getUserInfo() {
-            myProfileRepository.getMyInfo().safeApiCall(
+        init {
+            Log.d("DetailViewModel", "myProfileRepoCall")
+            getMyInfoUseCase().safeApiCall(
                 isLoading = isLoading,
                 {
+                    isLogin.value = true
+                    myUserId.value = it?.userId
+                    myProfileImg.value = it?.profileImage ?: ""
+                },
+                {
+                    isLogin.value = false
+                },
+                _isEmitError = false,
+            )
+        }
+
+        fun getUserInfo() {
+            getMyInfoUseCase().safeApiCall(
+                isLoading = isLoading,
+                {
+                    isLogin.value = true
                     Log.d("observegetUserInfo: ", it?.userId.toString())
                     myUserId.value = it?.userId
                     myProfileImg.value = it?.profileImage ?: ""
@@ -54,6 +68,7 @@ class DetailViewModel
             getPostByIdUseCase(id = postId.value ?: 0).safeApiCall(
                 isLoading = isLoading,
                 { post ->
+                    isLogin.value = true
                     author.value = post?.author
                     tag.value = post?.tag
                     content.value = post?.content

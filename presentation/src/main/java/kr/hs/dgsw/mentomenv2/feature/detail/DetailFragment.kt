@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.CommentAdapter
@@ -41,13 +42,11 @@ class DetailFragment :
 
     private var isEdit: MutableLiveData<Boolean> = MutableLiveData(false)
     private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
-
     override fun setupViews() {
         checkPostId()
         observeEvent()
         observeViewModel()
         (activity as MainActivity).hasBottomBar(false)
-        viewModel.getUserInfo()
 
         mBinding.backButton.setOnClickListener {
             findNavController().navigateUp()
@@ -82,13 +81,27 @@ class DetailFragment :
         }
 
         mBinding.ivSend.setOnClickListener {
-            if (isEdit.value == false) {
+            if (!viewModel.isLogin.value) {
+                viewModel.getUserInfo()
+            } else if (isEdit.value == false) {
                 commentViewModel.postComment()
             } else {
                 commentViewModel.updateComment(
                     commentId = editCommentId.value ?: 0,
                     mBinding.etComment.text.toString(),
                 )
+            }
+        }
+
+        mBinding.clCommentInput.setOnClickListener {
+            if (!viewModel.isLogin.value) {
+                viewModel.getUserInfo()
+            }
+        }
+
+        mBinding.cvLoginCkeckBox.setOnClickListener {
+            if (!viewModel.isLogin.value) {
+                viewModel.getUserInfo()
             }
         }
 
@@ -242,6 +255,13 @@ class DetailFragment :
             }
         }
         lifecycleScope.launch {
+            viewModel.isLogin.collect { isLogin ->
+                if (!isLogin) {
+                    mBinding.cvLoginCkeckBox.visibility = View.GONE
+                }
+            }
+        }
+        lifecycleScope.launch {
             commentViewModel.isLoading.collect { isLoading ->
                 if (isLoading) {
                     mBinding.sflComment.startShimmer()
@@ -252,9 +272,9 @@ class DetailFragment :
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.sflComment.visibility = View.GONE
                     if ((
-                            commentViewModel.commentState.value.commentList
-                                ?: emptyList()
-                        ).isEmpty()
+                                commentViewModel.commentState.value.commentList
+                                    ?: emptyList()
+                                ).isEmpty()
                     ) {
                         mBinding.cvComment.visibility = View.GONE
 //                        mBinding.llCommentEmpty.visibility = View.VISIBLE

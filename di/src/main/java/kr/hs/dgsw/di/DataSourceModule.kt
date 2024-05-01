@@ -10,7 +10,6 @@ import kr.hs.dgsw.mentomenv2.data.datasource.DAuthDataSource
 import kr.hs.dgsw.mentomenv2.data.datasource.DataStoreDataSource
 import kr.hs.dgsw.mentomenv2.data.datasource.FileDataSource
 import kr.hs.dgsw.mentomenv2.data.datasource.MyDataSource
-import kr.hs.dgsw.mentomenv2.data.datasource.MyProfileDataSource
 import kr.hs.dgsw.mentomenv2.data.datasource.NoticeDataSource
 import kr.hs.dgsw.mentomenv2.data.datasource.PostDataSource
 import kr.hs.dgsw.mentomenv2.data.datasourceimpl.cache.DataStoreDataSourceImpl
@@ -19,7 +18,6 @@ import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.CommentDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.DAuthDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.FileDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.MyDataSourceImpl
-import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.MyProfileDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.NoticeDataSourceImpl
 import kr.hs.dgsw.mentomenv2.data.datasourceimpl.remote.PostDataSourceImpl
 import javax.inject.Singleton
@@ -58,8 +56,4 @@ interface DataSourceModule {
     @Binds
     @Singleton
     fun bindsNoticeDataSource(noticeDataSourceImpl: NoticeDataSourceImpl): NoticeDataSource
-
-    @Binds
-    @Singleton
-    fun bindsMyProfileDataSource(myProfileDataSourceImpl: MyProfileDataSourceImpl): MyProfileDataSource
 }
