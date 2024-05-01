@@ -47,6 +47,7 @@ constructor(
             .safeApiCall(
                 isLoading = _isLoading,
                 {
+                    Log.d("LoginViewModel", "Success")
                     it?.let {
                         saveToken(it)
                     }

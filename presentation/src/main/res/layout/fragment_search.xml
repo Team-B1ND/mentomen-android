@@ -34,9 +34,9 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="@id/cv_search_bar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cv_search_bar"
-                app:layout_constraintBottom_toBottomOf="@id/cv_search_bar"/>
+                app:layout_constraintTop_toTopOf="@id/cv_search_bar" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cv_search_bar"
@@ -105,6 +105,7 @@
                 android:id="@+id/rv_search"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:paddingBottom="160dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/top_bar" />

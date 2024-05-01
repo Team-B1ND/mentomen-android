@@ -30,14 +30,6 @@ class MyViewModel
         private val _isLoading = MutableStateFlow(false)
         val isLoading = _isLoading.asStateFlow()
 
-        fun collectError() {
-            viewModelScope.launch {
-                error.collect {
-                    viewEvent(TOKEN_EXCEPTION)
-                }
-            }
-        }
-
         fun getMyInfo() {
             myRepository.getMyInfo().safeApiCall(
                 _isLoading,
@@ -65,9 +57,5 @@ class MyViewModel
                     Log.d("logout: ", "dataStore 비우기 성공")
                 },
             )
-        }
-
-        companion object {
-            const val TOKEN_EXCEPTION = 1
         }
     }

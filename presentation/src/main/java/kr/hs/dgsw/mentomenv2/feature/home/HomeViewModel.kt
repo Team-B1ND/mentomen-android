@@ -21,12 +21,12 @@ class HomeViewModel
         val isLoading = _isLoading.asStateFlow()
 
         fun getAllPost() {
-            getAllPostUseCase.invoke().safeApiCall(
+            getAllPostUseCase().safeApiCall(
                 _isLoading,
                 successAction = {
                     postState.value =
                         PostState(
-                            postList = it,
+                            postList = it!!,
                             tag = "ALL",
                         )
                 },

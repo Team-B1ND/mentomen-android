@@ -10,7 +10,9 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentMyBinding
+import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.util.Log
+import kr.hs.dgsw.mentomenv2.feature.home.HomeFragmentDirections
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 
@@ -35,21 +37,27 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
             val intent = Intent(requireContext(), IntroActivity::class.java)
             startActivity(intent)
         }
+        mBinding.btnNotification.setOnClickListener {
+            findNavController().navigate(MyFragmentDirections.actionMyFragmentToNoticeFragment())
+        }
     }
 
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(true)
+        loginSuccessAction = {
+            viewModel.getMyInfo()
+            viewModel.getMyPost()
+        }
         Log.d("MyFragment", "OnCreate")
         initHomeAdapter()
         observeViewModel()
         collectState()
-        viewModel.collectError()
         viewModel.getMyInfo()
         viewModel.getMyPost()
     }
 
     private fun observeViewModel() {
-        viewModel.post.observe(viewLifecycleOwner) { adapter.submitList(it) }
+        viewModel.post.observe(viewLifecycleOwner) { adapter.submitList(it + listOf(Post(), Post())) }
     }
 
     private fun collectState() {

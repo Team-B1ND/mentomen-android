@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
+import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
+import kr.hs.dgsw.mentomenv2.state.PostState
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -76,9 +78,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private fun collectPostStates() {
         lifecycleScope.launch {
             viewModel.postState.collect { state ->
-                adapter.submitList(state.postList) {
-                    mBinding.rvHome.scrollToPosition(0)
-                }
+                adapter.submitList(state.postList!!)
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }

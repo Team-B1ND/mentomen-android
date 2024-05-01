@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_my_fragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_my_fragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

@@ -30,6 +30,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     protected lateinit var mBinding: VB
     protected lateinit var mViewModel: VM
     protected abstract val viewModel: VM
+    protected lateinit var loginSuccessAction: () -> Unit
 
     protected var savedInstanceState: Bundle? = null
 
@@ -93,6 +94,8 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode != Activity.RESULT_OK) {
                     findNavController().popBackStack()
+                } else {
+                    loginSuccessAction()
                 }
             }
         mViewModel = if (::mViewModel.isInitialized) mViewModel else viewModel
