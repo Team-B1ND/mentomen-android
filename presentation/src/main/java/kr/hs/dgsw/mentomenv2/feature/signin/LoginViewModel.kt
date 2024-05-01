@@ -39,14 +39,6 @@ constructor(
                     val code = extractValueFromUrl(it?.code ?: "", "code")
                     getToken(Code(code.toString()))
                 },
-                {
-                    Log.e("LoginViewModel", "e: $it")
-                    if (it == Utils.WRONG_PASSWORD) {
-                        viewEvent(WRONG_PASSWORD)
-                    } else {
-                        viewEvent(FAILURE_LOGIN)
-                    }
-                },
             )
     }
 
@@ -80,6 +72,5 @@ constructor(
     companion object {
         const val SUCCESS_LOGIN = 1
         const val FAILURE_LOGIN = 2
-        const val WRONG_PASSWORD = 3
     }
 }

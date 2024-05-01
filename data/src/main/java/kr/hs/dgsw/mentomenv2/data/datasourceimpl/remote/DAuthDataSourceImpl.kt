@@ -9,6 +9,7 @@ import kr.hs.dgsw.mentomenv2.data.service.DAuthService
 import kr.hs.dgsw.mentomenv2.domain.exception.WrongPasswordException
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class DAuthDataSourceImpl
@@ -23,7 +24,11 @@ constructor(
         redirectURL: String,
     ): Flow<GetCodeResponse> {
         return flow {
-            emit(api.getCode(GetCodeRequest(id, pw, clientId, redirectURL)).data)
+            try {
+                emit(api.getCode(GetCodeRequest(id, pw, clientId, redirectURL)).data)
+            } catch (e: HttpException) {
+                throw WrongPasswordException()
+            }
         }
     }
 }

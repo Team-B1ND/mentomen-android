@@ -66,11 +66,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                     setResult(RESULT_OK)
                     finish()
                 }
-
-                LoginViewModel.WRONG_PASSWORD -> {
-                    Toast.makeText(this@LoginActivity, "id 혹은 비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT)
-                        .show()
-                }
             }
         }
     }

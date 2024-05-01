@@ -55,11 +55,14 @@ constructor() : ViewModel() {
             is Result.Error -> {
                 isLoading?.value = false
                 errorAction.invoke(resource.message)
+
                 if (_message != resource.message) {
+                    if (resource.message == Utils.TOKEN_EXCEPTION) {
+                        _message = resource.message.toString()
+                    }
                     viewModelScope.launch {
                         Log.e("baseViewModel", "message: ${resource.message}")
                         _error.emit(resource.message.toString())
-                        _message = resource.message.toString()
                     }
                 }
             }
