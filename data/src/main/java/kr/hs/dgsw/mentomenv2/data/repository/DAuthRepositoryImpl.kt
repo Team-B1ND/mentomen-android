@@ -7,6 +7,7 @@ import kr.hs.dgsw.mentomenv2.data.mapper.toModel
 import kr.hs.dgsw.mentomenv2.data.repository.base.BaseRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.Code
 import kr.hs.dgsw.mentomenv2.domain.repository.DAuthRepository
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 

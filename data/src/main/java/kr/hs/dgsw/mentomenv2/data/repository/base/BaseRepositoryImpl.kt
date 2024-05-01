@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
+import kr.hs.dgsw.mentomenv2.domain.exception.WrongPasswordException
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import kr.hs.dgsw.mentomenv2.domain.util.Utils
@@ -20,6 +21,7 @@ abstract class BaseRepositoryImpl {
                 action().onEach { data ->
                     emit(Result.Success(data))
                 }.catch { e ->
+                    Log.e("BaseRepoImpl", "e: $e")
                     when (e) {
                         is retrofit2.HttpException -> {
                             if (e.code() == 401 || e.code() == 400 || e.code() == 403) {
@@ -40,6 +42,9 @@ abstract class BaseRepositoryImpl {
                         }
 
                         is IOException -> emit(Result.Error(Utils.NETWORK_ERROR_MESSAGE))
+
+                        is WrongPasswordException -> emit(Result.Error(Utils.WRONG_PASSWORD))
+
                         else -> {
                             Log.e("BaseRepository", e.stackTraceToString())
                             emit(Result.Error(Utils.EXCEPTION))

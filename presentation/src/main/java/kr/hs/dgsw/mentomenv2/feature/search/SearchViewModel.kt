@@ -21,7 +21,7 @@ class SearchViewModel
         val postState = MutableStateFlow<PostState>(PostState())
 
         fun getAllPost() {
-            getAllPostUseCase.invoke().safeApiCall(
+            getAllPostUseCase().safeApiCall(
                 _isLoading,
                 successAction = {
                     postState.value =

@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityLoginBinding
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
@@ -16,7 +17,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun start() {
         mBinding.icBack.setOnClickListener {
-            setResult(RESULT_CANCELED)
             finish()
         }
         mBinding.btnLogin.setOnClickListener {
@@ -53,20 +53,31 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                 }
             }
         }
-        lifecycleScope.launch {
-            viewModel.event.collect {
-                when (it) {
-                    "로그인에 실패했습니다." -> {
-                        Toast.makeText(this@LoginActivity, "로그인에 실패했습니다.", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+        bindingViewEvent {
+            when (it) {
+                LoginViewModel.FAILURE_LOGIN -> {
+                    Toast.makeText(this@LoginActivity, "로그인에 실패했습니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
 
-                    "로그인에 성공했습니다." -> {
-                        setResult(RESULT_OK)
-                        finish()
-                    }
+                LoginViewModel.SUCCESS_LOGIN -> {
+                    Toast.makeText(this@LoginActivity, "로그인에 성공했습니다.", Toast.LENGTH_SHORT)
+                        .show()
+                    setResult(RESULT_OK)
+                    finish()
+                }
+
+                LoginViewModel.WRONG_PASSWORD -> {
+                    Toast.makeText(this@LoginActivity, "id 혹은 비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        Log.d("LoginActivity", "onDestroy")
+        setResult(RESULT_CANCELED)
+        super.onDestroy()
     }
 }

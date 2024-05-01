@@ -43,9 +43,9 @@ class DetailFragment :
     private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
 
     override fun setupViews() {
+        checkPostId()
         observeEvent()
         observeViewModel()
-        settingDefaultValue()
         (activity as MainActivity).hasBottomBar(false)
         viewModel.getUserInfo()
 
@@ -115,6 +115,15 @@ class DetailFragment :
             intent.putExtra("postId", viewModel.postId.value)
             startActivity(intent)
             bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun checkPostId() {
+        if (args.postId == 0) {
+            settingDefaultValue()
+        } else {
+            viewModel.postId.value = args.postId
+            viewModel.getPostInfo()
         }
     }
 

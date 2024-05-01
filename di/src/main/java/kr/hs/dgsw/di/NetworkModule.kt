@@ -53,6 +53,20 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    @Named("dAuth")
+    fun provideLoginOkHttpClient(
+        loggerInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        val okHttpClientBuilder = OkHttpClient().newBuilder()
+        okHttpClientBuilder.connectTimeout(60, TimeUnit.SECONDS)
+        okHttpClientBuilder.readTimeout(60, TimeUnit.SECONDS)
+        okHttpClientBuilder.writeTimeout(60, TimeUnit.SECONDS)
+        okHttpClientBuilder.addInterceptor(loggerInterceptor)
+        return okHttpClientBuilder.build()
+    }
+
+    @Singleton
+    @Provides
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
@@ -66,9 +80,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("login")
+    @Named("dAuth")
     fun provideLoginRetrofit(
-        okHttpClient: OkHttpClient,
+        @Named("dAuth") okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
@@ -127,7 +141,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideDAuthService(
-        @Named("login") retrofit: Retrofit,
+        @Named("dAuth") retrofit: Retrofit,
     ): DAuthService = retrofit.create(DAuthService::class.java)
 
     @Singleton

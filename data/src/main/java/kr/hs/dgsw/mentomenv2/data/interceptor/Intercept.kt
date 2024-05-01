@@ -6,6 +6,7 @@ import kr.hs.dgsw.mentomenv2.data.repository.DataStoreRepositoryImpl
 import kr.hs.dgsw.mentomenv2.domain.model.Token
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.domain.util.Result
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Request
@@ -28,7 +29,7 @@ class Intercept
         override fun intercept(chain: Interceptor.Chain): Response {
             getToken()
             response = chain.proceedWithToken(chain.request())
-
+            Log.d("Intercept", "message: ${response.message}")
             if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
                 response.close()
                 chain.makeTokenRefreshCall()
@@ -53,9 +54,6 @@ class Intercept
         }
 
         private fun Interceptor.Chain.login(): Response {
-            // 로그인으로 토큰 교체
-//        getTokenToLogin()
-
             // request에 토큰을 붙여서 새로운 request 생성 -> 진행
             response = this.proceedWithToken(this.request())
 
@@ -66,8 +64,8 @@ class Intercept
                     .request(this.request())
                     .protocol(Protocol.HTTP_1_1)
                     .code(401)
-                    .message("세션이 만료되었습니다.")
-                    .body("세션이 만료되었습니다.".toResponseBody(null))
+                    .message(Utils.TOKEN_EXCEPTION)
+                    .body(Utils.TOKEN_EXCEPTION.toResponseBody(null))
                     .build()
             } else {
                 response

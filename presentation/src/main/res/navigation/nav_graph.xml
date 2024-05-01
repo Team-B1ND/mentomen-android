@@ -25,6 +25,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_fragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
 
     </fragment>
 
@@ -35,11 +38,7 @@
         tools:layout="@layout/fragment_my">
         <action
             android:id="@+id/action_my_fragment_to_detailFragment"
-            app:destination="@id/detailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -63,10 +62,18 @@
         <argument
             android:name="item"
             app:argType="kr.hs.dgsw.mentomenv2.domain.model.Post" />
+        <argument
+            android:name="postId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="kr.hs.dgsw.mentomenv2.feature.signin.LoginActivity"
-        android:label="LoginFragment" />
+        android:id="@+id/noticeFragment"
+        android:name="kr.hs.dgsw.mentomenv2.feature.notice.NoticeFragment"
+        android:label="NoticeFragment">
+        <action
+            android:id="@+id/action_noticeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
 </navigation>

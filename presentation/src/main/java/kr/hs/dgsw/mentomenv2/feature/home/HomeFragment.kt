@@ -20,7 +20,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         HomeAdapter { post ->
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToDetailFragment(
-                    post,
+                    item = post,
                 ),
             )
         }
@@ -33,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         observeViewModel()
 
         mBinding.ivNotification.setOnClickListener {
-            Toast.makeText(requireContext(), "알림", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNoticeFragment())
         }
         mBinding.ivSearch.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())

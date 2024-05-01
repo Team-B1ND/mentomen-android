@@ -13,80 +13,73 @@ import kr.hs.dgsw.mentomenv2.domain.repository.AuthRepository
 import kr.hs.dgsw.mentomenv2.domain.repository.DataStoreRepository
 import kr.hs.dgsw.mentomenv2.domain.usecase.auth.GetCodeUseCase
 import kr.hs.dgsw.mentomenv2.domain.util.Log
+import kr.hs.dgsw.mentomenv2.domain.util.Utils
 import kr.hs.dgsw.mentomenv2.util.dauth.Client
+import kr.hs.dgsw.mentomenv2.util.extractValueFromUrl
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel
-    @Inject
-    constructor(
-        private val getCodeUseCase: GetCodeUseCase,
-        private val authRepository: AuthRepository,
-        private val dataStoreRepository: DataStoreRepository,
-    ) : BaseViewModel() {
-        val id = MutableStateFlow<String>("")
-        val pw = MutableStateFlow<String>("")
-        val event = MutableEventFlow<String>()
-        private val _isLoading = MutableStateFlow<Boolean>(false)
-        val isLoading = _isLoading.asStateFlow()
+@Inject
+constructor(
+    private val getCodeUseCase: GetCodeUseCase,
+    private val authRepository: AuthRepository,
+    private val dataStoreRepository: DataStoreRepository,
+) : BaseViewModel() {
+    val id = MutableStateFlow<String>("")
+    val pw = MutableStateFlow<String>("")
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
 
-        fun login() {
-            viewModelScope.launch {
-                getCodeUseCase(id.value, pw.value, Client.CLIENT_ID, Client.REDIRECT_URL)
-                    .safeApiCall(
-                        isLoading = _isLoading,
-                        {
-                            val code = extractValueFromUrl(it?.code ?: "", "code")
-                            Log.d("LoginViewModel", "Extracted code: $code")
-                            getToken(Code(code.toString()))
-                        },
-                        {
-                            viewModelScope.launch {
-                                event.emit("로그인에 실패했습니다.")
-                            }
-                        },
-                    )
-            }
-        }
-
-        private fun getToken(code: Code) {
-            viewModelScope.launch {
-                authRepository.signIn(code)
-                    .safeApiCall(
-                        isLoading = _isLoading,
-                        {
-                            it?.let {
-                                saveToken(it)
-                            }
-                        },
-                    )
-            }
-        }
-
-        fun extractValueFromUrl(
-            url: String,
-            paramName: String,
-        ): String? {
-            val regex = "$paramName=([^&]+)".toRegex()
-            val matchResult = regex.find(url)
-            return matchResult?.groups?.get(1)?.value
-        }
-
-        private fun saveToken(token: Token) {
-            viewModelScope.launch {
-                dataStoreRepository.saveToken(token).safeApiCall(
-                    _isLoading,
-                    {
-                        viewModelScope.launch {
-                            event.emit("로그인에 성공했습니다.")
-                        }
-                    },
-                    {
-                        viewModelScope.launch {
-                            event.emit("로그인에 실패했습니다.")
-                        }
-                    },
-                )
-            }
-        }
+    fun login() {
+        getCodeUseCase(id.value, pw.value, Client.CLIENT_ID, Client.REDIRECT_URL)
+            .safeApiCall(
+                isLoading = _isLoading,
+                successAction = {
+                    val code = extractValueFromUrl(it?.code ?: "", "code")
+                    getToken(Code(code.toString()))
+                },
+                {
+                    Log.e("LoginViewModel", "e: $it")
+                    if (it == Utils.WRONG_PASSWORD) {
+                        viewEvent(WRONG_PASSWORD)
+                    } else {
+                        viewEvent(FAILURE_LOGIN)
+                    }
+                },
+            )
     }
+
+    private fun getToken(code: Code) {
+        authRepository.signIn(code)
+            .safeApiCall(
+                isLoading = _isLoading,
+                {
+                    it?.let {
+                        saveToken(it)
+                    }
+                },
+                {
+                    viewEvent(FAILURE_LOGIN)
+                }
+            )
+    }
+
+    private fun saveToken(token: Token) {
+        dataStoreRepository.saveToken(token).safeApiCall(
+            _isLoading,
+            {
+                viewEvent(SUCCESS_LOGIN)
+            },
+            {
+                viewEvent(FAILURE_LOGIN)
+            },
+        )
+    }
+
+    companion object {
+        const val SUCCESS_LOGIN = 1
+        const val FAILURE_LOGIN = 2
+        const val WRONG_PASSWORD = 3
+    }
+}

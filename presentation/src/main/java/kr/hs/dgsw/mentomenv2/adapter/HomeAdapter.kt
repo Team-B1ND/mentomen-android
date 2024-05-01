@@ -3,7 +3,7 @@ package kr.hs.dgsw.mentomenv2.adapter
 import android.view.View
 import com.bumptech.glide.Glide
 import kr.hs.dgsw.mentomenv2.R
-import kr.hs.dgsw.mentomenv2.adapter.callback.PostDiffUtilCallback
+import kr.hs.dgsw.mentomenv2.adapter.callback.PostDiffUtil
 import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
 import kr.hs.dgsw.mentomenv2.databinding.ItemHomeBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Post
@@ -11,7 +11,7 @@ import kr.hs.dgsw.mentomenv2.domain.model.Post
 class HomeAdapter(
     private val itemClick: (Post) -> Unit,
 ) :
-    BaseListAdapter<Post, ItemHomeBinding>(R.layout.item_home, PostDiffUtilCallback) {
+    BaseListAdapter<Post, ItemHomeBinding>(R.layout.item_home, PostDiffUtil) {
     override fun action(
         item: Post,
         binding: ItemHomeBinding,

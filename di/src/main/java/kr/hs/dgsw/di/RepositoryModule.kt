@@ -69,5 +69,5 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsNoticeRepository(noticeRepository: NoticeRepository): NoticeRepositoryImpl
+    fun bindsNoticeRepository(noticeRepositoryImpl: NoticeRepositoryImpl): NoticeRepository
 }
