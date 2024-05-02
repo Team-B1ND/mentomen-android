@@ -62,11 +62,7 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
     private fun observeViewModel() {
         viewModel.post.observe(viewLifecycleOwner) {
             adapter.submitList(
-                it +
-                    listOf(
-                        Post(),
-                        Post(),
-                    ),
+                it,
             )
         }
     }
