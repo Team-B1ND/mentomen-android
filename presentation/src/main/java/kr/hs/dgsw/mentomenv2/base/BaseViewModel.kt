@@ -39,7 +39,7 @@ constructor() : ViewModel() {
         isLoading: MutableStateFlow<Boolean>? = null,
         successAction: (T?) -> Unit,
         errorAction: (String?) -> Unit = {},
-        _isEmitError: Boolean = true
+        isEmitError: Boolean = true
     ) = onEach { resource ->
 
         when (resource) {
@@ -56,7 +56,7 @@ constructor() : ViewModel() {
                 isLoading?.value = false
                 errorAction(resource.message)
 
-                if (_transferMessage != resource.message && _isEmitError) {
+                if (_transferMessage != resource.message && isEmitError) {
                     if (resource.message == Utils.TOKEN_EXCEPTION) {
                         _transferMessage = resource.message.toString()
                     }

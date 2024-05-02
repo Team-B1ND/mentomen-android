@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.CommentAdapter
@@ -42,12 +41,47 @@ class DetailFragment :
 
     private var isEdit: MutableLiveData<Boolean> = MutableLiveData(false)
     private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
+
+    private val adapter = CommentAdapter(this)
     override fun setupViews() {
         checkPostId()
         observeEvent()
-        observeViewModel()
+        observeLiveData()
+        collectState()
+        setListener()
+        setBottomSheet()
         (activity as MainActivity).hasBottomBar(false)
+        mBinding.rvComment.adapter = adapter
+    }
 
+    private fun setBottomSheet() {
+        val bottomSheetBinding = DialogCommentBinding.inflate(layoutInflater)
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        mBinding.btnMore.setOnClickListener {
+            bottomSheetDialog.show()
+        }
+
+        bottomSheetBinding.tvCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetBinding.tvDelete.setOnClickListener {
+            viewModel.deletePost()
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetBinding.tvEdit.setOnClickListener {
+            val intent = Intent(requireContext(), PostActivity::class.java)
+            intent.putExtra("isEdit", true)
+            intent.putExtra("postId", viewModel.postId.value)
+            startActivity(intent)
+            bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun setListener() {
         mBinding.backButton.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -74,12 +108,6 @@ class DetailFragment :
             mBinding.srlPost.isRefreshing = false
         }
 
-        isEdit.observe(viewLifecycleOwner) { isEdit ->
-            if (!isEdit) {
-                hideKeyboard()
-            }
-        }
-
         mBinding.ivSend.setOnClickListener {
             if (!viewModel.isLogin.value) {
                 viewModel.getUserInfo()
@@ -88,7 +116,7 @@ class DetailFragment :
             } else {
                 commentViewModel.updateComment(
                     commentId = editCommentId.value ?: 0,
-                    mBinding.etComment.text.toString(),
+                    content = mBinding.etComment.text.toString(),
                 )
             }
         }
@@ -103,31 +131,6 @@ class DetailFragment :
             if (!viewModel.isLogin.value) {
                 viewModel.getUserInfo()
             }
-        }
-
-        val bottomSheetBinding = DialogCommentBinding.inflate(layoutInflater)
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog.window?.attributes?.windowAnimations = R.style.AnimationPopupStyle
-        bottomSheetDialog.setContentView(bottomSheetBinding.root)
-        mBinding.btnMore.setOnClickListener {
-            bottomSheetDialog.show()
-        }
-
-        bottomSheetBinding.tvCancel.setOnClickListener {
-            bottomSheetDialog.dismiss()
-        }
-
-        bottomSheetBinding.tvDelete.setOnClickListener {
-            viewModel.deletePost()
-            bottomSheetDialog.dismiss()
-        }
-
-        bottomSheetBinding.tvEdit.setOnClickListener {
-            val intent = Intent(requireContext(), PostActivity::class.java)
-            intent.putExtra("isEdit", true)
-            intent.putExtra("postId", viewModel.postId.value)
-            startActivity(intent)
-            bottomSheetDialog.dismiss()
         }
     }
 
@@ -179,7 +182,13 @@ class DetailFragment :
             .show(WindowInsetsCompat.Type.ime())
     }
 
-    private fun observeViewModel() {
+    private fun observeLiveData() {
+        isEdit.observe(viewLifecycleOwner) { isEdit ->
+            if (!isEdit) {
+                hideKeyboard()
+            }
+        }
+
         viewModel.myProfileImg.observe(this) { profileImage ->
             if (!profileImage.isNullOrBlank()) {
                 Glide.with(requireContext())
@@ -199,9 +208,7 @@ class DetailFragment :
             } else {
                 mBinding.btnMore.visibility = View.GONE
             }
-            val commentAdapter = CommentAdapter(this, viewModel.myUserId.value ?: 0)
-            mBinding.rvComment.adapter = commentAdapter
-            collectState(commentAdapter)
+            adapter.userId = it
         }
 
         viewModel.profileImg.observe(this) {
@@ -243,14 +250,14 @@ class DetailFragment :
         }
     }
 
-    private fun collectState(commentAdapter: CommentAdapter) {
+    private fun collectState() {
         lifecycleScope.launch {
             commentViewModel.commentState.collect { state ->
                 if ((state.commentList ?: emptyList()).isNotEmpty()) {
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.cvComment.visibility = View.VISIBLE
 //                    mBinding.llCommentEmpty.visibility = View.GONE
-                    commentAdapter.submitList(state.commentList)
+                    adapter.submitList(state.commentList)
                 }
             }
         }
@@ -263,6 +270,7 @@ class DetailFragment :
         }
         lifecycleScope.launch {
             commentViewModel.isLoading.collect { isLoading ->
+                Log.d("DetailViewModel", "it: $isLoading")
                 if (isLoading) {
                     mBinding.sflComment.startShimmer()
                     mBinding.rvComment.visibility = View.GONE
@@ -271,10 +279,8 @@ class DetailFragment :
                     mBinding.sflComment.stopShimmer()
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.sflComment.visibility = View.GONE
-                    if ((
-                                commentViewModel.commentState.value.commentList
-                                    ?: emptyList()
-                                ).isEmpty()
+                    if ((commentViewModel.commentState.value.commentList
+                            ?: emptyList()).isEmpty()
                     ) {
                         mBinding.cvComment.visibility = View.GONE
 //                        mBinding.llCommentEmpty.visibility = View.VISIBLE

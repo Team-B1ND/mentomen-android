@@ -15,9 +15,8 @@ import kotlin.math.roundToInt
 
 class CommentAdapter(
     private val callback: CommentAdapterCallback,
-    private val userId: Int,
-) :
-    BaseListAdapter<Comment, ItemCommentBinding>(R.layout.item_comment, CommentDiffUtil) {
+) : BaseListAdapter<Comment, ItemCommentBinding>(R.layout.item_comment, CommentDiffUtil) {
+    var userId: Int = 0
     override fun action(
         item: Comment,
         binding: ItemCommentBinding,
@@ -35,12 +34,12 @@ class CommentAdapter(
             binding.tvTime.post {
                 binding.content.maxWidth =
                     binding.cvComment.width - (
-                        binding.tvTime.width + binding.ivProfile.width +
-                            dpToPx(
-                                binding.content.context,
-                                80.0f,
-                            ).roundToInt()
-                    )
+                            binding.tvTime.width + binding.ivProfile.width +
+                                    dpToPx(
+                                        binding.content.context,
+                                        80.0f,
+                                    ).roundToInt()
+                            )
             }
         }
 

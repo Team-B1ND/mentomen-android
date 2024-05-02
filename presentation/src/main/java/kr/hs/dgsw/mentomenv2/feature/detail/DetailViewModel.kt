@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.model.StdInfo
@@ -34,27 +35,29 @@ class DetailViewModel
         val userName = MutableLiveData<String>()
         val postId = MutableLiveData<Int>()
         val isLogin = MutableStateFlow<Boolean>(false)
-        val isLoading = MutableStateFlow<Boolean>(false)
+
+        val _isLoading = MutableStateFlow<Boolean>(false)
+        val isLoading = _isLoading.asStateFlow()
 
         init {
-            Log.d("DetailViewModel", "myProfileRepoCall")
             getMyInfoUseCase().safeApiCall(
-                isLoading = isLoading,
+                isLoading = _isLoading,
                 {
                     isLogin.value = true
                     myUserId.value = it?.userId
                     myProfileImg.value = it?.profileImage ?: ""
                 },
                 {
+                    Log.e("DetailViewModel", "getMyInfoFail")
                     isLogin.value = false
                 },
-                _isEmitError = false,
+                isEmitError = false,
             )
         }
 
         fun getUserInfo() {
             getMyInfoUseCase().safeApiCall(
-                isLoading = isLoading,
+                isLoading = _isLoading,
                 {
                     isLogin.value = true
                     Log.d("observegetUserInfo: ", it?.userId.toString())
@@ -66,7 +69,7 @@ class DetailViewModel
 
         fun getPostInfo() {
             getPostByIdUseCase(id = postId.value ?: 0).safeApiCall(
-                isLoading = isLoading,
+                isLoading = _isLoading,
                 { post ->
                     isLogin.value = true
                     author.value = post?.author
@@ -84,7 +87,7 @@ class DetailViewModel
         fun deletePost() {
             Log.d("DetailViewModel", "deletePostCall")
             deletePostByIdUseCase(id = postId.value ?: 0).safeApiCall(
-                isLoading = isLoading,
+                isLoading = _isLoading,
                 {
                     viewModelScope.launch {
                         viewEvent(DELETE_POST)
