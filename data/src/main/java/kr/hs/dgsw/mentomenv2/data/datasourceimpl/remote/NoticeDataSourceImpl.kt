@@ -5,10 +5,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kr.hs.dgsw.mentomenv2.data.datasource.NoticeDataSource
+import kr.hs.dgsw.mentomenv2.data.mapper.toModel
 import kr.hs.dgsw.mentomenv2.data.response.NoticeResponse
 import kr.hs.dgsw.mentomenv2.data.response.NoticeStatusResponse
 import kr.hs.dgsw.mentomenv2.data.service.NoticeService
 import kr.hs.dgsw.mentomenv2.domain.exception.MenToMenException
+import kr.hs.dgsw.mentomenv2.domain.util.Log
 import javax.inject.Inject
 
 class NoticeDataSourceImpl @Inject constructor(

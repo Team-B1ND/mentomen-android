@@ -28,7 +28,6 @@ constructor() : ViewModel() {
     private val _viewEvent = MutableEventFlow<Event<Any>>()
     val viewEvent = _viewEvent.asEventFlow()
 
-    private var _transferMessage = ""
     fun viewEvent(content: Any) {
         viewModelScope.launch {
             _viewEvent.emit(Event(content))
@@ -56,10 +55,7 @@ constructor() : ViewModel() {
                 isLoading?.value = false
                 errorAction(resource.message)
 
-                if (_transferMessage != resource.message && isEmitError) {
-                    if (resource.message == Utils.TOKEN_EXCEPTION) {
-                        _transferMessage = resource.message.toString()
-                    }
+                if (isEmitError) {
                     viewModelScope.launch {
                         Log.e("baseViewModel", "message: ${resource.message}")
                         _error.emit(resource.message.toString())

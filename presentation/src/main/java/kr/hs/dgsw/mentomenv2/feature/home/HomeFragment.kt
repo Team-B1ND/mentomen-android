@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentHomeBinding
-import kr.hs.dgsw.mentomenv2.domain.model.Post
+import kr.hs.dgsw.mentomenv2.domain.model.NoticeStatus
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
-import kr.hs.dgsw.mentomenv2.state.PostState
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -31,9 +31,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         (activity as MainActivity).hasBottomBar(true)
         mBinding.rvHome.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvHome.adapter = adapter
-        collectPostStates()
+        collectViewModelStates()
         observeViewModel()
-
+        viewModel.getNoticeStatus()
         mBinding.ivNotification.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNoticeFragment())
         }
@@ -42,6 +42,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }
         mBinding.srlMain.setOnRefreshListener {
             viewModel.getAllPost()
+            viewModel.getNoticeStatus()
             mBinding.srlMain.isRefreshing = false
         }
         mBinding.logo.setOnClickListener {
@@ -75,13 +76,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         super.onResume()
     }
 
-    private fun collectPostStates() {
+    private fun collectViewModelStates() {
         lifecycleScope.launch {
             viewModel.postState.collect { state ->
                 adapter.submitList(state.postList!!)
                 if (state.error.isNotBlank()) {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.notificationStatus.collect { status ->
+                mBinding.ivNotification.setImageResource(
+                    when (status) {
+                        NoticeStatus.NONE -> R.drawable.ic_notification
+                        NoticeStatus.EXIST -> R.drawable.ic_turn_on_notification
+                    }
+                )
             }
         }
     }

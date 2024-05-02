@@ -4,6 +4,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kr.hs.dgsw.mentomenv2.base.BaseViewModel
+import kr.hs.dgsw.mentomenv2.domain.model.NoticeStatus
+import kr.hs.dgsw.mentomenv2.domain.usecase.notice.GetNoticeStatusUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetAllPostUseCase
 import kr.hs.dgsw.mentomenv2.domain.usecase.post.GetPostsByTagUseCase
 import kr.hs.dgsw.mentomenv2.state.PostState
@@ -15,10 +17,12 @@ class HomeViewModel
     constructor(
         private val getAllPostUseCase: GetAllPostUseCase,
         private val getPostsByTagUseCase: GetPostsByTagUseCase,
+        private val getNoticeStatusUseCase: GetNoticeStatusUseCase,
     ) : BaseViewModel() {
         val postState = MutableStateFlow<PostState>(PostState())
         private val _isLoading = MutableStateFlow<Boolean>(false)
         val isLoading = _isLoading.asStateFlow()
+        val notificationStatus = MutableStateFlow<NoticeStatus>(NoticeStatus.NONE)
 
         fun getAllPost() {
             getAllPostUseCase().safeApiCall(
@@ -116,5 +120,15 @@ class HomeViewModel
                     },
                 )
             }
+        }
+
+        fun getNoticeStatus() {
+            getNoticeStatusUseCase().safeApiCall(
+                _isLoading,
+                {
+                    notificationStatus.value = it!!
+                },
+                isEmitError = false,
+            )
         }
     }

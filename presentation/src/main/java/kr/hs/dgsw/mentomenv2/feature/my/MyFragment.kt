@@ -6,10 +6,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentMyBinding
+import kr.hs.dgsw.mentomenv2.domain.model.NoticeStatus
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.home.HomeFragmentDirections
@@ -52,12 +55,20 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
         initHomeAdapter()
         observeViewModel()
         collectState()
+        viewModel.getNotificationStatus()
         viewModel.getMyInfo()
         viewModel.getMyPost()
     }
 
     private fun observeViewModel() {
-        viewModel.post.observe(viewLifecycleOwner) { adapter.submitList(it + listOf(Post(), Post())) }
+        viewModel.post.observe(viewLifecycleOwner) {
+            adapter.submitList(
+                it + listOf(
+                    Post(),
+                    Post()
+                )
+            )
+        }
     }
 
     private fun collectState() {
@@ -71,6 +82,19 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
                     mBinding.sflMy.stopShimmer()
                     mBinding.clMy.visibility = android.view.View.VISIBLE
                     mBinding.sflMy.visibility = android.view.View.GONE
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.notificationState.collect { notificationState ->
+                when (notificationState) {
+                    NoticeStatus.EXIST -> {
+                        mBinding.btnNotification.setImageResource(R.drawable.ic_turn_on_notification)
+                    }
+
+                    NoticeStatus.NONE -> {
+                        mBinding.btnNotification.setImageResource(R.drawable.ic_notification)
+                    }
                 }
             }
         }
