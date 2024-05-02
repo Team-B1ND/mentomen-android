@@ -7,7 +7,7 @@ import kr.hs.dgsw.mentomenv2.base.BaseListAdapter
 import kr.hs.dgsw.mentomenv2.databinding.ItemDetailImageBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 
-class DetailImageAdapter(
+class DetailAdapter(
     private val onClick: () -> Unit,
 ) : BaseListAdapter<String, ItemDetailImageBinding>(R.layout.item_detail_image, ImageDiffUtil) {
 

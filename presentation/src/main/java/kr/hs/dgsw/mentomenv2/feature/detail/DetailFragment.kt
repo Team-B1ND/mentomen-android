@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.CommentAdapter
-import kr.hs.dgsw.mentomenv2.adapter.DetailImageAdapter
+import kr.hs.dgsw.mentomenv2.adapter.DetailAdapter
 import kr.hs.dgsw.mentomenv2.adapter.callback.CommentAdapterCallback
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.DialogCommentBinding
@@ -43,7 +43,7 @@ class DetailFragment :
     private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
 
     private val commentAdapter = CommentAdapter(this)
-    private val imageAdapter = DetailImageAdapter {
+    private val imageAdapter = DetailAdapter {
         findNavController().navigate(
             DetailFragmentDirections.actionDetailFragmentToDetailImageFragment(
                 viewModel.imgUrls.value!!.toTypedArray(),
