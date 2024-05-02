@@ -42,7 +42,8 @@ class DetailFragment :
     private var isEdit: MutableLiveData<Boolean> = MutableLiveData(false)
     private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
 
-    private val adapter = CommentAdapter(this)
+    private val commentAdapter = CommentAdapter(this)
+    private val imageAdapter = DetailImageAdapter()
     override fun setupViews() {
         checkPostId()
         observeEvent()
@@ -51,7 +52,8 @@ class DetailFragment :
         setListener()
         setBottomSheet()
         (activity as MainActivity).hasBottomBar(false)
-        mBinding.rvComment.adapter = adapter
+        mBinding.viewpager.adapter = imageAdapter
+        mBinding.rvComment.adapter = commentAdapter
     }
 
     private fun setBottomSheet() {
@@ -208,7 +210,7 @@ class DetailFragment :
             } else {
                 mBinding.btnMore.visibility = View.GONE
             }
-            adapter.userId = it
+            commentAdapter.userId = it
         }
 
         viewModel.profileImg.observe(this) {
@@ -226,8 +228,7 @@ class DetailFragment :
         viewModel.imgUrls.observe(this) { urls ->
             if (!urls.isNullOrEmpty()) {
                 mBinding.viewpagerFrame.visibility = View.VISIBLE
-                val imageAdapter = DetailImageAdapter(urls)
-                mBinding.viewpager.adapter = imageAdapter
+                imageAdapter.submitList(urls)
                 mBinding.wormDotsIndicator.attachTo(mBinding.viewpager)
                 mBinding.wormDotsIndicator.visibility = View.VISIBLE
             } else {
@@ -257,7 +258,7 @@ class DetailFragment :
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.cvComment.visibility = View.VISIBLE
 //                    mBinding.llCommentEmpty.visibility = View.GONE
-                    adapter.submitList(state.commentList)
+                    commentAdapter.submitList(state.commentList)
                 }
             }
         }

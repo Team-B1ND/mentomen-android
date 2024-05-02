@@ -13,7 +13,7 @@ import kr.hs.dgsw.mentomenv2.databinding.ItemImageBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import java.net.URISyntaxException
 
-class ImageAdapter : ListAdapter<String?, ImageAdapter.ImageViewHolder>(ImageDiffUtil) {
+class ImageAdapter : ListAdapter<String, ImageAdapter.ImageViewHolder>(ImageDiffUtil) {
     inner class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String?) {
             try {

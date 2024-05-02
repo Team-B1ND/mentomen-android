@@ -2,7 +2,7 @@ package kr.hs.dgsw.mentomenv2.adapter.callback
 
 import androidx.recyclerview.widget.DiffUtil
 
-object ImageDiffUtil : DiffUtil.ItemCallback<String?>() {
+object ImageDiffUtil : DiffUtil.ItemCallback<String>() {
     override fun areItemsTheSame(
         oldItem: String,
         newItem: String,
