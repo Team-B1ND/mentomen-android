@@ -28,7 +28,7 @@ class DetailViewModel
         val author = MutableLiveData<Int>()
         val tag = MutableLiveData<String>()
         val content = MutableLiveData<String>()
-        val imgUrls = MutableLiveData<List<String?>>()
+        val imgUrls = MutableLiveData<List<String>>()
         val createDateTime = MutableLiveData<String>("2023-11-06T14:28:51.528245")
         val stdInfo = MutableLiveData<StdInfo>(StdInfo(3, 4, 6))
         val profileImg = MutableLiveData<String?>()

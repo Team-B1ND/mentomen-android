@@ -69,6 +69,9 @@
             android:name="postId"
             android:defaultValue="0"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_detailFragment_to_detailImageFragment"
+            app:destination="@id/detailImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/noticeFragment"
@@ -77,6 +80,19 @@
         <action
             android:id="@+id/action_noticeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailImageFragment"
+        android:name="kr.hs.dgsw.mentomenv2.feature.detail.image.DetailImageFragment"
+        android:label="DetailImageFragment">
+
+        <argument
+            android:name="photos"
+            app:argType="string[]" />
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
 
 </navigation>

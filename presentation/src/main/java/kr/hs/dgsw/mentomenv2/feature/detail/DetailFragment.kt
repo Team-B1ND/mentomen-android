@@ -43,7 +43,15 @@ class DetailFragment :
     private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
 
     private val commentAdapter = CommentAdapter(this)
-    private val imageAdapter = DetailImageAdapter()
+    private val imageAdapter = DetailImageAdapter {
+        findNavController().navigate(
+            DetailFragmentDirections.actionDetailFragmentToDetailImageFragment(
+                viewModel.imgUrls.value!!.toTypedArray(),
+                mBinding.viewpager.currentItem
+            )
+        )
+    }
+
     override fun setupViews() {
         checkPostId()
         observeEvent()
