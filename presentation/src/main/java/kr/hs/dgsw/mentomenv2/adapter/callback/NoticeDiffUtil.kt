@@ -7,13 +7,10 @@ object NoticeDiffUtil : DiffUtil.ItemCallback<Notice>() {
     override fun areItemsTheSame(
         oldItem: Notice,
         newItem: Notice,
-    ): Boolean =
-        oldItem.noticeStatus == newItem.noticeStatus && oldItem.postId == newItem.postId
-
+    ): Boolean = oldItem.noticeStatus == newItem.noticeStatus && oldItem.postId == newItem.postId
 
     override fun areContentsTheSame(
         oldItem: Notice,
         newItem: Notice,
-    ): Boolean =
-        oldItem.commentContent == newItem.commentContent && oldItem.postId == newItem.postId
+    ): Boolean = oldItem.commentContent == newItem.commentContent && oldItem.postId == newItem.postId
 }

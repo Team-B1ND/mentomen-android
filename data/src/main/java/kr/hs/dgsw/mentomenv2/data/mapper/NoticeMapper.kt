@@ -11,12 +11,12 @@ fun NoticeStatusResponse.toModel() =
         else -> NoticeStatus.NONE
     }
 
-
-fun NoticeResponse.toModel() = Notice(
-    commentContent = this.commentContent,
-    createDateTime = this.createDateTime,
-    noticeStatus = this.noticeStatus,
-    postId = this.postId,
-    senderName = this.senderName,
-    senderProfileImage = this.senderProfileImage
-)
+fun NoticeResponse.toModel() =
+    Notice(
+        commentContent = this.commentContent,
+        createDateTime = this.createDateTime,
+        noticeStatus = this.noticeStatus,
+        postId = this.postId,
+        senderName = this.senderName,
+        senderProfileImage = this.senderProfileImage,
+    )

@@ -10,7 +10,10 @@ import kr.hs.dgsw.mentomenv2.domain.model.Notice
 class NoticeAdapter(
     private val itemClick: (Int) -> Unit,
 ) : BaseListAdapter<Notice, ItemNoticeBinding>(R.layout.item_notice, NoticeDiffUtil) {
-    override fun action(item: Notice, binding: ItemNoticeBinding) {
+    override fun action(
+        item: Notice,
+        binding: ItemNoticeBinding,
+    ) {
         binding.root.setOnClickListener {
             itemClick(item.postId)
         }

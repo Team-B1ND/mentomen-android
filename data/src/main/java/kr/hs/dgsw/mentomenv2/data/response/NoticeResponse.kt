@@ -1,6 +1,6 @@
 package kr.hs.dgsw.mentomenv2.data.response
 
-data class NoticeResponse (
+data class NoticeResponse(
     val commentContent: String,
     val createDateTime: String,
     val noticeStatus: String,

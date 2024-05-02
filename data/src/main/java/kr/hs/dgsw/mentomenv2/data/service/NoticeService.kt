@@ -8,10 +8,8 @@ import retrofit2.http.GET
 
 interface NoticeService {
     @GET("notice/check")
-    fun checkNotice(
-    ): Call<BaseResponse<NoticeStatusResponse>>
+    fun checkNotice(): Call<BaseResponse<NoticeStatusResponse>>
 
     @GET("notice/list")
-    fun getNotice(
-    ): Call<BaseResponse<List<NoticeResponse>>>
+    fun getNotice(): Call<BaseResponse<List<NoticeResponse>>>
 }

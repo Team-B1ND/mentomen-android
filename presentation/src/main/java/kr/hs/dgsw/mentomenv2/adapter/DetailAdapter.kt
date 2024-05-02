@@ -8,17 +8,19 @@ import kr.hs.dgsw.mentomenv2.databinding.ItemDetailImageBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 
 class DetailAdapter(
-    private val onClick: () -> Unit,
+    private val onClick: (String) -> Unit,
 ) : BaseListAdapter<String, ItemDetailImageBinding>(R.layout.item_detail_image, ImageDiffUtil) {
-
-    override fun action(item: String, binding: ItemDetailImageBinding) {
+    override fun action(
+        item: String,
+        binding: ItemDetailImageBinding,
+    ) {
         Glide.with(binding.root.context)
             .load(item)
             .into(binding.imgUrl)
 
         binding.imgUrl.setOnClickListener {
             Log.d("ImageAdapter", "ImageClicked")
-            onClick()
+            onClick(item)
         }
     }
 }

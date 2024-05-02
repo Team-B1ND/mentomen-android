@@ -11,16 +11,18 @@ import kr.hs.dgsw.mentomenv2.domain.repository.NoticeRepository
 import kr.hs.dgsw.mentomenv2.domain.util.Result
 import javax.inject.Inject
 
-class NoticeRepositoryImpl @Inject constructor(
-    private val noticeDataSource: NoticeDataSource
-) : BaseRepositoryImpl(), NoticeRepository {
-    override fun checkNotice(): Flow<Result<NoticeStatus>> =
-        execute {
-            noticeDataSource.checkNotice().map { it.toModel() }
-        }
+class NoticeRepositoryImpl
+    @Inject
+    constructor(
+        private val noticeDataSource: NoticeDataSource,
+    ) : BaseRepositoryImpl(), NoticeRepository {
+        override fun checkNotice(): Flow<Result<NoticeStatus>> =
+            execute {
+                noticeDataSource.checkNotice().map { it.toModel() }
+            }
 
-    override fun getNotices(): Flow<Result<List<Notice>>> =
-        execute {
-            noticeDataSource.getNotices().map { it.map { notice -> notice.toModel() } }
-        }
-}
+        override fun getNotices(): Flow<Result<List<Notice>>> =
+            execute {
+                noticeDataSource.getNotices().map { it.map { notice -> notice.toModel() } }
+            }
+    }

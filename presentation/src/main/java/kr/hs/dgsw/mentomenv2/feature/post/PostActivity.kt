@@ -49,9 +49,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
                     for (i in 0 until count) {
                         val imageUri = result.data?.clipData!!.getItemAt(i).uri
-                        Log.d("PostActivity", "imageUri: $imageUri")
-                        Log.d("PostActivity", "imageUri.toString: $imageUri")
-                        Log.d("PostActivity", "dataString: ${result.data?.dataString}")
 
                         // URI를 파일로 변환
                         val file = File(absolutelyPath(imageUri, this))
@@ -75,10 +72,8 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
 
     override fun start() {
         viewModel.getMyInfo()
-        lifecycleScope.launch {
-            isEdit.value = intent?.getBooleanExtra("isEdit", false) ?: false
-            postId.value = intent?.getIntExtra("postId", 0) ?: 0
-        }
+        isEdit.value = intent?.getBooleanExtra("isEdit", false) ?: false
+        postId.value = intent?.getIntExtra("postId", 0) ?: 0
         setUpViews()
         collectStates()
         observerViewModel()

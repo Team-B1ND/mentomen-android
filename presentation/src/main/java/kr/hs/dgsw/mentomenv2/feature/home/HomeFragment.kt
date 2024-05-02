@@ -91,7 +91,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                     when (status) {
                         NoticeStatus.NONE -> R.drawable.ic_notification
                         NoticeStatus.EXIST -> R.drawable.ic_turn_on_notification
-                    }
+                    },
                 )
             }
         }

@@ -6,13 +6,11 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kr.hs.dgsw.mentomenv2.adapter.HomeAdapter
 import kr.hs.dgsw.mentomenv2.adapter.NoticeAdapter
 import kr.hs.dgsw.mentomenv2.base.BaseFragment
 import kr.hs.dgsw.mentomenv2.databinding.FragmentNoticeBinding
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
-import kr.hs.dgsw.mentomenv2.feature.search.SearchFragmentDirections
 
 @AndroidEntryPoint
 class NoticeFragment : BaseFragment<FragmentNoticeBinding, NoticeViewModel>() {
@@ -26,6 +24,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding, NoticeViewModel>() {
                 ),
             )
         }
+
     override fun setupViews() {
         (activity as MainActivity).hasBottomBar(false)
         mBinding.icBack.setOnClickListener {

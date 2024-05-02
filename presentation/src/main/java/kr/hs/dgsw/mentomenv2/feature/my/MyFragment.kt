@@ -15,7 +15,6 @@ import kr.hs.dgsw.mentomenv2.databinding.FragmentMyBinding
 import kr.hs.dgsw.mentomenv2.domain.model.NoticeStatus
 import kr.hs.dgsw.mentomenv2.domain.model.Post
 import kr.hs.dgsw.mentomenv2.domain.util.Log
-import kr.hs.dgsw.mentomenv2.feature.home.HomeFragmentDirections
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.splash.IntroActivity
 
@@ -63,10 +62,11 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
     private fun observeViewModel() {
         viewModel.post.observe(viewLifecycleOwner) {
             adapter.submitList(
-                it + listOf(
-                    Post(),
-                    Post()
-                )
+                it +
+                    listOf(
+                        Post(),
+                        Post(),
+                    ),
             )
         }
     }

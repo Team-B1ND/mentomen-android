@@ -10,22 +10,24 @@ import kr.hs.dgsw.mentomenv2.domain.usecase.notice.GetNoticesUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class NoticeViewModel @Inject constructor(
-    private val getNoticesUseCase: GetNoticesUseCase,
-): BaseViewModel() {
-    private val _isLoading = MutableStateFlow<Boolean>(false)
-    val isLoading = _isLoading.asStateFlow()
+class NoticeViewModel
+    @Inject
+    constructor(
+        private val getNoticesUseCase: GetNoticesUseCase,
+    ) : BaseViewModel() {
+        private val _isLoading = MutableStateFlow<Boolean>(false)
+        val isLoading = _isLoading.asStateFlow()
 
-    val noticeState = MutableStateFlow<List<Notice>>(emptyList())
+        val noticeState = MutableStateFlow<List<Notice>>(emptyList())
 
-    fun getNotices() {
-        getNoticesUseCase().safeApiCall(
-            _isLoading,
-            {   notices ->
-                noticeState.update {
-                    notices?: emptyList()
-                }
-            },
-        )
+        fun getNotices() {
+            getNoticesUseCase().safeApiCall(
+                _isLoading,
+                { notices ->
+                    noticeState.update {
+                        notices ?: emptyList()
+                    }
+                },
+            )
+        }
     }
-}

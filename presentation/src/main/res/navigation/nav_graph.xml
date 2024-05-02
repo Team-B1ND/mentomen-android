@@ -87,12 +87,8 @@
         android:label="DetailImageFragment">
 
         <argument
-            android:name="photos"
-            app:argType="string[]" />
-        <argument
-            android:name="position"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="photo"
+            app:argType="string" />
     </fragment>
 
 </navigation>

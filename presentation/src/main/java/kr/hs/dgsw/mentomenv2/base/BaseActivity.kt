@@ -1,8 +1,6 @@
 package kr.hs.dgsw.mentomenv2.base
 
 import android.app.Activity
-import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -14,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.findNavController
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.BR
 import kr.hs.dgsw.mentomenv2.R
@@ -38,6 +35,7 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     private lateinit var launcher: ActivityResultLauncher<Intent>
 
     private var isLogin = false
+
     protected fun bindingViewEvent(action: (event: Any) -> Unit) {
         lifecycleScope.launch {
             viewModel.viewEvent.collect {
@@ -73,7 +71,6 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
 
     private fun collectViewModel() {
         viewModel.viewModelScope.launch {
-
             viewModel.error.collect {
                 when (it) {
                     Utils.TOKEN_EXCEPTION -> {
@@ -113,9 +110,9 @@ abstract class BaseActivity<VB : ViewDataBinding, VM : BaseViewModel> : AppCompa
     private fun layoutRes(): Int {
         val split =
             (
-                    (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
-                        .actualTypeArguments[0] as Class<*>
-                    )
+                (Objects.requireNonNull(javaClass.genericSuperclass) as ParameterizedType)
+                    .actualTypeArguments[0] as Class<*>
+            )
                 .simpleName.replace(
                     "Binding$".toRegex(),
                     "",

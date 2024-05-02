@@ -36,7 +36,7 @@ class DetailViewModel
         val postId = MutableLiveData<Int>()
         val isLogin = MutableStateFlow<Boolean>(false)
 
-        val _isLoading = MutableStateFlow<Boolean>(false)
+        private val _isLoading = MutableStateFlow<Boolean>(false)
         val isLoading = _isLoading.asStateFlow()
 
         init {

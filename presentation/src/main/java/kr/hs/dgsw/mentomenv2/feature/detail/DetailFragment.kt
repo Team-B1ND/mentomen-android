@@ -43,14 +43,14 @@ class DetailFragment :
     private var editCommentId: MutableLiveData<Int> = MutableLiveData(0)
 
     private val commentAdapter = CommentAdapter(this)
-    private val imageAdapter = DetailAdapter {
-        findNavController().navigate(
-            DetailFragmentDirections.actionDetailFragmentToDetailImageFragment(
-                viewModel.imgUrls.value!!.toTypedArray(),
-                mBinding.viewpager.currentItem
+    private val imageAdapter =
+        DetailAdapter { item ->
+            findNavController().navigate(
+                DetailFragmentDirections.actionDetailFragmentToDetailImageFragment(
+                    item,
+                ),
             )
-        )
-    }
+        }
 
     override fun setupViews() {
         checkPostId()
@@ -288,8 +288,10 @@ class DetailFragment :
                     mBinding.sflComment.stopShimmer()
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.sflComment.visibility = View.GONE
-                    if ((commentViewModel.commentState.value.commentList
-                            ?: emptyList()).isEmpty()
+                    if ((
+                            commentViewModel.commentState.value.commentList
+                                ?: emptyList()
+                        ).isEmpty()
                     ) {
                         mBinding.cvComment.visibility = View.GONE
 //                        mBinding.llCommentEmpty.visibility = View.VISIBLE
