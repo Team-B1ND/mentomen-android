@@ -3,6 +3,7 @@ package kr.hs.dgsw.mentomenv2.feature.notice
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding, NoticeViewModel>() {
         }
         viewModel.getNotices()
         collectState()
+        mBinding.rvNotice.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvNotice.adapter = adapter
     }
 

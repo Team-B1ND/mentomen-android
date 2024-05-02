@@ -14,6 +14,7 @@ class NoticeAdapter(
         item: Notice,
         binding: ItemNoticeBinding,
     ) {
+        binding.item = item
         binding.root.setOnClickListener {
             itemClick(item.postId)
         }

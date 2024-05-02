@@ -95,14 +95,6 @@ fun loadCircleImage(
     }
 }
 
-@BindingAdapter("notice")
-fun comment(
-    view: TextView,
-    comment: String,
-) {
-    view.text = "\"$comment\""
-}
-
 @BindingAdapter("date")
 fun translateDate(
     tvTime: TextView,

@@ -33,5 +33,5 @@
     <string name="id">id</string>
     <string name="singIn">회원가입</string>
     <string name="alarm">알림</string>
-    <string name="comment_text">님이 회원님의 게시글에 댓글을 남겼습니다</string>
+    <string name="comment_text">님이 댓글을 남겼습니다</string>
 </resources>
