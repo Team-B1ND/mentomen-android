@@ -200,6 +200,8 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             Toast.makeText(this, "태그를 선택해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
+        mBinding.etContents.text.clear()
+        viewModel.tagState.value = "ALL"
         viewModel.loadImage()
     }
 
