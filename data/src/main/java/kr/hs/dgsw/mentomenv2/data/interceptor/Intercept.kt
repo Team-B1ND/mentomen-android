@@ -29,7 +29,6 @@ class Intercept
         override fun intercept(chain: Interceptor.Chain): Response {
             getToken()
             response = chain.proceedWithToken(chain.request())
-            Log.d("Intercept", "message: ${response.message}")
             if (response.code == 401 || response.code == 403 || response.code == 400 || response.code == 500) {
                 response.close()
                 chain.makeTokenRefreshCall()

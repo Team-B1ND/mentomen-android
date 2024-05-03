@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
@@ -152,11 +153,13 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
     private fun collectStates() {
         viewModel.content.observe(this) { content ->
             if (content.isNotEmpty()) {
-                viewModel.tagState.observe(this) { tag ->
-                    if (tag != "ALL") {
-                        mBinding.btnConfirm.setBackgroundResource(R.drawable.bg_btn_enable)
-                    } else {
-                        mBinding.btnConfirm.setBackgroundResource(R.drawable.bg_btn_disable)
+                lifecycleScope.launch {
+                    viewModel.tagState.collect { tag ->
+                        if (tag != "ALL") {
+                            mBinding.btnConfirm.setBackgroundResource(R.drawable.bg_btn_enable)
+                        } else {
+                            mBinding.btnConfirm.setBackgroundResource(R.drawable.bg_btn_disable)
+                        }
                     }
                 }
             } else {
@@ -200,8 +203,10 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             Toast.makeText(this, "태그를 선택해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
-        mBinding.etContents.text.clear()
+        viewModel.postTag.value = viewModel.tagState.value
+        viewModel.postContent.value = mBinding.etContents.text.toString()
         viewModel.tagState.value = "ALL"
+        mBinding.etContents.text.clear()
         viewModel.loadImage()
     }
 
