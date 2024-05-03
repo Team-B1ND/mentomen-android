@@ -225,7 +225,6 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>(), DataDel
     }
 
     override fun onDataDeleted(url: String) {
-
-        imageList.value?.remove(url)
+        viewModel.imgUrl.value = viewModel.imgUrl.value?.filter { it?.imgUrl != url }
     }
 }
