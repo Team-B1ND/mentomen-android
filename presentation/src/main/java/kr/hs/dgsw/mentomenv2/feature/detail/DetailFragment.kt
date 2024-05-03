@@ -1,6 +1,5 @@
 package kr.hs.dgsw.mentomenv2.feature.detail
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -321,9 +320,9 @@ class DetailFragment :
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.sflComment.visibility = View.GONE
                     if ((
-                                commentViewModel.commentState.value.commentList
-                                    ?: emptyList()
-                                ).isEmpty()
+                            commentViewModel.commentState.value.commentList
+                                ?: emptyList()
+                        ).isEmpty()
                     ) {
                         mBinding.cvComment.visibility = View.GONE
 //                        mBinding.llCommentEmpty.visibility = View.VISIBLE

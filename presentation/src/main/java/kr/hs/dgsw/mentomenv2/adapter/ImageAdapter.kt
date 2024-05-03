@@ -33,7 +33,7 @@ class ImageAdapter(private val dataDeleteListener: DataDeleteListener) : ListAda
             }
 
             binding.btnCancel.setOnClickListener {
-                currentList.forEach {imgUrl ->
+                currentList.forEach { imgUrl ->
                     if (imgUrl == item) {
                         dataDeleteListener.onDataDeleted(item)
                     }

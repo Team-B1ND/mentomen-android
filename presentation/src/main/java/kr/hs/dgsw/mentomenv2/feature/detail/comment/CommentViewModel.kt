@@ -3,7 +3,6 @@ package kr.hs.dgsw.mentomenv2.feature.detail.comment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -11,7 +10,6 @@ import kr.hs.dgsw.mentomenv2.base.BaseViewModel
 import kr.hs.dgsw.mentomenv2.domain.params.CommentSubmitParam
 import kr.hs.dgsw.mentomenv2.domain.params.CommentUpdateParam
 import kr.hs.dgsw.mentomenv2.domain.repository.CommentRepository
-import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.state.CommentState
 import javax.inject.Inject
 
@@ -35,7 +33,7 @@ class CommentViewModel
                     commentRepository.submitComment(
                         CommentSubmitParam(
                             postId = postId.value ?: 0,
-                            content = content ?: "",
+                            content = content,
                         ),
                     ).safeApiCall(
                         _isLoading,

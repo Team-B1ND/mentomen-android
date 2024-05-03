@@ -2,9 +2,7 @@ package kr.hs.dgsw.mentomenv2.util
 
 import java.util.Calendar
 
-fun translateDate(
-    dateTime: String,
-): String {
+fun translateDate(dateTime: String): String {
     val currentTime = Calendar.getInstance()
     currentTime.add(Calendar.HOUR_OF_DAY, -9) // 한국이 UTC+9 라서
     val postDate = dateTime.getYearTimeDate()

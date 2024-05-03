@@ -29,7 +29,7 @@ android {
         applicationId = "kr.hs.dgsw.mentomenv2"
         minSdk = 26
         targetSdk = 34
-        versionCode = 10000
+        versionCode = 10001
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
