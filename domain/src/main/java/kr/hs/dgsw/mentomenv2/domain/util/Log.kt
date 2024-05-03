@@ -4,7 +4,7 @@ import android.util.Log
 
 class Log {
     companion object {
-        private const val IS_DEBUG_MODE: Boolean = true
+        private const val IS_DEBUG_MODE: Boolean = false
         private const val PRE_TAG: String = "MenToMen_"
 
         fun e(
