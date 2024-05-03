@@ -145,7 +145,7 @@
                 date="@{item.createDateTime}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginEnd="10dp"
                 android:fontFamily="@font/variable"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
