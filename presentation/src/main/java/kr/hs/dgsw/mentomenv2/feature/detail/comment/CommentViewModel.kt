@@ -23,27 +23,24 @@ class CommentViewModel
     ) : BaseViewModel() {
         val commentState = MutableStateFlow<CommentState>(CommentState())
         val postId = MutableLiveData<Int>()
-        val commentContent = MutableLiveData<String>()
         private val _isLoading = MutableStateFlow<Boolean>(false)
         val isLoading = _isLoading.asStateFlow()
         var toastMessage = MutableLiveData<String>("")
 
-        fun postComment() {
-            viewModelScope.launch(Dispatchers.IO) {
-                if (commentContent.value.isNullOrBlank()) {
+        fun postComment(content: String) {
+            viewModelScope.launch {
+                if (content.isBlank()) {
                     toastMessage.value = "댓글을 입력해주세요."
                 } else {
                     commentRepository.submitComment(
                         CommentSubmitParam(
                             postId = postId.value ?: 0,
-                            content = commentContent.value ?: "",
+                            content = content ?: "",
                         ),
                     ).safeApiCall(
                         _isLoading,
                         {
                             toastMessage.value = "댓글 작성에 성공했습니다."
-                            Log.d("postComment: ", "댓글 작성 성공")
-                            commentContent.value = ""
                             getComment()
                         },
                         {

@@ -49,6 +49,7 @@ class MyFragment : BaseFragment<FragmentMyBinding, MyViewModel>() {
         loginSuccessAction = {
             viewModel.getMyInfo()
             viewModel.getMyPost()
+            viewModel.getNotificationStatus()
         }
         Log.d("MyFragment", "OnCreate")
         initHomeAdapter()

@@ -16,87 +16,85 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel
-    @Inject
-    constructor(
-        private val getMyInfoUseCase: GetMyInfoUseCase,
-        private val getPostByIdUseCase: GetPostByIdUseCase,
-        private val deletePostByIdUseCase: DeletePostByIdUseCase,
-    ) : BaseViewModel() {
-        val myUserId = MutableLiveData<Int>()
-        val myProfileImg = MutableLiveData<String?>()
+@Inject
+constructor(
+    private val getMyInfoUseCase: GetMyInfoUseCase,
+    private val getPostByIdUseCase: GetPostByIdUseCase,
+    private val deletePostByIdUseCase: DeletePostByIdUseCase,
+) : BaseViewModel() {
+    val myUserId = MutableStateFlow<Int>(0)
+    val myProfileImg = MutableLiveData<String?>()
 
-        val author = MutableLiveData<Int>()
-        val tag = MutableLiveData<String>()
-        val content = MutableLiveData<String>()
-        val imgUrls = MutableLiveData<List<String>>()
-        val createDateTime = MutableLiveData<String>("2023-11-06T14:28:51.528245")
-        val stdInfo = MutableLiveData<StdInfo>(StdInfo(3, 4, 6))
-        val profileImg = MutableLiveData<String?>()
-        val userName = MutableLiveData<String>()
-        val postId = MutableLiveData<Int>()
-        val isLogin = MutableStateFlow<Boolean>(false)
+    val author = MutableStateFlow<Int>(0)
+    val tag = MutableLiveData<String>()
+    val content = MutableStateFlow<String>("")
+    val imgUrls = MutableLiveData<List<String>>()
+    val createDateTime = MutableStateFlow<String>("2023-11-06T14:28:51.528245")
+    val stdInfo = MutableStateFlow<StdInfo>(StdInfo(3, 4, 6))
+    val profileImg = MutableLiveData<String?>()
+    val userName = MutableStateFlow<String>("도현욱")
+    val postId = MutableLiveData<Int>()
+    val isLogin = MutableStateFlow<Boolean>(false)
 
-        private val _isLoading = MutableStateFlow<Boolean>(false)
-        val isLoading = _isLoading.asStateFlow()
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading = _isLoading.asStateFlow()
 
-        init {
-            getMyInfoUseCase().safeApiCall(
-                isLoading = _isLoading,
-                {
-                    isLogin.value = true
-                    myUserId.value = it?.userId
-                    myProfileImg.value = it?.profileImage ?: ""
-                },
-                {
-                    Log.e("DetailViewModel", "getMyInfoFail")
-                    isLogin.value = false
-                },
-                isEmitError = false,
-            )
-        }
-
-        fun getUserInfo() {
-            getMyInfoUseCase().safeApiCall(
-                isLoading = _isLoading,
-                {
-                    isLogin.value = true
-                    Log.d("observegetUserInfo: ", it?.userId.toString())
-                    myUserId.value = it?.userId
-                    myProfileImg.value = it?.profileImage ?: ""
-                },
-            )
-        }
-
-        fun getPostInfo() {
-            getPostByIdUseCase(id = postId.value ?: 0).safeApiCall(
-                isLoading = _isLoading,
-                { post ->
-                    isLogin.value = true
-                    author.value = post?.author
-                    tag.value = post?.tag
-                    content.value = post?.content
-                    imgUrls.value = post?.imgUrls ?: emptyList()
-                    createDateTime.value = post?.createDateTime
-                    stdInfo.value = post?.stdInfo
-                    profileImg.value = post?.profileUrl
-                    userName.value = post?.userName
-                },
-            )
-        }
-
-        fun deletePost() {
-            Log.d("DetailViewModel", "deletePostCall")
-            deletePostByIdUseCase(id = postId.value ?: 0).safeApiCall(
-                isLoading = _isLoading,
-                {
-                    viewModelScope.launch {
-                        viewEvent(DELETE_POST)
-                    }
-                },
-            )
-        }
-
-        companion object Event {
-            const val DELETE_POST = 1
-        }
+    init {
+        getMyInfoUseCase().safeApiCall(
+            isLoading = _isLoading,
+            {
+                isLogin.value = true
+                myUserId.value = it!!.userId
+                myProfileImg.value = it.profileImage ?: ""
+            },
+            {
+                Log.e("DetailViewModel", "getMyInfoFail")
+                isLogin.value = false
+            },
+            isEmitError = false,
+        )
     }
+
+    fun getUserInfo() {
+        getMyInfoUseCase().safeApiCall(
+            isLoading = _isLoading,
+            {
+                isLogin.value = true
+                myUserId.value = it!!.userId
+                myProfileImg.value = it.profileImage ?: ""
+            },
+        )
+    }
+
+    fun getPostInfo() {
+        getPostByIdUseCase(id = postId.value ?: 0).safeApiCall(
+            isLoading = _isLoading,
+            { post ->
+                isLogin.value = true
+                author.value = post!!.author
+                tag.value = post.tag
+                content.value = post.content
+                imgUrls.value = post.imgUrls ?: emptyList()
+                createDateTime.value = post.createDateTime
+                stdInfo.value = post.stdInfo
+                profileImg.value = post.profileUrl
+                userName.value = post.userName
+            },
+        )
+    }
+
+    fun deletePost() {
+        deletePostByIdUseCase(id = postId.value ?: 0).safeApiCall(
+            isLoading = _isLoading,
+            {
+                viewModelScope.launch {
+                    viewEvent(DELETE_POST)
+                }
+            },
+        )
+    }
+
+    companion object Event {
+        const val DELETE_POST = 1
+    }
+}

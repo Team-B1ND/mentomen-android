@@ -153,7 +153,6 @@
 
                                 <TextView
                                     android:id="@+id/grade"
-                                    grade="@{detailViewModel.stdInfo.grade}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
@@ -410,7 +409,6 @@
                 android:maxLines="1"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
-                android:text="@={commentViewModel.commentContent}"
                 android:textSize="16sp"
                  />
             </androidx.cardview.widget.CardView>

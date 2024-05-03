@@ -35,6 +35,9 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding, NoticeViewModel>() {
         collectState()
         mBinding.rvNotice.layoutManager = LinearLayoutManager(requireContext())
         mBinding.rvNotice.adapter = adapter
+        loginSuccessAction = {
+            viewModel.getNotices()
+        }
     }
 
     private fun collectState() {

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.mentomenv2.feature.detail
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.CommentAdapter
@@ -29,6 +31,7 @@ import kr.hs.dgsw.mentomenv2.domain.util.Log
 import kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel
 import kr.hs.dgsw.mentomenv2.feature.main.MainActivity
 import kr.hs.dgsw.mentomenv2.feature.post.PostActivity
+import kr.hs.dgsw.mentomenv2.util.translateDate
 
 @AndroidEntryPoint
 class DetailFragment :
@@ -62,6 +65,7 @@ class DetailFragment :
         (activity as MainActivity).hasBottomBar(false)
         mBinding.viewpager.adapter = imageAdapter
         mBinding.rvComment.adapter = commentAdapter
+        mBinding.rvComment.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun setBottomSheet() {
@@ -122,7 +126,7 @@ class DetailFragment :
             if (!viewModel.isLogin.value) {
                 viewModel.getUserInfo()
             } else if (isEdit.value == false) {
-                commentViewModel.postComment()
+                commentViewModel.postComment(mBinding.etComment.text.toString())
             } else {
                 commentViewModel.updateComment(
                     commentId = editCommentId.value ?: 0,
@@ -149,7 +153,9 @@ class DetailFragment :
             settingDefaultValue()
         } else {
             viewModel.postId.value = args.postId
+            commentViewModel.postId.value = args.postId
             viewModel.getPostInfo()
+            commentViewModel.getComment()
         }
     }
 
@@ -211,16 +217,6 @@ class DetailFragment :
             }
         }
 
-        viewModel.myUserId.observe(this) {
-            Log.d("observeViewModel: ", it.toString())
-            if (args.item.author == it) {
-                mBinding.btnMore.visibility = View.VISIBLE
-            } else {
-                mBinding.btnMore.visibility = View.GONE
-            }
-            commentAdapter.userId = it
-        }
-
         viewModel.profileImg.observe(this) {
             if (!it.isNullOrBlank()) {
                 Glide.with(requireContext())
@@ -245,10 +241,6 @@ class DetailFragment :
             }
         }
 
-        viewModel.createDateTime.observe(this) {
-            mBinding.datetime.text = it
-        }
-
         commentViewModel.toastMessage.observe(this) {
             if (it.isNotBlank()) {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -265,8 +257,48 @@ class DetailFragment :
                 if ((state.commentList ?: emptyList()).isNotEmpty()) {
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.cvComment.visibility = View.VISIBLE
-//                    mBinding.llCommentEmpty.visibility = View.GONE
                     commentAdapter.submitList(state.commentList)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.createDateTime.collect {
+                mBinding.datetime.text = translateDate(it)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.content.collect { content ->
+                mBinding.content.text = content
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.stdInfo.collect { info ->
+                mBinding.grade.text = String.format("${info.grade}학년 ")
+                mBinding.room.text = String.format("${info.room}반 ")
+                mBinding.number.text = String.format("${info.number} 번")
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.userName.collect { name ->
+                mBinding.name.text = name
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.myUserId.collect {
+                if (viewModel.author.value == it) {
+                    mBinding.btnMore.visibility = View.VISIBLE
+                } else {
+                    mBinding.btnMore.visibility = View.GONE
+                }
+                commentAdapter.userId = it
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.author.collect {
+                if (viewModel.myUserId.value == it) {
+                    mBinding.btnMore.visibility = View.VISIBLE
+                } else {
+                    mBinding.btnMore.visibility = View.GONE
                 }
             }
         }
@@ -289,9 +321,9 @@ class DetailFragment :
                     mBinding.rvComment.visibility = View.VISIBLE
                     mBinding.sflComment.visibility = View.GONE
                     if ((
-                            commentViewModel.commentState.value.commentList
-                                ?: emptyList()
-                        ).isEmpty()
+                                commentViewModel.commentState.value.commentList
+                                    ?: emptyList()
+                                ).isEmpty()
                     ) {
                         mBinding.cvComment.visibility = View.GONE
 //                        mBinding.llCommentEmpty.visibility = View.VISIBLE
