@@ -8,36 +8,36 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.hs.dgsw.mentomenv2.R
+import kr.hs.dgsw.mentomenv2.adapter.callback.DataDeleteListener
 import kr.hs.dgsw.mentomenv2.adapter.callback.ImageDiffUtil
 import kr.hs.dgsw.mentomenv2.databinding.ItemImageBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
 import java.net.URISyntaxException
 
-class ImageAdapter : ListAdapter<String, ImageAdapter.ImageViewHolder>(ImageDiffUtil) {
+class ImageAdapter(private val dataDeleteListener: DataDeleteListener) : ListAdapter<String, ImageAdapter.ImageViewHolder>(ImageDiffUtil) {
     inner class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: String?) {
+        fun bind(item: String) {
             try {
                 Log.d("ImageAdapter", "item: $item")
-                val uri = item?.toUri()
-                uri?.scheme.let {
+                val uri = item.toUri()
+                uri.scheme.let {
                     Log.d("ImageAdapter", "scheme is not null $uri")
-                    Glide.with(binding.cardView.context)
-                        .load(uri)
-                        .into(binding.image)
-                } ?: {
-                    Log.d("ImageAdapter", "uri.scheme = null")
                     Glide.with(binding.cardView.context)
                         .load(uri)
                         .into(binding.image)
                 }
             } catch (e: URISyntaxException) {
-                Log.d("ImageAdapter", "$item")
                 Glide.with(binding.cardView.context)
                     .load(item)
                     .into(binding.image)
             }
 
             binding.btnCancel.setOnClickListener {
+                currentList.forEach {imgUrl ->
+                    if (imgUrl == item) {
+                        dataDeleteListener.onDataDeleted(item)
+                    }
+                }
                 submitList(currentList.filter { it != item })
             }
         }

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kr.hs.dgsw.mentomenv2.R
 import kr.hs.dgsw.mentomenv2.adapter.ImageAdapter
+import kr.hs.dgsw.mentomenv2.adapter.callback.DataDeleteListener
 import kr.hs.dgsw.mentomenv2.base.BaseActivity
 import kr.hs.dgsw.mentomenv2.databinding.ActivityPostBinding
 import kr.hs.dgsw.mentomenv2.domain.util.Log
@@ -27,7 +28,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 @AndroidEntryPoint
-class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
+class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>(), DataDeleteListener {
     override val viewModel: PostViewModel by viewModels()
     private val isEdit = MutableStateFlow<Boolean>(false)
     private val postId = MutableLiveData<Int>()
@@ -78,7 +79,7 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
         setUpViews()
         collectStates()
         observerViewModel()
-        imageAdapter = ImageAdapter()
+        imageAdapter = ImageAdapter(this)
         mBinding.rvImage.adapter = imageAdapter
         mBinding.rvImage.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -221,5 +222,10 @@ class PostActivity : BaseActivity<ActivityPostBinding, PostViewModel>() {
             chooserIntent.putExtra(Intent.EXTRA_TITLE, "사용할 앱을 선택해주세요.")
             photoLauncher.launch(chooserIntent)
         }
+    }
+
+    override fun onDataDeleted(url: String) {
+
+        imageList.value?.remove(url)
     }
 }
