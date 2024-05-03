@@ -29,7 +29,7 @@ android {
         applicationId = "kr.hs.dgsw.mentomenv2"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
+        versionCode = 10000
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -90,9 +90,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
-    // dAuth
-    implementation("com.github.Team-B1ND:dauth-android:1.0.5")
 
     // dagger
     implementation("com.google.dagger:dagger:2.44.2")
