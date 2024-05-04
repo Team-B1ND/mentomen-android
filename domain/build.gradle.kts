@@ -13,7 +13,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.hs.dgsw.mentomenv2.domain"
+    namespace = "com.b1nd.mentomen.domain"
     compileSdk = 34
 
     defaultConfig {

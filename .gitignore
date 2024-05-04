@@ -14,4 +14,4 @@
 .cxx
 local.properties
 
-presentation/src/main/java/kr/hs/dgsw/mentomenv2/util/dauth/
+presentation/src/main/java/com/b1nd/mentomen/util/dauth/

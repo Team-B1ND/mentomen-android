@@ -22,11 +22,11 @@ buildscript {
 }
 
 android {
-    namespace = "kr.hs.dgsw.mentomenv2"
+    namespace = "com.b1nd.mentomen"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "kr.hs.dgsw.mentomenv2"
+        applicationId = "com.b1nd.mentomen"
         minSdk = 26
         targetSdk = 34
         versionCode = 10002

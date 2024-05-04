@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="kr.hs.dgsw.mentomenv2.adapter.DetailAdapter" />
+            type="com.b1nd.mentomen.adapter.DetailAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

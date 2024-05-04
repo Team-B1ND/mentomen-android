@@ -9,11 +9,11 @@
 
         <variable
             name="detailViewModel"
-            type="kr.hs.dgsw.mentomenv2.feature.detail.DetailViewModel" />
+            type="com.b1nd.mentomen.feature.detail.DetailViewModel" />
 
         <variable
             name="commentViewModel"
-            type="kr.hs.dgsw.mentomenv2.feature.detail.comment.CommentViewModel" />
+            type="com.b1nd.mentomen.feature.detail.comment.CommentViewModel" />
     </data>
 
     <FrameLayout

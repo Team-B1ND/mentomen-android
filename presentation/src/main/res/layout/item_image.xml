@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="kr.hs.dgsw.mentomenv2.feature.post.PostViewModel" />
+            type="com.b1nd.mentomen.feature.post.PostViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
